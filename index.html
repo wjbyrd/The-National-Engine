@@ -3835,12 +3835,12 @@ function updateMazeTrack() {
         
         // Determine the icon and state
         if (i < room) {
-            box.innerText = "🟪";
+            box.innerText = "🟩";
             box.style.opacity = "0.6";
         } else if (i === room) {
             box.classList.add("active"); // Trigger the gold pulse
             box.setAttribute("aria-label",`Current room ${i} of 30`);
-            box.innerText = "🟥";
+            box.innerText = "🟨";
         } else {
             // Boss icons for future rooms
             if (i === 10){box.innerHTML = '<img src="registrar.png" class="boss-icon">';box.classList.add("boss10");}
