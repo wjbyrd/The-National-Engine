@@ -2199,46 +2199,94 @@ function getTypeBucket(tag, type){
 function inferObjective(question){
     if(!question) return "general";
     if(question.objective) return question.objective;
-    const q = (question.q || "").toLowerCase();
-    const tag = question.tag || "general";
-    const type = question.type || "default";
 
-    if(tag === "production"){
-        if(q.includes("isoquant")) return "isoquant_reading";
-        if(q.includes("technical substitution") || q.includes("mrts")) return "mrts";
-        if(q.includes("marginal product")) return "marginal_product";
-        if(q.includes("substitut")) return "input_substitution";
-        if(q.includes("returns to scale")) return "returns_to_scale";
-        if(q.includes("technology")) return "technology_productivity";
+    const q = (question.q || "").toLowerCase();
+    const tag = (question.tag || "general").toLowerCase();
+    const type = (question.type || "default").toLowerCase();
+
+    /* Chapter 2 — GDP, CPI, unemployment measurement */
+    if(tag === "gdp" || tag === "cpi" || tag === "unemployment" || tag === "measurement" || tag === "macro_measurement"){
+        if(q.includes("gdp deflator")) return "LO2.2_gdp_deflator";
+        if(q.includes("real gdp")) return "LO2.2_real_gdp";
+        if(q.includes("nominal gdp")) return "LO2.2_nominal_gdp";
+        if(q.includes("value added")) return "LO2.2_value_added";
+        if(q.includes("intermediate good") || q.includes("final good")) return "LO2.1_gdp_components";
+        if(q.includes("consumption") || q.includes("investment") || q.includes("government purchases") || q.includes("net exports")) return "LO2.1_gdp_expenditure_components";
+        if(q.includes("cpi") || q.includes("consumer price index")) return "LO2.2_cpi";
+        if(q.includes("inflation rate")) return "LO2.2_inflation_rate";
+        if(q.includes("labor force participation")) return "LO2.2_labor_force_participation";
+        if(q.includes("labor force")) return "LO2.1_labor_force";
+        if(q.includes("unemployment rate")) return "LO2.2_unemployment_rate";
+        if(q.includes("discouraged worker")) return "LO2.1_unemployment_measurement";
+        if(q.includes("employed") || q.includes("unemployed") || q.includes("not in the labor force")) return "LO2.1_labor_market_categories";
+        return "LO2.1_macro_measurement";
     }
-    if(tag === "costs"){
-        if(q.includes("fixed cost")) return "fixed_vs_variable";
-        if(q.includes("average total cost") || q.includes("atc")) return "atc_relationships";
-        if(q.includes("average variable cost") || q.includes("avc")) return "shutdown_components";
-        if(q.includes("marginal cost") || q.includes("mc")) return "mc_relationships";
-        if(q.includes("wage") || q.includes("input prices")) return "cost_curve_shifts";
+
+    /* Chapter 7 — natural rate, job finding, job separation */
+    if(tag === "natural_unemployment" || tag === "labor_flows" || tag === "job_search" || tag === "unemployment_natural" || tag === "labor_market"){
+        if(q.includes("natural rate")) return "LO7.1_natural_rate_unemployment";
+        if(q.includes("frictional")) return "LO7.3_frictional_unemployment";
+        if(q.includes("structural")) return "LO7.3_structural_unemployment";
+        if(q.includes("efficiency wage")) return "LO7.3_efficiency_wages";
+        if(q.includes("minimum wage")) return "LO7.3_minimum_wage_unemployment";
+        if(q.includes("union")) return "LO7.3_union_unemployment";
+        if(q.includes("job separation") || q.includes("separation rate")) return "LO7.2_job_separation";
+        if(q.includes("job finding") || q.includes("finding rate")) return "LO7.2_job_finding";
+        if(q.includes("steady state") && q.includes("unemployment")) return "LO7.2_steady_state_unemployment";
+        if(q.includes("s / (s + f)") || q.includes("s/(s+f)")) return "LO7.2_steady_state_unemployment_formula";
+        if(q.includes("duration")) return "LO7.1_unemployment_duration";
+        return "LO7.1_natural_rate_unemployment";
     }
-    if(tag === "profit"){
-        if(q.includes("shut down")) return "shutdown_rule";
-        if(q.includes("profit maxim")) return "mr_mc_rule";
-        if(q.includes("zero economic profit")) return "normal_profit";
-        if(q.includes("loss")) return "profit_vs_loss";
+
+    /* Chapter 3 — total output/income and production */
+    if(tag === "production" || tag === "output" || tag === "income"){
+        if(q.includes("production function")) return "LO3.1_production_function";
+        if(q.includes("total output") || q.includes("total income")) return "LO3.1_total_output_income";
+        if(q.includes("capital") && q.includes("labor")) return "LO3.1_factors_of_production";
+        if(q.includes("technology")) return "LO3.1_technology_output";
+        if(q.includes("constant returns to scale")) return "LO3.1_constant_returns_to_scale";
+        if(q.includes("diminishing marginal product")) return "LO3.1_diminishing_marginal_product";
+        if(q.includes("marginal product of labor") || q.includes("mpl")) return "LO3.2_marginal_product_labor";
+        if(q.includes("marginal product of capital") || q.includes("mpk")) return "LO3.2_marginal_product_capital";
+        return "LO3.1_total_output_income";
     }
-    if(tag === "competition"){
-        if(q.includes("price taker") || q.includes("perfectly elastic")) return "price_taking";
-        if(q.includes("supply curve")) return "firm_supply";
-        if(q.includes("market price")) return "firm_vs_market_price";
+
+    /* Chapter 3 — factor prices and income distribution */
+    if(tag === "factor_markets" || tag === "factor_prices" || tag === "income_distribution" || tag === "distribution"){
+        if(q.includes("real wage")) return "LO3.2_real_wage";
+        if(q.includes("real rental price") || q.includes("rental price")) return "LO3.2_real_rental_price";
+        if(q.includes("marginal product of labor") || q.includes("mpl")) return "LO3.2_factor_price_labor";
+        if(q.includes("marginal product of capital") || q.includes("mpk")) return "LO3.2_factor_price_capital";
+        if(q.includes("labor income")) return "LO3.3_labor_income";
+        if(q.includes("capital income")) return "LO3.3_capital_income";
+        if(q.includes("economic profit")) return "LO3.3_economic_profit";
+        if(q.includes("distributed") || q.includes("distribution")) return "LO3.3_income_distribution";
+        return "LO3.2_factor_prices";
     }
-    if(tag === "market"){
-        if(q.includes("entry")) return "entry_adjustment";
-        if(q.includes("exit")) return "exit_adjustment";
-        if(q.includes("long run equilibrium")) return "long_run_equilibrium";
-        if(q.includes("demand")) return "market_shift_sequences";
+
+    /* Chapter 3 — demand for goods and services */
+    if(tag === "goods_demand" || tag === "demand" || tag === "expenditure"){
+        if(q.includes("consumption function")) return "LO3.4_consumption_function";
+        if(q.includes("disposable income")) return "LO3.4_disposable_income";
+        if(q.includes("marginal propensity to consume") || q.includes("mpc")) return "LO3.4_mpc";
+        if(q.includes("investment")) return "LO3.4_investment_demand";
+        if(q.includes("real interest rate")) return "LO3.4_real_interest_rate_investment";
+        if(q.includes("government purchases") || q.includes("taxes")) return "LO3.4_fiscal_policy_goods_demand";
+        if(q.includes("national saving") || q.includes("private saving") || q.includes("public saving")) return "LO3.4_saving";
+        return "LO3.4_goods_services_demand";
     }
-    if(tag === "efficiency"){
-        if(q.includes("allocative")) return "allocative_efficiency";
-        if(q.includes("productive")) return "productive_efficiency";
-        if(q.includes("full efficiency")) return "combined_efficiency";
+
+    /* Chapter 3 — goods-market equilibrium */
+    if(tag === "equilibrium" || tag === "goods_market" || tag === "loanable_funds"){
+        if(q.includes("goods market equilibrium")) return "LO3.5_goods_market_equilibrium";
+        if(q.includes("loanable funds")) return "LO3.5_loanable_funds";
+        if(q.includes("saving equals investment") || q.includes("s = i")) return "LO3.5_saving_investment_equilibrium";
+        if(q.includes("real interest rate")) return "LO3.5_equilibrium_real_interest_rate";
+        if(q.includes("crowding out")) return "LO3.5_crowding_out";
+        if(q.includes("government deficit") || q.includes("budget deficit")) return "LO3.5_budget_deficit";
+        if(q.includes("government surplus") || q.includes("budget surplus")) return "LO3.5_budget_surplus";
+        if(q.includes("investment demand")) return "LO3.5_investment_demand_shift";
+        return "LO3.5_goods_market_equilibrium";
     }
 
     return `${tag}_${type}`;
@@ -2800,7 +2848,7 @@ function startGame() {
     let inputEmail = document.getElementById("emailInput").value.trim().toLowerCase();
 
     if (!inputEmail) {
-        alert("An email is required to enter the Dominion.");
+        alert("An email is required to enter the Engine.");
         return;
     }
 
@@ -2930,13 +2978,13 @@ document.getElementById("emailInput").addEventListener("keypress", function(even
 // This affects UI only, not game logic.
 // =============================================
 function getAreaName(r) {
-    if (r <= 9) return "The Web of Equilibrium";
-    if (r === 10) return "The Architect’s Domain";
-    if (r <= 19) return "The Monopoly Throne";
-    if (r === 20) return "The Seat of the Price Maker";
-    if (r <= 25) return "The Strategic Corridor";
-    if (r <= 29) return "The War of Responses";
-    return "The Throne of Dominion";
+    if (r <= 9) return "The Chamber of Measures";
+    if (r === 10) return "The Registrar’s Gate";
+    if (r <= 19) return "The Labor Works";
+    if (r === 20) return "The Warden’s Station";
+    if (r <= 25) return "The Equilibrium Floor";
+    if (r <= 29) return "The Adjustment Corridor";
+    return "The Comptroller’s Tribunal";
 }
 
 // =============================================
@@ -4302,7 +4350,7 @@ function answer(choice) {
     // =============================================
     sendGameData({
         runID: runID,
-		game: "The Dominion of Power",
+		game: "The National Engine",
         event: "question",
         user: username || "anonymous",
 		email: studentEmail || "",
@@ -4404,7 +4452,7 @@ if(remediationState.active){
     adaptiveMode = "support";
 
     msgElement.innerHTML =
-        `<span class='fade-out-text'>Recovery confirmed. Return to the Dominion.</span>`;
+        `<span class='fade-out-text'>Recovery confirmed. Return to the Engine.</span>`;
 
     room = returnRoom;
     localStorage.setItem("gauntletRoom", room);
@@ -4436,7 +4484,7 @@ if(remediationState.active){
          // Boss defeated
          sendGameData({
             runID: runID,
-			game: "The Dominion of Power",
+			game: "The National Engine",
             event: "boss_defeated",
             user: username,
 			email: studentEmail,
@@ -4556,7 +4604,7 @@ if (!remediationState.active && currentQuestion.tag && shouldTriggerDetour(curre
         const remediationMessage = remediationState.careless
             ? "You rushed the choice. Slow down and regain control."
             : remediationState.slowStruggle
-                ? "The Dominion resists. Rebuild the concept before advancing."
+                ? "The Engine resists. Rebuild the concept before advancing."
                 : "Your control fractured. Repair the weakness before moving on.";
 
         msgElement.innerHTML =
@@ -4832,7 +4880,7 @@ else if (bossRoom === 30) {
     
     // logic to ensure Room 30 triggers the end game, while 10 and 20 trigger the next level
     let nextAction = bossRoom === 30 ? "handleVictory()" : "room++; loadQuestion();";
-    let buttonLabel = bossRoom === 30 ? "FINALIZE THE DOMINION CONQUEST →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
+    let buttonLabel = bossRoom === 30 ? "FINALIZE THE ENGINE CONQUEST →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
 
 aContainer.innerHTML = `
 <button id="continueBtn" class="continue-btn">
@@ -4904,7 +4952,7 @@ document.getElementById("continueBtn").onclick = () => {
 // It is a lightweight integrity check.
 // =============================================
 function generateCode(name, acc, streak, total){
-    let str = `${name}|${acc}|${streak}|${total}|DOMINION66`;
+    let str = `${name}|${acc}|${streak}|${total}|ENGINE85`;
     let hash = 0;
 
     for(let i = 0; i < str.length; i++){
@@ -4960,7 +5008,7 @@ function handleVictory() {
 
 sendGameData({
     runID: runID,
-	game: "The Dominion of Power",
+	game: "The National Engine",
     event: "complete",
     user: username,
 	email: studentEmail,
@@ -4996,13 +5044,13 @@ sendGameData({
 // =============================================
     let archivistLine = "";
     if(accuracy >= 90){
-        archivistLine = "You have mastered the Dominion. Few reach this level of clarity.";
+        archivistLine = "You have mastered the Engine. Few reach this level of clarity.";
     }
     else if(accuracy >= 75){
-        archivistLine = "You see much… but not all. The Dominion still holds power over you.";
+        archivistLine = "You see much… but not all. The Engine still holds power over you.";
     }
     else{
-        archivistLine = "You survived. Barely. The Dominion is not finished with you.";
+        archivistLine = "You survived. Barely. The Engine is not finished with you.";
     }
 
     let lineColor = "#5123db";
@@ -5192,9 +5240,9 @@ function sendGameData(data) {
     timestamp: new Date().toISOString(),
     runID: data.runID || localStorage.getItem("gauntletRunID") || "",
     token: data.token || "",
-    version: "LOC-foundry-engine-ms-telemetry-v1",
+    version: "national-engine-ms-telemetry-v1",
     userAgent: navigator.userAgent || "",
-    game: data.game || "The Dominion of Power",
+    game: data.game || "The National Engine",
     event: data.event || "",
     user: data.user || username || "anonymous",
 	email: studentEmail || "",  
