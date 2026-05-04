@@ -1758,6 +1758,32 @@ TIP:
     border-radius: 10px;
   }
 }
+
+/* =========================================
+   13. SOUND ON/OFF
+========================================= */
+.sound-toggle{
+  position:fixed;
+  right:28px;
+  bottom:24px;
+  z-index:999;
+  padding:10px 13px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.46);
+  color:rgba(255,255,255,.72);
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  box-shadow:0 0 18px rgba(0,0,0,.45);
+}
+
+.sound-toggle:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.42);
+  background:rgba(255,255,255,.08);
+}
  
 </style>
 </head>
@@ -1839,6 +1865,7 @@ Respect structure strictly.
 
 <div class="dungeon-container">
     <button class="fullscreenBtn" onclick="goFullscreen()">FULLSCREEN</button>
+	<button id="soundToggle" class="sound-toggle" onclick="toggleGameSound()" aria-label="Toggle sound">Sound On</button>
 
 <!-- =========================================
 TOP PANEL (HUD)
@@ -1970,6 +1997,38 @@ const hallwayImages = [
     "hallway2.png",
     "hallway3.png"
 ];
+
+let soundEnabled = true;
+
+function updateSoundToggle(){
+  const button = document.getElementById("soundToggle");
+  if(!button) return;
+  button.innerText = soundEnabled ? "Sound On" : "Sound Off";
+}
+
+function setAllGameAudioMuted(isMuted){
+  [bgMusic, bossMusic, finalBossMusic, sfxMilestone, sfxVictory, sfxBossHit, sfxCorrect, sfxWrong]
+    .filter(Boolean)
+    .forEach(audio => {
+      audio.muted = isMuted;
+    });
+}
+
+function toggleGameSound(){
+  soundEnabled = !soundEnabled;
+  localStorage.setItem("gauntletSoundEnabled", soundEnabled ? "true" : "false");
+  setAllGameAudioMuted(!soundEnabled);
+  updateSoundToggle();
+}
+
+function restoreSoundSetting(){
+  const saved = localStorage.getItem("gauntletSoundEnabled");
+  soundEnabled = saved !== "false";
+  setAllGameAudioMuted(!soundEnabled);
+  updateSoundToggle();
+}
+
+restoreSoundSetting();
   
 function goFullscreen(){
 let el = document.documentElement;
