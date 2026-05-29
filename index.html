@@ -380,7 +380,7 @@ h2 {
         0 2px 5px rgba(0,0,0,0.85);
 }
 
-/* Add styling to Auditor text */
+/* Add styling to Custodian text */
 #message {
     margin-top: 10px;
     font-style: italic;
@@ -1298,7 +1298,7 @@ button:active {
 }
    
 /* Wizard Box */
-/* Auditor display panel — fixed width, do not remove flex settings */
+/* Custodian display panel — fixed width, do not remove flex settings */
 #wizardBox{
     width:160px;
     min-width:160px;
@@ -1347,7 +1347,7 @@ button:active {
 }
 
 /* Wizard Image */
-/* Auditor visual + floating animation */
+/* Custodian visual + floating animation */
 #wizardImage{
     width:100%;
     max-width:180px;
@@ -1928,12 +1928,12 @@ or simplify this section.
     </div>
 
     <!-- MAIN PANEL -->
-    <!-- Main game area: Auditor + question interface -->
+    <!-- Main game area: Custodian + question interface -->
     <div class="main-panel">
         <div id="gameShell">
             <div id="wizardBox">
-                <div id="wizardName">The Auditor</div>
-                <img src="auditor.png" id="wizardImage">
+                <div id="wizardName">The Custodian</div>
+                <img src="custodian.png" id="wizardImage">
             </div>
 
             <!-- GAME -->
@@ -3022,7 +3022,7 @@ seal:{
 
 function getRecoveryLine(stage){
   if(stage === "repair"){
-    return "Recovery audit opened. The Auditor is isolating the faulty measure.";
+    return "Recovery audit opened. The Custodian is isolating the faulty measure.";
   }
 
   if(stage === "bridge"){
@@ -5646,7 +5646,7 @@ function copyResults() {
         Best Streak: ${maxStreak}
         Total Questions: ${totalAttempts}
         Code: ${code}
-        Verified by The Auditor`;
+        Verified by The Custodian`;
 
     navigator.clipboard.writeText(shareText).then(() => {
         const btn = document.getElementById("shareBtn");
