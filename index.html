@@ -3488,11 +3488,11 @@ function getNationalEngineBossLine({ isCorrect, tag, type, objective, streak, bo
   }
 
   if(!isCorrect && tag){
-    return `${bossName}: The weakness is visible: ${tag}. The Gate will test it again.`;
+    return `${bossName}: The weakness is visible: ${tag}. The Engine will test it again.`;
   }
 
   if(isCorrect){
-    return `${bossName}: Correct. But one answer does not restore the market.`;
+    return `${bossName}: Correct. But one answer does not restore the Engine.`;
   }
 
   return `${bossName}: The checkpoint holds. Try again.`;
@@ -4033,10 +4033,10 @@ function endTimedModeRun(){
 
     document.getElementById("answers").innerHTML = `
         <button class="continue-btn" onclick="restartTimedMode()">Retry Timed Trial</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run Run</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run</button>
     `;
 
-    document.getElementById("message").innerText = "The trial ends. The market remembers.";
+    document.getElementById("message").innerText = "The trial ends. The Engine remembers.";
 }
 
 function restartTimedMode(){
@@ -6038,7 +6038,7 @@ overlay.style.background =
 text.innerHTML = `
 <div style="font-size:22px;margin-bottom:15px;color:#f0c86a;text-shadow:0 0 10px rgba(240,200,106,0.36);">${getWizardFeedback("correct")}</div>
 <div style="font-size:18px;opacity:.92;color:#f5e6b8;">${feedback}</div>
-<div style="margin-top:25px;font-size:14px;opacity:.74;color:#c4b5fd;">You move further past the Gate...</div>
+<div style="margin-top:25px;font-size:14px;opacity:.74;color:#c4b5fd;">You move further past the Engine...</div>
 `;
 
     overlay.classList.add("active");
@@ -6686,7 +6686,7 @@ function sendGameData(data) {
     timestamp: new Date().toISOString(),
     runID: data.runID || localStorage.getItem("gauntletRunID") || "",
     token: data.token || "",
-    version: "Gate-ms-telemetry-v3.5",
+    version: "Engine-ms-telemetry-v3.5",
     userAgent: navigator.userAgent || "",
     game: data.game || "The National Engine",
     mode: data.mode || gameMode || "standard",
