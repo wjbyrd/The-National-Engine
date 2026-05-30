@@ -1792,6 +1792,45 @@ TIP:
   background:rgba(255,255,255,.08);
 }
  
+
+
+/* === Engine upgrade controls from Market Gate, National Engine skin === */
+.return-menu-btn{
+    position:absolute; top:12px; right:12px; padding:6px 12px; font-size:12px;
+    letter-spacing:1px; text-transform:uppercase; color:#f3ead2;
+    background:linear-gradient(180deg, #4a3320, #11100d);
+    border:1px solid rgba(214,177,92,0.34); border-radius:6px; cursor:pointer;
+    box-shadow:0 0 10px rgba(214,177,92,0.22), inset 0 0 7px rgba(0,0,0,0.72);
+    transition:all .15s ease;
+}
+.return-menu-btn:hover{color:#f4d58d; background:linear-gradient(180deg,#6a4726,#1c1510); border-color:rgba(240,199,94,.62);}
+.return-menu-btn:active{transform:scale(.95);}
+.game-modal{position:fixed; inset:0; z-index:500; display:flex; align-items:center; justify-content:center; padding:24px; background:rgba(4,5,5,.72); backdrop-filter:blur(6px);}
+.game-modal-card{width:min(520px,100%); padding:28px; border-radius:18px; background:radial-gradient(circle at top, rgba(65,95,78,.26), rgba(12,18,18,.90) 48%, rgba(4,5,5,.98)); border:1px solid rgba(214,177,92,.42); box-shadow:0 0 34px rgba(0,0,0,.88),0 0 38px rgba(214,177,92,.18),0 0 46px rgba(127,29,29,.12),inset 0 0 30px rgba(0,0,0,.72); text-align:center;}
+.game-modal-card h2{margin:0 0 12px; color:#f4d58d; font-size:30px; letter-spacing:2px; text-transform:uppercase;}
+.game-modal-card p{margin:0 0 24px; color:#d8c7a0; font-size:18px; line-height:1.45;}
+.game-modal-actions{display:flex; justify-content:center; gap:12px; flex-wrap:wrap;}
+.secondary-modal-btn{color:#d8c7a0; border-color:rgba(214,177,92,.42);}
+.mode-select-screen{position:fixed; inset:0; z-index:110; align-items:center; justify-content:center; padding:30px; background:linear-gradient(rgba(4,5,5,.42), rgba(4,5,5,.78)), url('start screen image.png'); background-size:cover; background-position:center;}
+.mode-select-panel{width:min(1100px,100%); padding:28px; border-radius:20px; background:rgba(12,18,18,.86); border:1px solid rgba(214,177,92,.36); box-shadow:0 0 36px rgba(0,0,0,.82),0 0 44px rgba(214,177,92,.18),inset 0 0 36px rgba(0,0,0,.62); text-align:center;}
+.mode-title{margin:0; font-size:clamp(38px,5vw,68px); letter-spacing:4px; color:#f4d58d; text-shadow:0 0 14px rgba(240,199,94,.62),0 0 28px rgba(127,29,29,.22),0 3px 8px rgba(0,0,0,.9);}
+.mode-subtitle{margin:8px auto 26px; color:#d8c7a0; font-size:20px;}
+.mode-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px;}
+.mode-card{min-height:330px; padding:0; overflow:hidden; border-radius:18px; border:1px solid rgba(214,177,92,.30); background:rgba(12,18,18,.94); color:#f3ead2; cursor:pointer; display:flex; flex-direction:column; text-align:left; box-shadow:0 0 22px rgba(0,0,0,.68), inset 0 0 18px rgba(0,0,0,.58); transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;}
+.mode-card:hover{transform:translateY(-6px) scale(1.02); border-color:rgba(240,199,94,.78); box-shadow:0 0 28px rgba(214,177,92,.30),0 0 38px rgba(127,29,29,.18),inset 0 0 18px rgba(0,0,0,.62);}
+.mode-card img{width:100%; height:240px; object-fit:cover; border-bottom:1px solid rgba(214,177,92,.22); background:linear-gradient(180deg, rgba(65,95,78,.80), rgba(12,18,18,.98));}
+.mode-card-title{display:block; padding:18px 16px 20px; font-size:22px; font-weight:700; letter-spacing:1px; color:#f4d58d; text-align:center;}
+.mode-card-text{display:block; padding:8px 22px 24px; font-size:15px; line-height:1.35; color:rgba(216,199,160,.88); text-align:left;}
+.mode-back-btn{margin-top:18px; min-width:140px;}
+.timed-mode-hud{margin:8px auto 12px; padding:8px 14px; width:fit-content; border-radius:999px; align-items:center; gap:12px; background:linear-gradient(180deg, rgba(65,95,78,.64), rgba(12,18,18,.96)); border:1px solid rgba(240,199,94,.48); box-shadow:0 0 16px rgba(214,177,92,.22),0 0 26px rgba(127,29,29,.12),inset 0 0 12px rgba(0,0,0,.72);}
+.timer-label{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#d8c7a0;}
+.timer-display{font-size:22px; font-weight:700; letter-spacing:1px; color:#f4d58d; text-shadow:0 0 10px rgba(240,199,94,.62),0 0 18px rgba(127,29,29,.18);}
+.timer-warning{animation:timerWarningPulse .75s ease-in-out infinite alternate;}
+@keyframes timerWarningPulse{from{transform:scale(1);} to{transform:scale(1.08); text-shadow:0 0 14px rgba(248,113,113,.90),0 0 24px rgba(240,199,94,.42);}}
+@media(max-width:900px){.mode-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.return-menu-btn{display:none!important;}}
+@media(max-width:560px){.mode-select-screen{padding:14px; align-items:flex-start; overflow-y:auto;} .mode-grid{grid-template-columns:1fr;} .mode-card{min-height:250px;} .mode-card img{height:145px;}}
+
 </style>
 </head>
 
@@ -1866,15 +1905,53 @@ Respect structure strictly.
     <h1 class="title">THE NATIONAL ENGINE</h1>
     <h2 class="subtitle">Measure. Trace. Balance.</h2>
     <input id="emailInput" type="email" placeholder="Enter your school email" class="name-input">
-    <button class="start-btn" onclick="startNewRun()">ENTER THE ENGINE</button>
+    <button class="start-btn" onclick="showModeSelect()">ENTER THE ENGINE</button>
     <button id="continueRunBtn" class="start-btn secondary-start-btn" onclick="continueSavedRun()" style="display:none;">
-        CONTINUE ENGINE RUN
+        CONTINUE STANDARD RUN
     </button>
+  </div>
+</div>
+
+
+
+<div id="modeSelectScreen" class="mode-select-screen" style="display:none;">
+  <div class="mode-select-panel">
+    <h1 class="mode-title">CHOOSE YOUR ENGINE RUN</h1>
+    <p class="mode-subtitle">Select how you want to enter The National Engine.</p>
+
+    <div class="mode-grid">
+      <button class="mode-card" onclick="startSelectedMode('standard')" aria-label="Standard Campaign. Full 30-room run with bosses, artifacts, setbacks, save and resume status, and realm progress.">
+        <img src="mode_standard.png" alt="" aria-hidden="true">
+        <span class="mode-card-title">Standard Campaign</span>
+        <span class="mode-card-text">Full 30-room run with bosses, artifacts, setbacks, and engine progress.</span>
+      </button>
+
+      <button class="mode-card" onclick="startSelectedMode('timed')" aria-label="Timed Trial. Ten minute run with visible countdown, normal setbacks, rapid guessing penalties, and results saved separately.">
+        <img src="mode_timed.png" alt="" aria-hidden="true">
+        <span class="mode-card-title">Timed Trial</span>
+        <span class="mode-card-text">Ten minutes. Correct answers advance. Misses push you back.</span>
+      </button>
+
+      <button class="mode-card" onclick="startSelectedMode('exam')" aria-label="Exam Drill. No bosses, no artifacts, no realm progress. Just adaptive practice.">
+        <img src="mode_exam.png" alt="" aria-hidden="true">
+        <span class="mode-card-title">Exam Drill</span>
+        <span class="mode-card-text">No bosses. No artifacts. No engine progress. Just adaptive practice.</span>
+      </button>
+
+      <button class="mode-card" onclick="startSelectedMode('legendary')" aria-label="Legendary Mode. Full 30-room campaign using the hardest available National Engine questions.">
+        <img src="mode_legendary.png" alt="" aria-hidden="true">
+        <span class="mode-card-title">Legendary Mode</span>
+        <span class="mode-card-text">Full campaign. Hardest available questions. Bosses still hit. No mercy.</span>
+      </button>
+    </div>
+
+    <button class="mode-back-btn" onclick="returnToTitleScreen()">BACK</button>
   </div>
 </div>
 
 <div class="dungeon-container">
     <button class="fullscreenBtn" onclick="goFullscreen()">FULLSCREEN</button>
+	<button id="returnMenuBtn" class="return-menu-btn" onclick="confirmReturnToModeMenu()">ENGINE MENU</button>
 	<button id="soundToggle" class="sound-toggle" onclick="toggleGameSound()" aria-label="Toggle sound">Sound On</button>
 
 <!-- =========================================
@@ -1947,6 +2024,12 @@ or simplify this section.
                 </div>
 
                 <div id="streakDisplay"></div>
+
+                <div id="timedModeHud" class="timed-mode-hud" style="display:none;">
+                    <span class="timer-label">Timed Trial</span>
+                    <span id="timerDisplay" class="timer-display">10:00</span>
+                </div>
+
                 <p id="bossMessage"></p>
 
                 <div id="questionContainer">
@@ -1968,6 +2051,18 @@ or simplify this section.
         </div>
     </div>
 </div>
+
+<div id="gameModal" class="game-modal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="gameModalTitle">
+  <div class="game-modal-card">
+    <h2 id="gameModalTitle"></h2>
+    <p id="gameModalText"></p>
+    <div class="game-modal-actions">
+      <button id="gameModalConfirm" class="continue-btn">Confirm</button>
+      <button id="gameModalCancel" class="continue-btn secondary-modal-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- =========================================
    2. GAME ELEMENTS (CHANGE ELEMENTS WITH NEW GAME)
@@ -2010,6 +2105,8 @@ const hallwayImages = [
 
 let soundEnabled = true;
 
+
+
 function updateSoundToggle(){
   const button = document.getElementById("soundToggle");
   if(!button) return;
@@ -2039,7 +2136,7 @@ function restoreSoundSetting(){
 }
 
 restoreSoundSetting();
-  
+	 
 function goFullscreen(){
 let el = document.documentElement;
 
@@ -2104,8 +2201,8 @@ let remediationState = {
     stage: null,
     tag: null,
     objective: null,
-    skill: null,
-    commonError: null,
+	skill: null,
+	commonError: null,
     sourceType: null,
     returnRoom: null,
     originQuestionId: null,
@@ -2137,19 +2234,23 @@ let usedQuestions = {
     medium: [],
     hard: [],
     elite: [],
+    legendary: [],
     easyBoss: [],
     mediumBoss: [],
     finalBoss: [],
+    legendaryBoss: [],
 };
 let questionHistory = {
     easy: [],
     medium: [],
     hard: [],
     elite: [],
+    legendary: [],
     calculation: [],
     easyBoss: [],
     mediumBoss: [],
     finalBoss: [],
+    legendaryBoss: [],
 };
 
 const SAVE_KEY = "nationalEngineSave_v1";
@@ -2159,7 +2260,44 @@ const REALM_COMPLETE_KEY = "macroHub_engine_complete";
 const REALM_STATUS_KEY = "macroHub_engine_status";
 const REALM_ROOM_KEY = "macroHub_engine_room";
 
+let gameMode = "standard";
+let timedModeDurationMs = 10 * 60 * 1000;
+let timedModeEndTime = null;
+let timedModeTimerInterval = null;
+let timedHighestRoom = 1;
+let timedSetbacks = 0;
+
+function modeAllowsSave(){
+    return gameMode === "standard" || gameMode === "legendary";
+}
+
+function modeAllowsRealmProgress(){
+    return gameMode === "standard";
+}
+
+function getSaveKey(){
+    return `${SAVE_KEY}_${gameMode || "standard"}`;
+}
+
+function isBossRoomForMode(r){
+    if(gameMode === "exam") return false;
+    if(gameMode === "timed") return false;
+    if(gameMode === "bossRush") return true;
+    if(gameMode === "legendary") return r === 10 || r === 20 || r === 30;
+    return r === 10 || r === 20 || r === 30;
+}
+
+function getModeDisplayName(){
+    if(gameMode === "timed") return "Timed Trial";
+    if(gameMode === "exam") return "Exam Drill";
+    if(gameMode === "bossRush") return "Boss Rush";
+    if(gameMode === "legendary") return "Legendary Mode";
+    return "Standard Campaign";
+}
+
 function saveGameState(){
+    if(!modeAllowsSave()) return;
+
     const saveData = {
         room,
         bossHealth,
@@ -2171,6 +2309,7 @@ function saveGameState(){
         username,
         studentEmail,
         runID,
+        gameMode,
         conceptMemory,
         masteryState,
         adaptiveMode,
@@ -2178,9 +2317,6 @@ function saveGameState(){
         lastTypes,
         usedQuestions,
         questionHistory,
-        rapidGuessHistory,
-        rapidGuessWarnings,
-        rapidGuessLocked,
         savedAt: Date.now(),
 
         artifacts: {
@@ -2190,11 +2326,14 @@ function saveGameState(){
         }
     };
 
-    localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+    localStorage.setItem(getSaveKey(), JSON.stringify(saveData));
     localStorage.setItem("gauntletRoom", String(room));
-    localStorage.setItem(REALM_STARTED_KEY, "true");
-    localStorage.setItem(REALM_STATUS_KEY, "contested");
-    localStorage.setItem(REALM_ROOM_KEY, String(room));
+
+    if(modeAllowsRealmProgress()){
+	    localStorage.setItem(REALM_STARTED_KEY, "true");
+	    localStorage.setItem(REALM_STATUS_KEY, "contested");
+	    localStorage.setItem(REALM_ROOM_KEY, String(room));
+    }
 
     const autosave = document.getElementById("autosave");
     if(autosave){
@@ -2203,7 +2342,7 @@ function saveGameState(){
 }
 
 function loadSavedGame(){
-    const rawSave = localStorage.getItem(SAVE_KEY);
+    const rawSave = localStorage.getItem(getSaveKey());
     if(!rawSave) return false;
 
     try {
@@ -2220,19 +2359,16 @@ function loadSavedGame(){
         username = saveData.username || username || "";
         studentEmail = saveData.studentEmail || studentEmail || "";
         runID = saveData.runID || runID || "";
+        gameMode = saveData.gameMode || gameMode || "standard";
 
         conceptMemory = saveData.conceptMemory || {};
         masteryState = saveData.masteryState || { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
-        if(!masteryState.bySkill) masteryState.bySkill = {};
         adaptiveMode = saveData.adaptiveMode || "support";
         tagHistory = saveData.tagHistory || [];
         lastTypes = saveData.lastTypes || [];
 
         usedQuestions = saveData.usedQuestions || usedQuestions;
         questionHistory = saveData.questionHistory || questionHistory;
-        rapidGuessHistory = saveData.rapidGuessHistory || [];
-        rapidGuessWarnings = Number(saveData.rapidGuessWarnings || 0);
-        rapidGuessLocked = !!saveData.rapidGuessLocked;
 
         if(saveData.artifacts?.vaultIndex) localStorage.setItem("vaultIndex", "true");
         if(saveData.artifacts?.vaultValve) localStorage.setItem("vaultValve", "true");
@@ -2241,30 +2377,33 @@ function loadSavedGame(){
         return true;
     } catch(error){
         console.warn("Saved game could not be loaded:", error);
-        localStorage.removeItem(SAVE_KEY);
+        localStorage.removeItem(getSaveKey());
         return false;
     }
 }
 
 function clearSavedGame(){
-    localStorage.removeItem(SAVE_KEY);
-    localStorage.removeItem("gauntletRoom");
-    localStorage.removeItem("vaultIndex");
-    localStorage.removeItem("vaultValve");
-    localStorage.removeItem("vaultSeal");
+    localStorage.removeItem(getSaveKey());
+
+    if(modeAllowsSave()){
+        localStorage.removeItem("gauntletRoom");
+        localStorage.removeItem("vaultIndex");
+        localStorage.removeItem("vaultValve");
+        localStorage.removeItem("vaultSeal");
+    }
 }
 
 function generatePseudonymFromEmail(email) {
-    const prefixes = [
-        "Nominal", "Real", "Indexed", "Fiscal", "Monetary", "Aggregate",
-        "Capital", "Labor", "Inflation", "Output", "Reserve", "Cyclical",
-        "Structural", "Productive", "National", "Treasury", "Deflator", "Ledger"
+    const titles = [
+        "Axiom", "Ledger", "Vector", "Meridian", "Signal", "Cipher",
+        "Frontier", "Equity", "Oracle", "Index", "Summit", "Nexus",
+        "Vault", "Prism", "Civic", "Astral", "Beacon", "Horizon"
     ];
 
     const roles = [
-        "Registrar", "Comptroller", "Forecaster", "Auditor", "Indexer", "Calibrator",
-        "Engineer", "Archivist", "Surveyor", "Inspector", "Operator", "Analyst",
-        "Custodian", "Mechanist", "Steward", "Technician", "Keeper", "Marshal"
+        "Appraiser", "Cartographer", "Arbiter", "Custodian", "Warden", "Registrar",
+        "Archivist", "Surveyor", "Magistrate", "Keeper", "Analyst", "Mediator",
+        "Steward", "Scribe", "Sentinel", "Marshal", "Seeker", "Auditor"
     ];
 
     let hash = 0;
@@ -2277,13 +2416,13 @@ function generatePseudonymFromEmail(email) {
 
     const positiveHash = Math.abs(hash);
 
-    const prefix = prefixes[positiveHash % prefixes.length];
-    const role = roles[Math.floor(positiveHash / prefixes.length) % roles.length];
+    const title = titles[positiveHash % titles.length];
+    const role = roles[Math.floor(positiveHash / titles.length) % roles.length];
     const number = 1000 + (positiveHash % 9000);
 
-    return `${prefix}${role}${number}`;
+    return `${title}${role}${number}`;
 }
-	 
+ 
 // =============================================
 // ADAPTIVE ENGINE — DO NOT TOUCH
 // =============================================
@@ -2365,10 +2504,6 @@ function getSkillBucket(question){
     const skill = getSkillKey(question);
     if(!skill) return null;
 
-    if(!masteryState.bySkill){
-        masteryState.bySkill = {};
-    }
-
     if(!masteryState.bySkill[skill]){
         masteryState.bySkill[skill] = {
             attempts: 0,
@@ -2380,32 +2515,7 @@ function getSkillBucket(question){
 
     return masteryState.bySkill[skill];
 }
-
-function inferSkill(question){
-    if(!question) return null;
-
-    const q = (question.q || "").toLowerCase();
-    const tag = (question.tag || "").toLowerCase();
-    const objective = (question.objective || "").toLowerCase();
-
-    if(tag.includes("gdp") || q.includes("gdp") || q.includes("value added")) return "macro_measurement_gdp";
-    if(tag.includes("cpi") || q.includes("cpi") || q.includes("inflation rate") || q.includes("deflator")) return "price_level_measurement";
-    if(tag.includes("unemployment") || q.includes("unemployment") || q.includes("labor force")) return "labor_market_measurement";
-    if(tag.includes("natural") || q.includes("natural rate") || q.includes("job finding") || q.includes("job separation")) return "natural_rate_labor_flows";
-    if(tag.includes("production") || q.includes("production function") || q.includes("diminishing marginal product")) return "production_function_growth";
-    if(tag.includes("factor") || q.includes("real wage") || q.includes("marginal product of labor") || q.includes("marginal product of capital")) return "factor_prices_distribution";
-    if(tag.includes("goods") || tag.includes("loanable") || q.includes("saving") || q.includes("investment") || q.includes("real interest rate")) return "goods_market_equilibrium";
-
-    if(tag.includes("interaction") || objective.includes("11.1")) return "linked_market_spillovers";
-    if(tag.includes("efficiency") || objective.includes("11.2") || objective.includes("11.4")) return "efficiency_pareto_contract_curve";
-    if(tag.includes("failure") || objective.includes("11.3")) return "market_failure_externalities";
-    if(tag.includes("power") || objective.includes("12.")) return "monopoly_power_pricing";
-    if(tag.includes("strategy") || objective.includes("13.")) return "strategic_interdependence";
-    if(tag.includes("equity") || objective.includes("11.5")) return "efficiency_equity_tradeoff";
-
-    return tag || null;
-}
-
+	 
 function inferObjective(question){
     if(!question) return "general";
     if(question.objective) return question.objective;
@@ -2414,92 +2524,340 @@ function inferObjective(question){
     const tag = (question.tag || "general").toLowerCase();
     const type = (question.type || "default").toLowerCase();
 
-    /* Chapter 2 — GDP, CPI, unemployment measurement */
-    if(tag === "gdp" || tag === "cpi" || tag === "unemployment" || tag === "measurement" || tag === "macro_measurement"){
-        if(q.includes("gdp deflator")) return "LO2.2_gdp_deflator";
-        if(q.includes("real gdp")) return "LO2.2_real_gdp";
-        if(q.includes("nominal gdp")) return "LO2.2_nominal_gdp";
-        if(q.includes("value added")) return "LO2.2_value_added";
-        if(q.includes("intermediate good") || q.includes("final good")) return "LO2.1_gdp_components";
-        if(q.includes("consumption") || q.includes("investment") || q.includes("government purchases") || q.includes("net exports")) return "LO2.1_gdp_expenditure_components";
-        if(q.includes("cpi") || q.includes("consumer price index")) return "LO2.2_cpi";
-        if(q.includes("inflation rate")) return "LO2.2_inflation_rate";
-        if(q.includes("labor force participation")) return "LO2.2_labor_force_participation";
-        if(q.includes("labor force")) return "LO2.1_labor_force";
-        if(q.includes("unemployment rate")) return "LO2.2_unemployment_rate";
-        if(q.includes("discouraged worker")) return "LO2.1_unemployment_measurement";
-        if(q.includes("employed") || q.includes("unemployed") || q.includes("not in the labor force")) return "LO2.1_labor_market_categories";
-        return "LO2.1_macro_measurement";
+// =============================================
+// MARKET GATE OBJECTIVE INFERENCE
+// Chapters 19–22: Risk, Information Asymmetry,
+// Moral Hazard, Incentives, Organizational Design
+// =============================================
+
+// =============================================
+    // THE MARKET GATE OBJECTIVE INFERENCE
+    // Chapters 1, 2, 4, 6
+    // Tradeoffs, opportunity cost, marginal thinking,
+    // incentives, models, PPF, markets, supply/demand,
+    // price controls, taxes, and tax incidence
+    // =============================================
+
+    // -----------------------------
+    // CHAPTER 1 — Core Principles
+    // -----------------------------
+
+    if(tag === "tradeoffs" || tag === "scarcity" || tag === "choice"){
+        if(q.includes("trade off") || q.includes("trade-off") || q.includes("scarcity") || q.includes("choice")) {
+            return "LO1.1_tradeoffs_analysis";
+        }
+        if(q.includes("opportunity cost") || q.includes("give up") || q.includes("forgone")) {
+            return "LO1.2_opportunity_cost";
+        }
+        return "LO1.1_tradeoffs_analysis";
     }
 
-    /* Chapter 7 — natural rate, job finding, job separation */
-    if(tag === "natural_unemployment" || tag === "labor_flows" || tag === "job_search" || tag === "unemployment_natural" || tag === "labor_market"){
-        if(q.includes("natural rate")) return "LO7.1_natural_rate_unemployment";
-        if(q.includes("frictional")) return "LO7.3_frictional_unemployment";
-        if(q.includes("structural")) return "LO7.3_structural_unemployment";
-        if(q.includes("efficiency wage")) return "LO7.3_efficiency_wages";
-        if(q.includes("minimum wage")) return "LO7.3_minimum_wage_unemployment";
-        if(q.includes("union")) return "LO7.3_union_unemployment";
-        if(q.includes("job separation") || q.includes("separation rate")) return "LO7.2_job_separation";
-        if(q.includes("job finding") || q.includes("finding rate")) return "LO7.2_job_finding";
-        if(q.includes("steady state") && q.includes("unemployment")) return "LO7.2_steady_state_unemployment";
-        if(q.includes("s / (s + f)") || q.includes("s/(s+f)")) return "LO7.2_steady_state_unemployment_formula";
-        if(q.includes("duration")) return "LO7.1_unemployment_duration";
-        return "LO7.1_natural_rate_unemployment";
+    if(tag === "opportunity_cost" || tag === "ppf_cost"){
+        if(q.includes("calculate") || q.includes("slope") || q.includes("per") || q.includes("give up")) {
+            return "LO1.2_calculate_opportunity_cost";
+        }
+        return "LO1.2_opportunity_cost";
     }
 
-    /* Chapter 3 — total output/income and production */
-    if(tag === "production" || tag === "output" || tag === "income"){
-        if(q.includes("production function")) return "LO3.1_production_function";
-        if(q.includes("total output") || q.includes("total income")) return "LO3.1_total_output_income";
-        if(q.includes("capital") && q.includes("labor")) return "LO3.1_factors_of_production";
-        if(q.includes("technology")) return "LO3.1_technology_output";
-        if(q.includes("constant returns to scale")) return "LO3.1_constant_returns_to_scale";
-        if(q.includes("diminishing marginal product")) return "LO3.1_diminishing_marginal_product";
-        if(q.includes("marginal product of labor") || q.includes("mpl")) return "LO3.2_marginal_product_labor";
-        if(q.includes("marginal product of capital") || q.includes("mpk")) return "LO3.2_marginal_product_capital";
-        return "LO3.1_total_output_income";
+    if(tag === "marginal" || tag === "marginal_reasoning" || tag === "margin"){
+        if(q.includes("marginal benefit") || q.includes("marginal cost") || q.includes("additional") || q.includes("one more")) {
+            return "LO1.3_marginal_decision";
+        }
+        if(type === "calculation") {
+            return "LO1.3_calculate_margin";
+        }
+        return "LO1.3_marginal_reasoning";
     }
 
-    /* Chapter 3 — factor prices and income distribution */
-    if(tag === "factor_markets" || tag === "factor_prices" || tag === "income_distribution" || tag === "distribution"){
-        if(q.includes("real wage")) return "LO3.2_real_wage";
-        if(q.includes("real rental price") || q.includes("rental price")) return "LO3.2_real_rental_price";
-        if(q.includes("marginal product of labor") || q.includes("mpl")) return "LO3.2_factor_price_labor";
-        if(q.includes("marginal product of capital") || q.includes("mpk")) return "LO3.2_factor_price_capital";
-        if(q.includes("labor income")) return "LO3.3_labor_income";
-        if(q.includes("capital income")) return "LO3.3_capital_income";
-        if(q.includes("economic profit")) return "LO3.3_economic_profit";
-        if(q.includes("distributed") || q.includes("distribution")) return "LO3.3_income_distribution";
-        return "LO3.2_factor_prices";
+    if(tag === "incentives" || tag === "behavior"){
+        if(q.includes("incentive") || q.includes("respond") || q.includes("behavior") || q.includes("encourage") || q.includes("discourage")) {
+            return "LO1.4_incentives_behavior";
+        }
+        return "LO1.4_incentives_behavior";
     }
 
-    /* Chapter 3 — demand for goods and services */
-    if(tag === "goods_demand" || tag === "demand" || tag === "expenditure"){
-        if(q.includes("consumption function")) return "LO3.4_consumption_function";
-        if(q.includes("disposable income")) return "LO3.4_disposable_income";
-        if(q.includes("marginal propensity to consume") || q.includes("mpc")) return "LO3.4_mpc";
-        if(q.includes("investment")) return "LO3.4_investment_demand";
-        if(q.includes("real interest rate")) return "LO3.4_real_interest_rate_investment";
-        if(q.includes("government purchases") || q.includes("taxes")) return "LO3.4_fiscal_policy_goods_demand";
-        if(q.includes("national saving") || q.includes("private saving") || q.includes("public saving")) return "LO3.4_saving";
-        return "LO3.4_goods_services_demand";
+    if(tag === "trade" || tag === "specialization" || tag === "comparative_advantage"){
+        if(q.includes("trade") || q.includes("specialization") || q.includes("comparative advantage") || q.includes("nations")) {
+            return "LO1.5_gains_from_trade";
+        }
+        return "LO1.5_trade_good_for_everyone";
     }
 
-    /* Chapter 3 — goods-market equilibrium */
-    if(tag === "equilibrium" || tag === "goods_market" || tag === "loanable_funds"){
-        if(q.includes("goods market equilibrium")) return "LO3.5_goods_market_equilibrium";
-        if(q.includes("loanable funds")) return "LO3.5_loanable_funds";
-        if(q.includes("saving equals investment") || q.includes("s = i")) return "LO3.5_saving_investment_equilibrium";
-        if(q.includes("real interest rate")) return "LO3.5_equilibrium_real_interest_rate";
-        if(q.includes("crowding out")) return "LO3.5_crowding_out";
-        if(q.includes("government deficit") || q.includes("budget deficit")) return "LO3.5_budget_deficit";
-        if(q.includes("government surplus") || q.includes("budget surplus")) return "LO3.5_budget_surplus";
-        if(q.includes("investment demand")) return "LO3.5_investment_demand_shift";
-        return "LO3.5_goods_market_equilibrium";
+    if(tag === "markets" || tag === "market_allocation" || tag === "market_failure"){
+        if(q.includes("allocate") || q.includes("scarce resources") || q.includes("invisible hand") || q.includes("markets")) {
+            return "LO1.6_markets_allocate_resources";
+        }
+        if(q.includes("not perfect") || q.includes("failure") || q.includes("externality") || q.includes("market power")) {
+            return "LO1.6_markets_not_perfect";
+        }
+        return "LO1.6_markets_good_not_perfect";
     }
 
-    return `${tag}_${type}`;
+    // -----------------------------
+    // CHAPTER 2 — Economic Thinking and Models
+    // -----------------------------
+
+    if(tag === "models" || tag === "scientific_method" || tag === "assumptions"){
+        if(q.includes("model") || q.includes("assumption") || q.includes("simplify") || q.includes("science") || q.includes("scientific")) {
+            return "LO2.1_models_scientific_method";
+        }
+        return "LO2.1_economic_models";
+    }
+
+    if(tag === "ppf" || tag === "production_possibilities" || tag === "frontier"){
+        if(q.includes("ppf") || q.includes("production possibilities") || q.includes("frontier")) {
+            return "LO2.2_ppf_tradeoffs";
+        }
+        if(q.includes("efficient") || q.includes("inefficient") || q.includes("unattainable") || q.includes("attainable")) {
+            return "LO2.2_ppf_efficiency";
+        }
+        if(q.includes("opportunity cost") || q.includes("slope") || q.includes("bowed")) {
+            return "LO2.2_ppf_opportunity_cost";
+        }
+        return "LO2.2_ppf_choices_tradeoffs";
+    }
+
+    if(tag === "circular_flow" || tag === "households" || tag === "firms"){
+        if(q.includes("household") || q.includes("firm") || q.includes("factor market") || q.includes("product market") || q.includes("circular flow")) {
+            return "LO2.2_circular_flow_model";
+        }
+        return "LO2.2_circular_flow";
+    }
+
+    if(tag === "micro_macro" || tag === "microeconomics" || tag === "macroeconomics"){
+        if(q.includes("individual") || q.includes("firm") || q.includes("market for")) {
+            return "LO2.3_microeconomics";
+        }
+        if(q.includes("inflation") || q.includes("unemployment") || q.includes("gdp") || q.includes("economy-wide")) {
+            return "LO2.3_macroeconomics";
+        }
+        return "LO2.3_micro_vs_macro";
+    }
+
+    if(tag === "positive_normative" || tag === "positive" || tag === "normative"){
+        if(q.includes("should") || q.includes("ought") || q.includes("better") || q.includes("fair")) {
+            return "LO2.4_normative_statement";
+        }
+        if(q.includes("is") || q.includes("will") || q.includes("data") || q.includes("testable")) {
+            return "LO2.4_positive_statement";
+        }
+        return "LO2.4_positive_vs_normative";
+    }
+
+    if(tag === "policy" || tag === "economist_role"){
+        if(q.includes("policy") || q.includes("advisor") || q.includes("recommend") || q.includes("economist")) {
+            return "LO2.5_economists_policy_role";
+        }
+        return "LO2.5_policy_roles";
+    }
+
+    // -----------------------------
+    // CHAPTER 4 — Supply and Demand
+    // -----------------------------
+
+    if(tag === "competitive_market" || tag === "competition"){
+        if(q.includes("competitive market") || q.includes("many buyers") || q.includes("many sellers") || q.includes("price taker")) {
+            return "LO4.1_competitive_market";
+        }
+        return "LO4.1_define_competitive_market";
+    }
+
+    if(tag === "demand" || tag === "quantity_demanded"){
+        if(q.includes("law of demand") || q.includes("quantity demanded") || q.includes("price rises") || q.includes("price falls")) {
+            return "LO4.2_law_of_demand";
+        }
+        if(q.includes("movement along") || q.includes("change in quantity demanded")) {
+            return "LO4.2_quantity_demanded";
+        }
+        if(q.includes("demand shifts") || q.includes("income") || q.includes("substitute") || q.includes("complement") || q.includes("taste") || q.includes("expectations")) {
+            return "LO4.2_demand_shifts";
+        }
+        return "LO4.2_demand";
+    }
+
+    if(tag === "supply" || tag === "quantity_supplied"){
+        if(q.includes("law of supply") || q.includes("quantity supplied") || q.includes("price rises") || q.includes("price falls")) {
+            return "LO4.3_law_of_supply";
+        }
+        if(q.includes("movement along") || q.includes("change in quantity supplied")) {
+            return "LO4.3_quantity_supplied";
+        }
+        if(q.includes("supply shifts") || q.includes("input cost") || q.includes("technology") || q.includes("seller") || q.includes("tax") || q.includes("subsidy")) {
+            return "LO4.3_supply_shifts";
+        }
+        return "LO4.3_supply";
+    }
+
+    if(tag === "equilibrium" || tag === "market_changes" || tag === "surplus_shortage"){
+        if(q.includes("equilibrium") || q.includes("quantity demanded equals quantity supplied") || q.includes("market clearing")) {
+            return "LO4.4_equilibrium";
+        }
+        if(q.includes("shortage") || q.includes("excess demand")) {
+            return "LO4.4_shortage";
+        }
+        if(q.includes("surplus") || q.includes("excess supply")) {
+            return "LO4.4_surplus";
+        }
+        if(q.includes("shift") || q.includes("increase in demand") || q.includes("decrease in demand") || q.includes("increase in supply") || q.includes("decrease in supply")) {
+            return "LO4.4_analyze_market_changes";
+        }
+        return "LO4.4_supply_demand_together";
+    }
+
+    if(tag === "prices" || tag === "price_signal" || tag === "allocation"){
+        if(q.includes("price") || q.includes("signal") || q.includes("allocate") || q.includes("scarce resources")) {
+            return "LO4.5_prices_allocate_resources";
+        }
+        return "LO4.5_role_of_prices";
+    }
+
+    // -----------------------------
+    // CHAPTER 6 — Government Policies
+    // -----------------------------
+
+    if(tag === "price_ceiling" || tag === "ceiling"){
+        if(q.includes("binding") || q.includes("below equilibrium")) {
+            return "LO6.1_binding_price_ceiling";
+        }
+        if(q.includes("shortage") || q.includes("quantity demanded") || q.includes("quantity supplied")) {
+            return "LO6.1_calculate_ceiling_effects";
+        }
+        if(q.includes("rent control") || q.includes("price ceiling")) {
+            return "LO6.1_price_ceiling";
+        }
+        return "LO6.1_price_ceiling_effects";
+    }
+
+    if(tag === "price_floor" || tag === "floor"){
+        if(q.includes("binding") || q.includes("above equilibrium")) {
+            return "LO6.2_binding_price_floor";
+        }
+        if(q.includes("surplus") || q.includes("quantity supplied") || q.includes("quantity demanded")) {
+            return "LO6.2_calculate_floor_effects";
+        }
+        if(q.includes("minimum wage") || q.includes("price floor")) {
+            return "LO6.2_price_floor";
+        }
+        return "LO6.2_price_floor_effects";
+    }
+
+    if(tag === "tax" || tag === "tax_wedge"){
+        if(q.includes("tax") && (q.includes("quantity") || q.includes("price") || q.includes("sold"))) {
+            return "LO6.3_tax_price_quantity";
+        }
+        if(q.includes("wedge") || q.includes("buyers pay") || q.includes("sellers receive")) {
+            return "LO6.3_tax_wedge";
+        }
+        return "LO6.3_tax_effects";
+    }
+
+    if(tag === "tax_equivalence" || tag === "buyer_tax" || tag === "seller_tax"){
+        if(q.includes("buyer") && q.includes("seller")) {
+            return "LO6.4_buyer_seller_tax_equivalence";
+        }
+        if(q.includes("equivalent") || q.includes("same outcome")) {
+            return "LO6.4_tax_equivalence";
+        }
+        return "LO6.4_taxes_on_buyers_and_sellers";
+    }
+
+    if(tag === "tax_incidence" || tag === "incidence" || tag === "elasticity"){
+        if(q.includes("burden") || q.includes("incidence") || q.includes("split")) {
+            return "LO6.5_tax_burden_split";
+        }
+        if(q.includes("elastic") || q.includes("inelastic")) {
+            return "LO6.5_elasticity_tax_incidence";
+        }
+        return "LO6.5_tax_incidence";
+    }
+
+    // -----------------------------
+    // BROAD FALLBACKS
+    // These catch sloppy tags before they pollute the data.
+    // -----------------------------
+
+    if(q.includes("opportunity cost") || q.includes("give up") || q.includes("forgone")) {
+        return "LO1.2_opportunity_cost";
+    }
+
+    if(q.includes("marginal benefit") || q.includes("marginal cost") || q.includes("one more") || q.includes("additional")) {
+        return "LO1.3_marginal_reasoning";
+    }
+
+    if(q.includes("incentive") || q.includes("respond to")) {
+        return "LO1.4_incentives_behavior";
+    }
+
+    if(q.includes("production possibilities") || q.includes("ppf") || q.includes("frontier")) {
+        return "LO2.2_ppf_choices_tradeoffs";
+    }
+
+    if(q.includes("positive statement") || q.includes("normative statement")) {
+        return "LO2.4_positive_vs_normative";
+    }
+
+    if(q.includes("competitive market") || q.includes("many buyers") || q.includes("many sellers")) {
+        return "LO4.1_competitive_market";
+    }
+
+    if(q.includes("demand") || q.includes("quantity demanded")) {
+        return "LO4.2_demand";
+    }
+
+    if(q.includes("supply") || q.includes("quantity supplied")) {
+        return "LO4.3_supply";
+    }
+
+    if(q.includes("equilibrium") || q.includes("shortage") || q.includes("surplus")) {
+        return "LO4.4_supply_demand_together";
+    }
+
+    if(q.includes("price ceiling") || q.includes("rent control")) {
+        return "LO6.1_price_ceiling_effects";
+    }
+
+    if(q.includes("price floor") || q.includes("minimum wage")) {
+        return "LO6.2_price_floor_effects";
+    }
+
+    if(q.includes("tax") || q.includes("tax wedge")) {
+        return "LO6.3_tax_effects";
+    }
+
+return `${tag}_${type}`;}
+
+function inferSkill(question){
+    if(!question) return null;
+
+    const q = (question.q || "").toLowerCase();
+    const tag = (question.tag || "").toLowerCase();
+
+    if(tag === "demand" || tag === "quantity_demanded"){
+        if(q.includes("price rises") || q.includes("price falls") || q.includes("quantity demanded")){
+            return "movement_vs_demand_shift";
+        }
+        if(q.includes("income") || q.includes("substitute") || q.includes("complement") || q.includes("taste") || q.includes("expectation")){
+            return "demand_shifters";
+        }
+    }
+
+    if(tag === "supply" || tag === "quantity_supplied"){
+        if(q.includes("price rises") || q.includes("price falls") || q.includes("quantity supplied")){
+            return "movement_vs_supply_shift";
+        }
+        if(q.includes("input") || q.includes("technology") || q.includes("seller") || q.includes("tax") || q.includes("subsidy")){
+            return "supply_shifters";
+        }
+    }
+
+    if(tag === "price_ceiling") return "binding_price_ceiling";
+    if(tag === "price_floor") return "binding_price_floor";
+    if(tag === "taxes" || tag === "tax_incidence") return "tax_wedge_incidence";
+    if(tag === "opportunity_cost") return "opportunity_cost_calculation";
+    if(tag === "ppf") return "ppf_opportunity_cost";
+    if(tag === "positive_normative") return "positive_vs_normative";
+
+    return null;
 }
 
 function getObjectiveBucket(question){
@@ -2570,12 +2928,12 @@ function recordAdaptiveAttempt(question, isCorrect, responseTime){
     const tagBucket = getTagBucket(question.tag);
     const typeBucket = getTypeBucket(question.tag, question.type);
     const objectiveBucket = getObjectiveBucket(question);
-    const skillBucket = getSkillBucket(question);
+	const skillBucket = getSkillBucket(question);
 
     updateBucket(tagBucket, isCorrect, responseTime);
     updateBucket(typeBucket, isCorrect, responseTime);
     updateBucket(objectiveBucket, isCorrect, responseTime);
-    updateBucket(skillBucket, isCorrect, responseTime);
+	updateBucket(skillBucket, isCorrect, responseTime);
 
     masteryState.recent.push({
         correct: !!isCorrect,
@@ -2583,7 +2941,7 @@ function recordAdaptiveAttempt(question, isCorrect, responseTime){
         tag: question.tag,
         type: question.type || "default",
         objective: currentQuestion.objective || inferObjective(currentQuestion),
-        skill: getSkillKey(question)
+		skill: getSkillKey(question)
     });
 
     if(masteryState.recent.length > 20){
@@ -2695,8 +3053,8 @@ function resetRemediationState(){
         stage: null,
         tag: null,
         objective: null,
-        skill: null,
-        commonError: null,
+		skill: null,
+    	commonError: null,
         sourceType: null,
         returnRoom: null,
         originQuestionId: null,
@@ -2716,15 +3074,15 @@ function planRemediation(question, responseTime){
     const carelessMiss = responseTime < expected * 0.55 && (objectiveAccuracy === null || objectiveAccuracy >= 0.45);
     const repeatedObjectiveMiss = objectiveAttempts >= 2 && objectiveAccuracy !== null && objectiveAccuracy < 0.6;
     const slowStruggle = responseTime > expected * 1.2;
-    const skill = getSkillKey(question);
+	const skill = getSkillKey(question);
 
     return {
         active: true,
         stage: carelessMiss ? "bridge" : "repair",
         tag: question.tag,
         objective: currentQuestion.objective || inferObjective(currentQuestion),
-        skill: skill,
-        commonError: question.commonError || null,
+		skill: skill,
+		commonError: question.commonError || null,
         sourceType: question.type || "default",
         returnRoom: room,
         originQuestionId: question.id || null,
@@ -2740,6 +3098,26 @@ function getRemediationStageLabel(stage){
     return "Recovery Retest";
 }
 
+function getRecoveryLine(stage){
+  if(stage === "repair"){
+    return "Recovery audit opened. The Custodian is isolating the faulty measure.";
+  }
+
+  if(stage === "bridge"){
+    return "Bridge audit active. Apply the macro measure before the Engine lets you advance.";
+  }
+
+  if(stage === "retest"){
+    return "Retest entry reopened. Same weakness. Cleaner accounting required.";
+  }
+
+  if(stage === "miss"){
+    return "The Engine is still unstable. Repair the weakness before advancing.";
+  }
+
+  return "Recovery confirmed. Return to the Engine.";
+}
+
 function getQuestionsMatchingNeed(pool, objectiveKey, tag, excludeIds = [], skillKey = null){
     if(!Array.isArray(pool) || pool.length === 0) return [];
 
@@ -2747,7 +3125,7 @@ function getQuestionsMatchingNeed(pool, objectiveKey, tag, excludeIds = [], skil
 
     if(skillKey){
         let skillMatches = candidates.filter(q =>
-            q.primarySkill === skillKey || q.repairSkill === skillKey || inferSkill(q) === skillKey
+            q.primarySkill === skillKey || q.repairSkill === skillKey
         );
         if(skillMatches.length > 0) return skillMatches;
     }
@@ -2772,6 +3150,7 @@ function getRetestPoolName(){
 function pickRemediationFromBank(poolName, objectiveKey, tag, purpose = "confirm", skillKey = null){
     const pool = questionBanks[poolName] || [];
     const recentIds = (questionHistory[poolName] || []).slice(-10);
+
     let candidates = getQuestionsMatchingNeed(pool, objectiveKey, tag, recentIds, skillKey);
 
     if(candidates.length === 0){
@@ -2804,25 +3183,87 @@ function getRemediationQuestion(state){
     const excludeIds = [state.originQuestionId].filter(Boolean);
 
     if(state.stage === "repair"){
-        const repairPool = easyConceptPools[state.skill] || easyConceptPools[state.tag] || [];
-        const repairCandidates = getQuestionsMatchingNeed(repairPool, state.objective, state.tag, excludeIds, state.skill);
+        if(state.skill && microSkillRepairPools[state.skill]){
+            const skillRepairPool = microSkillRepairPools[state.skill] || [];
+            const skillRepairCandidates = getQuestionsMatchingNeed(
+                skillRepairPool,
+                state.objective,
+                state.tag,
+                excludeIds,
+                state.skill
+            );
+
+            if(skillRepairCandidates.length > 0){
+                return weightedPick(skillRepairCandidates, {
+                    mode: "support",
+                    purpose: "repair"
+                });
+            }
+        }
+
+        const repairPool = microSkillRepairPools[state.skill] || [];
+        const repairCandidates = getQuestionsMatchingNeed(
+            repairPool,
+            state.objective,
+            state.tag,
+            excludeIds,
+            state.skill
+        );
+
         if(repairCandidates.length > 0){
-            return weightedPick(repairCandidates, { mode: "support", purpose: "repair" });
+            return weightedPick(repairCandidates, {
+                mode: "support",
+                purpose: "repair"
+            });
         }
     }
 
     if(state.stage === "bridge"){
-        const bridgePool = mediumConceptPools[state.skill] || mediumConceptPools[state.tag] || [];
-        const bridgeCandidates = getQuestionsMatchingNeed(bridgePool, state.objective, state.tag, excludeIds, state.skill);
+        if(state.skill && microSkillBridgePools[state.skill]){
+            const skillBridgePool = microSkillBridgePools[state.skill] || [];
+            const skillBridgeCandidates = getQuestionsMatchingNeed(
+                skillBridgePool,
+                state.objective,
+                state.tag,
+                excludeIds,
+                state.skill
+            );
+
+            if(skillBridgeCandidates.length > 0){
+                return weightedPick(skillBridgeCandidates, {
+                    mode: "support",
+                    purpose: "confirm"
+                });
+            }
+        }
+
+        const bridgePool = microSkillBridgePools[state.skill] || [];
+        const bridgeCandidates = getQuestionsMatchingNeed(
+            bridgePool,
+            state.objective,
+            state.tag,
+            excludeIds,
+            state.skill
+        );
+
         if(bridgeCandidates.length > 0){
-            return weightedPick(bridgeCandidates, { mode: "support", purpose: "confirm" });
+            return weightedPick(bridgeCandidates, {
+                mode: "support",
+                purpose: "confirm"
+            });
         }
     }
 
     const retestPoolName = getRetestPoolName();
-    return pickRemediationFromBank(retestPoolName, state.objective, state.tag, state.stage === "retest" ? "challenge" : "confirm", state.skill);
-}
 
+    return pickRemediationFromBank(
+        retestPoolName,
+        state.objective,
+        state.tag,
+        state.stage === "retest" ? "challenge" : "confirm",
+        state.skill
+    );
+}
 function weightedPick(pool, options = {}){
     const {
         mode = "support",
@@ -3020,26 +3461,6 @@ seal:{
 }
 };
 
-function getRecoveryLine(stage){
-  if(stage === "repair"){
-    return "Recovery audit opened. The Custodian is isolating the faulty measure.";
-  }
-
-  if(stage === "bridge"){
-    return "Bridge audit active. Apply the macro measure before the Engine lets you advance.";
-  }
-
-  if(stage === "retest"){
-    return "Retest entry reopened. Same weakness. Cleaner accounting required.";
-  }
-
-  if(stage === "miss"){
-    return "The Engine is still unstable. Repair the weakness before advancing.";
-  }
-
-  return "Recovery confirmed. Return to the Engine.";
-}
-
 function getNationalEngineBossName(){
   if(room === 10) return "Registrar of False Measures";
   if(room === 20) return "Warden of Labor Flows";
@@ -3047,31 +3468,31 @@ function getNationalEngineBossName(){
   return "The National Engine";
 }
 
-function getNationalEngineBossLine({ isCorrect, tag, type, objective, streak, bossHealth, responseTime }){
+function getNationalEngineBossLine({ isCorrect, tag, type, objective, streak, bossHealth, responseTime }) {
   const bossName = getNationalEngineBossName();
 
   if(isCorrect && streak >= 5){
-    return `${bossName}: The signal is holding. Now prove it was not luck.`;
+    return `${bossName}: Your streak rises. Now let’s see if your reasoning survives pressure.`;
   }
 
   if(isCorrect && bossHealth <= 2){
-    return `${bossName}: Clean entry. The machinery is cracking.`;
+    return `${bossName}: Clean strike. The signal weakens.`;
   }
 
   if(!isCorrect && responseTime < 5000){
-    return `${bossName}: Fast accounting. Bad accounting. Classic wreckage.`;
+    return `${bossName}: Fast is not fluent. Read the signal.`;
   }
 
-  if(!isCorrect && (tag === "gdp" || tag === "cpi" || tag === "unemployment" || tag === "efficiency" || tag === "power")){
-    return `${bossName}: The category matters. Measure it wrong and the whole engine lies.`;
+  if(!isCorrect && (type === "graph" || type === "graph-integration")){
+    return `${bossName}: The curve moved. You didn’t.`;
   }
 
   if(!isCorrect && tag){
-    return `${bossName}: Weakness logged: ${tag}. The Engine will circle back.`;
+    return `${bossName}: The weakness is visible: ${tag}. The Gate will test it again.`;
   }
 
   if(isCorrect){
-    return `${bossName}: Correct. One clean entry does not balance the machine.`;
+    return `${bossName}: Correct. But one answer does not restore the market.`;
   }
 
   return `${bossName}: The checkpoint holds. Try again.`;
@@ -3100,8 +3521,169 @@ if (savedEmail && emailInput) {
     emailInput.value = savedEmail;
 }
 
-function hasSavedGame(){
-    return !!localStorage.getItem(SAVE_KEY);
+function hasSavedGame(mode = "standard"){
+    return !!localStorage.getItem(`${SAVE_KEY}_${mode}`);
+}
+
+function validateAndStoreEmailForModeSelect(){
+    let inputEmail = document.getElementById("emailInput").value.trim().toLowerCase();
+
+    if (!inputEmail) {
+        alert("An email is required to enter the Engine.");
+        return false;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(inputEmail)) {
+        alert("Enter a valid email address.");
+        return false;
+    }
+
+    studentEmail = inputEmail;
+    username = generatePseudonymFromEmail(studentEmail);
+
+    localStorage.setItem("gauntletEmail", studentEmail);
+    localStorage.setItem("gauntletUser", username);
+
+    return true;
+}
+
+function showModeSelect(){
+    if(!validateAndStoreEmailForModeSelect()) return;
+
+    document.getElementById("startScreen").style.display = "none";
+    const modeScreen = document.getElementById("modeSelectScreen");
+    if(modeScreen) modeScreen.style.display = "flex";
+}
+
+function returnToTitleScreen(){
+    const modeScreen = document.getElementById("modeSelectScreen");
+    if(modeScreen) modeScreen.style.display = "none";
+    document.getElementById("startScreen").style.display = "flex";
+    showContinueButtonIfSaved();
+}
+
+function startSelectedMode(mode){
+    gameMode = mode || "standard";
+    localStorage.setItem("nationalEngineCurrentMode", gameMode);
+
+    const modeScreen = document.getElementById("modeSelectScreen");
+    if(modeScreen) modeScreen.style.display = "none";
+
+    if(gameMode === "standard"){
+        startGame(false);
+        return;
+    }
+
+    resetRunStateForNewMode();
+    startGame(false);
+}
+
+function confirmReturnToModeMenu(){
+    showGameModal({
+        title: "Return to Engine Menu?",
+        text: "Standard Campaign progress will be saved. Timed Trial and Exam Drill attempts will end.",
+        confirmText: "Return",
+        cancelText: "Stay",
+        onConfirm: function(){
+            if(gameMode === "standard"){
+                saveGameState();
+            }
+
+            if(gameMode === "timed"){
+                endTimedAttemptEarly();
+                return;
+            }
+
+            returnToModeSelectFromRun();
+        }
+    });
+}
+
+let activeModalConfirmAction = null;
+let activeModalCancelAction = null;
+
+function showGameModal({
+    title = "Signal Warning",
+    text = "",
+    confirmText = "Continue",
+    cancelText = "",
+    onConfirm = null,
+    onCancel = null
+} = {}){
+    const modal = document.getElementById("gameModal");
+    const titleEl = document.getElementById("gameModalTitle");
+    const textEl = document.getElementById("gameModalText");
+    const confirmBtn = document.getElementById("gameModalConfirm");
+    const cancelBtn = document.getElementById("gameModalCancel");
+
+    if(!modal || !titleEl || !textEl || !confirmBtn || !cancelBtn){
+        console.warn("Game modal elements are missing.");
+        return;
+    }
+
+    activeModalConfirmAction = onConfirm;
+    activeModalCancelAction = onCancel;
+
+    titleEl.innerText = title;
+    textEl.innerText = text;
+    confirmBtn.innerText = confirmText;
+
+    if(cancelText){
+        cancelBtn.innerText = cancelText;
+        cancelBtn.style.display = "inline-block";
+    } else {
+        cancelBtn.style.display = "none";
+    }
+
+    modal.style.display = "flex";
+
+    confirmBtn.onclick = function(){
+    const action = activeModalConfirmAction;
+    closeGameModal();
+
+    if(typeof action === "function"){
+        action();
+    }
+};
+
+cancelBtn.onclick = function(){
+    const action = activeModalCancelAction;
+    closeGameModal();
+
+    if(typeof action === "function"){
+        action();
+    }
+};
+}
+
+function closeGameModal(){
+    const modal = document.getElementById("gameModal");
+    if(modal) modal.style.display = "none";
+
+    activeModalConfirmAction = null;
+    activeModalCancelAction = null;
+}
+
+function endTimedAttemptEarly(){
+    stopTimedModeClock();
+
+    const accuracy = totalAttempts > 0
+        ? Math.round((correctAnswers / totalAttempts) * 100)
+        : 0;
+
+    localStorage.setItem("nationalEngineTimedLastRoom", String(room));
+    localStorage.setItem("nationalEngineTimedLastAccuracy", String(accuracy));
+    localStorage.setItem("nationalEngineTimedLastAttempts", String(totalAttempts));
+    localStorage.setItem("nationalEngineTimedLastStreak", String(maxStreak));
+
+    const bestRoom = Number(localStorage.getItem("nationalEngineTimedBestRoom") || 0);
+    if(room > bestRoom){
+        localStorage.setItem("nationalEngineTimedBestRoom", String(room));
+    }
+
+    returnToModeSelectFromRun();
 }
 
 function showContinueButtonIfSaved(){
@@ -3112,15 +3694,18 @@ function showContinueButtonIfSaved(){
 }
 
 function startNewRun(){
+    gameMode = "standard";
     clearSavedGame();
     startGame(false);
 }
 
 function continueSavedRun(){
+    gameMode = "standard";
     startGame(true);
 }
 
 showContinueButtonIfSaved();
+	 
 // =============================================
 // GAME INITIALIZATION — PARTIAL CUSTOMIZATION
 // =============================================
@@ -3164,80 +3749,93 @@ function startGame(shouldResume = false) {
         return;
     }
 
-    studentEmail = inputEmail;
-    username = generatePseudonymFromEmail(studentEmail);
+   studentEmail = inputEmail;
+   username = generatePseudonymFromEmail(studentEmail);
 
-    const hasSavedRun = shouldResume ? loadSavedGame() : false;
+const hasSavedRun = shouldResume ? loadSavedGame() : false;
 
-    if(!hasSavedRun){
-        bossCheckpoint = 1;
-        runID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    }
+if(!hasSavedRun){
+    bossCheckpoint = 1;
+    runID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
 
-    localStorage.setItem("gauntletEmail", studentEmail);
-    localStorage.setItem("gauntletUser", username);
-    localStorage.setItem("gauntletRunID", runID);
+localStorage.setItem("gauntletEmail", studentEmail);
+localStorage.setItem("gauntletUser", username);
+localStorage.setItem("gauntletRunID", runID);
+if(modeAllowsRealmProgress()){
     localStorage.setItem(REALM_STARTED_KEY, "true");
     localStorage.setItem(REALM_STATUS_KEY, "contested");
-    localStorage.setItem(REALM_ROOM_KEY, String(room));
-
-    sendGameData({
-        runID: runID,
-        game: "The National Engine",
-        event: hasSavedRun ? "resume" : "start",
-        user: username,
-        email: studentEmail
-    });
+    localStorage.setItem(REALM_ROOM_KEY, String(room || 1));
+}
+	
+sendGameData({
+    runID: runID,
+    game: "The National Engine",
+    event: hasSavedRun ? "resume" : "start",
+    user: username,
+    email: studentEmail
+});
 
 // =============================================
 // RESET CORE GAME STATE — DO NOT MODIFY STRUCTURE
 // =============================================
 // Resets all progression, scoring, and adaptive tracking
-    if(!hasSavedRun){
-        room = 1;
-        bossHealth = 3;
-        streak = 0;
-        maxStreak = 0;
-        totalAttempts = 0;
-        correctAnswers = 0;
-        bossPool = [];
-        calcBag = [];
-        conceptMemory = {};
-        masteryState = { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
-        tagHistory = [];
-        lastTypes = [];
-        adaptiveMode = "support";
-        resetRemediationState();
-        rapidGuessHistory = [];
-        rapidGuessWarnings = 0;
-        rapidGuessLocked = false;
 
+if(!hasSavedRun){
+	room = 1;
+    bossHealth = 3;
+    streak = 0;
+    maxStreak = 0;
+    totalAttempts = 0;
+    correctAnswers = 0;
+    bossPool = [];
+    calcBag = [];
+    conceptMemory = {};
+    masteryState = { byTag: {},  byObjective: {},  bySkill: {}, recent: [] };
+    tagHistory = [];
+    lastTypes = [];
+    adaptiveMode = "support";
+    resetRemediationState();
+	rapidGuessHistory = [];
+	rapidGuessWarnings = 0;
+	rapidGuessLocked = false;
+
+    if(modeAllowsSave()){
         localStorage.removeItem("gauntletRoom");
-
-        // National Engine artifact keys — keep these matched to your actual National Engine IDs.
-        localStorage.removeItem("vaultIndex");
-        localStorage.removeItem("vaultValve");
-        localStorage.removeItem("vaultSeal");
-
-        questionHistory = {
-            easy: [], medium: [], hard: [], elite: [], calculation: [],
-            easyBoss: [], mediumBoss: [], finalBoss: []
-        };
-
-        usedQuestions = {
-            easy: [], medium: [], hard: [], elite: [],
-            easyBoss: [], mediumBoss: [], finalBoss: []
-        };
+	    localStorage.removeItem("vaultIndex");
+	    localStorage.removeItem("vaultValve");
+	    localStorage.removeItem("vaultSeal");
     }
+	if(modeAllowsRealmProgress()){
+	    localStorage.removeItem(REALM_COMPLETE_KEY);
+	    localStorage.setItem(REALM_STATUS_KEY, "contested");
+	    localStorage.setItem(REALM_ROOM_KEY, "1");
+	}
+	
+    questionHistory = {
+        easy: [], medium: [], hard: [], elite: [], legendary: [], calculation: [],
+        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+    };
+
+    usedQuestions = {
+        easy: [], medium: [], hard: [], elite: [], legendary: [],
+        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+    };
+}
     
 // =============================================
 // UI INITIALIZATION — SAFE TO CUSTOMIZE
 // =============================================
 // Shows main game elements and restores vault visuals
     document.getElementById("startScreen").style.display = "none";
+    const modeScreen = document.getElementById("modeSelectScreen");
+    if(modeScreen) modeScreen.style.display = "none";
+	document.querySelector(".top-panel").style.display = "flex";
+    document.getElementById("gameShell").style.display = "flex";
     document.getElementById("gameBox").style.display = "block";
     document.getElementById("artifactVault").style.display = "block";
     document.querySelectorAll(".torch").forEach(t => t.style.display = "block");
+
 
    // =============================================
    // VAULT RESTORE SYSTEM — SAFE WITH MATCHING IDS
@@ -3245,24 +3843,245 @@ function startGame(shouldResume = false) {
    // IMPORTANT:
    // localStorage keys must match the HTML element ids.
    // =============================================    
-    if(localStorage.getItem("vaultIndex")){
-        document.getElementById("vaultIndex").classList.add("unlocked");
-    }
+if(localStorage.getItem("vaultIndex")){
+    document.getElementById("vaultIndex").classList.add("unlocked");
+}
 
-    if(localStorage.getItem("vaultValve")){
-        document.getElementById("vaultValve").classList.add("unlocked");
-    }    
+if(localStorage.getItem("vaultValve")){
+    document.getElementById("vaultValve").classList.add("unlocked");
+}    
 
-    if(localStorage.getItem("vaultSeal")){
-        document.getElementById("vaultSeal").classList.add("unlocked");
-    }
+if(localStorage.getItem("vaultSeal")){
+    document.getElementById("vaultSeal").classList.add("unlocked");
+}
   
 // Start game loop: music + timer + first question
+    initializeRunForMode(gameMode);
     bgMusic.play().catch(e => console.log("Audio started"));
     startTime = Date.now(); 
     loadQuestion();
 }
 	 
+
+function resetRunStateForNewMode(){
+    room = 1;
+    bossHealth = 3;
+    bossCheckpoint = 1;
+    streak = 0;
+    maxStreak = 0;
+    totalAttempts = 0;
+    correctAnswers = 0;
+    bossPool = [];
+    if(typeof calcBag !== "undefined") calcBag = [];
+    conceptMemory = {};
+    masteryState = { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
+    tagHistory = [];
+    lastTypes = [];
+    adaptiveMode = "support";
+    resetRemediationState();
+    rapidGuessHistory = [];
+    rapidGuessWarnings = 0;
+    rapidGuessLocked = false;
+    timedHighestRoom = 1;
+    timedSetbacks = 0;
+
+    questionHistory = {
+        easy: [], medium: [], hard: [], elite: [], legendary: [], calculation: [],
+        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+    };
+
+    usedQuestions = {
+        easy: [], medium: [], hard: [], elite: [], legendary: [],
+        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+    };
+}
+
+function initializeRunForMode(mode){
+    gameMode = mode || "standard";
+
+    const autosave = document.getElementById("autosave");
+    if(autosave){
+        autosave.innerText = gameMode === "timed"
+            ? "⏱ Timed Trial Active"
+            : gameMode === "exam"
+                ? "✎ Exam Drill Active"
+                : gameMode === "legendary"
+                    ? "🔥 Legendary Mode Active"
+                    : gameMode === "bossRush"
+                        ? "⚔ Boss Rush Active"
+                        : "💾 Progress Saved Locally";
+    }
+
+    if(gameMode === "timed"){
+        startTimedModeClock();
+    } else {
+        stopTimedModeClock();
+    }
+}
+
+function startTimedModeClock(){
+    timedModeEndTime = Date.now() + timedModeDurationMs;
+
+    const hud = document.getElementById("timedModeHud");
+    if(hud) hud.style.display = "flex";
+
+    updateTimedModeClock();
+
+    if(timedModeTimerInterval){
+        clearInterval(timedModeTimerInterval);
+    }
+
+    timedModeTimerInterval = setInterval(updateTimedModeClock, 250);
+}
+
+function stopTimedModeClock(){
+    if(timedModeTimerInterval){
+        clearInterval(timedModeTimerInterval);
+        timedModeTimerInterval = null;
+    }
+
+    const hud = document.getElementById("timedModeHud");
+    if(hud) hud.style.display = "none";
+
+    const timerDisplay = document.getElementById("timerDisplay");
+    if(timerDisplay){
+        timerDisplay.classList.remove("timer-warning");
+        timerDisplay.innerText = "10:00";
+    }
+}
+
+function updateTimedModeClock(){
+    if(gameMode !== "timed" || !timedModeEndTime) return;
+
+    const remainingMs = Math.max(0, timedModeEndTime - Date.now());
+    const totalSeconds = Math.ceil(remainingMs / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const timerDisplay = document.getElementById("timerDisplay");
+    if(timerDisplay){
+        timerDisplay.innerText = `${minutes}:${String(seconds).padStart(2, "0")}`;
+        timerDisplay.classList.toggle("timer-warning", remainingMs <= 60 * 1000);
+    }
+
+    if(remainingMs <= 0){
+        endTimedModeRun();
+    }
+}
+
+function endTimedModeRun(){
+    if(gameMode !== "timed") return;
+
+    stopTimedModeClock();
+    gameMode = "timed-complete";
+
+    const accuracy = totalAttempts > 0
+        ? Math.round((correctAnswers / totalAttempts) * 100)
+        : 0;
+
+    const bestRoom = Number(localStorage.getItem("nationalEngineTimedBestRoom") || 0);
+    if(timedHighestRoom > bestRoom){
+        localStorage.setItem("nationalEngineTimedBestRoom", String(timedHighestRoom));
+    }
+
+    localStorage.setItem("nationalEngineTimedLastRoom", String(room));
+    localStorage.setItem("nationalEngineTimedLastHighestRoom", String(timedHighestRoom));
+    localStorage.setItem("nationalEngineTimedLastAccuracy", String(accuracy));
+    localStorage.setItem("nationalEngineTimedLastAttempts", String(totalAttempts));
+    localStorage.setItem("nationalEngineTimedLastStreak", String(maxStreak));
+    localStorage.setItem("nationalEngineTimedLastSetbacks", String(timedSetbacks));
+
+    sendGameData({
+        runID: runID,
+        game: "The National Engine",
+        event: "timed_complete",
+        user: username,
+        email: studentEmail,
+        room: room,
+        questionId: 0,
+        correct: 1,
+        tag: "",
+        type: "",
+        objective: "",
+        responseTime: 0,
+        attempt: totalAttempts,
+        streak: streak,
+        elapsedTime: startTime ? (Date.now() - startTime) : 0,
+        adaptiveMode: "timed_complete",
+        totalTime: timedModeDurationMs,
+        accuracy: accuracy / 100,
+        maxStreak: maxStreak,
+        totalAttempts: totalAttempts
+    });
+
+    document.getElementById("bossMessage").innerText = "";
+    document.getElementById("formulaHint").innerText = "";
+    document.getElementById("artifactDrop").style.display = "none";
+    document.getElementById("questionImageBox").style.display = "none";
+
+    document.getElementById("question").innerHTML = `
+        <span class="boss-title">TIME EXPIRED</span>
+        <div class="boss-q">
+            You reached as far as Room ${timedHighestRoom}.<br><br>
+            Final Room: ${room}<br>
+            Accuracy: ${accuracy}%<br>
+            Total Attempts: ${totalAttempts}<br>
+            Best Streak: ${maxStreak}<br>
+            Setbacks Taken: ${timedSetbacks}
+        </div>
+    `;
+
+    document.getElementById("answers").innerHTML = `
+        <button class="continue-btn" onclick="restartTimedMode()">Retry Timed Trial</button>
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run Run</button>
+    `;
+
+    document.getElementById("message").innerText = "The trial ends. The market remembers.";
+}
+
+function restartTimedMode(){
+    gameMode = "timed";
+    resetRunStateForNewMode();
+    startSelectedMode("timed");
+}
+
+function returnToModeSelectFromRun(){
+    stopTimedModeClock();
+    document.getElementById("gameBox").style.display = "none";
+    document.getElementById("artifactVault").style.display = "none";
+    document.getElementById("modeSelectScreen").style.display = "flex";
+	document.querySelector(".top-panel").style.display = "none";
+	document.getElementById("gameShell").style.display = "none";
+}
+
+function getDifficultyForMode(){
+    if(gameMode === "exam" || gameMode === "timed"){
+        return (room <= 10) ? "easy"
+            : (room <= 20) ? "medium"
+            : "hard";
+    }
+
+    if(gameMode === "legendary"){
+        return (room === 10 || room === 20 || room === 30)
+            ? "legendaryBoss"
+            : "legendary";
+    }
+
+    if(gameMode === "bossRush"){
+        return (room <= 10) ? "easyBoss"
+            : (room <= 20) ? "mediumBoss"
+            : "finalBoss";
+    }
+
+    return (room <= 9) ? "easy"
+         : (room === 10) ? "easyBoss"
+         : (room <= 19) ? "medium"
+         : (room === 20) ? "mediumBoss"
+         : (room <= 25) ? "hard"
+         : (room <= 29) ? "calculation"
+         : "finalBoss";
+}
+
 // =============================================
 // INPUT SHORTCUT — SAFE TO KEEP OR REMOVE
 // =============================================
@@ -3273,10 +4092,10 @@ document.getElementById("emailInput").addEventListener("keypress", function(even
     if (event.key === "Enter") {
         event.preventDefault();
 
-        if(hasSavedGame()){
+        if(hasSavedGame("standard")){
             continueSavedRun();
         } else {
-            startNewRun();
+            showModeSelect();
         }
     }
 });
@@ -3307,7 +4126,7 @@ function getAreaName(r) {
     if (r <= 29) return "The Adjustment Corridor";
     return "The Comptroller’s Tribunal";
 }
-
+	 
 // =============================================
 // WIZARD DIALOGUE SYSTEM — SAFE TO CUSTOMIZE
 // =============================================
@@ -3423,7 +4242,7 @@ function wizardSpeak(text){
 // - Do NOT remove 'tag' or 'type'
 //
 // This is where instructors customize content.
-  
+
 const questionBanks = {
 easyBoss:[
 // --- EFFICIENCY ---
@@ -3743,108 +4562,271 @@ elite:[
 
 };
 
-easyConceptPools = {
-interaction:[
-{id:5000,q:"If input costs rise, supply will...",options:["Increase","Decrease","Stay the same","Become zero"],a:1,tag:"interaction",type:"interpretation",objective:"LO 11.1 — Related market disturbances",feedback:"Higher costs reduce supply."},
-{id:5001,q:"If the price of a substitute rises, demand will...",options:["Fall","Rise","Stay constant","Disappear"],a:1,tag:"interaction",type:"interpretation",objective:"LO 11.1 — Related market disturbances",feedback:"When a substitute becomes more expensive, buyers shift toward the related good."},
-{id:5002,q:"If goods are complements, a price increase in one causes demand for the other to...",options:["Rise","Fall","Stay constant","Double"],a:1,tag:"interaction",type:"interpretation",objective:"LO 11.1 — Related market disturbances",feedback:"When one complement becomes more expensive, demand for the related complement usually falls."},
-{id:5003,q:"A decrease in production costs will...",options:["Reduce supply","Increase supply","Reduce demand","Do nothing"],a:1,tag:"interaction",type:"interpretation",objective:"LO 11.1 — Related market disturbances",feedback:"Lower production costs increase supply."},
-{id:5004,q:"When markets are linked, a shock in one market will...",options:["Have no effect","Affect related markets","Eliminate demand","Fix prices"],a:1,tag:"interaction",type:"definition",objective:"LO 11.1 — Related market disturbances",feedback:"Related markets interact through inputs, substitutes, complements, and labor."},
-{id:5005,q:"If wages rise across an industry, output will likely...",options:["Increase","Decrease","Stay constant","Double"],a:1,tag:"interaction",type:"interpretation",objective:"LO 11.1 — Related market disturbances",feedback:"Higher wages raise production costs, which tends to reduce output."}
-],
-efficiency:[
-{id:5006,q:"Allocative efficiency occurs when...",options:["MR = MC","P = MC","ATC minimized","Profit zero"],a:1,tag:"efficiency",type:"definition",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"Allocative efficiency occurs when price equals marginal cost."},
-{id:5007,q:"If P > MC, output should...",options:["Decrease","Increase","Stay same","Stop"],a:1,tag:"efficiency",type:"interpretation",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"If price exceeds marginal cost, buyers value extra units more than they cost to produce."},
-{id:5008,q:"If P < MC, output is...",options:["Too high","Too low","Efficient","Optimal"],a:0,tag:"efficiency",type:"interpretation",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"If marginal cost exceeds price, society is producing units that cost more than they are worth."},
-{id:5009,q:"Efficiency maximizes...",options:["Profit","Revenue","Total surplus","Costs"],a:2,tag:"efficiency",type:"definition",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"Economic efficiency means total surplus is maximized."},
-{id:5010,q:"Competitive markets tend toward efficiency because...",options:["Firms control price","P = MC","Government sets output","Costs fall"],a:1,tag:"efficiency",type:"interpretation",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"In competitive markets, price tends to equal marginal cost."},
-{id:5011,q:"Productive efficiency occurs when...",options:["P = MC","ATC minimized","Profit maximized","Demand highest"],a:1,tag:"efficiency",type:"definition",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"Productive efficiency means producing at the lowest average cost."}
-],
-failure:[
-{id:5012,q:"A market failure occurs when...",options:["Profit exists","Markets are inefficient","Demand rises","Supply falls"],a:1,tag:"failure",type:"definition",objective:"LO 11.3 — Market failure",feedback:"Market failure means the market outcome is not economically efficient."},
-{id:5013,q:"Externalities affect...",options:["Only buyers","Only sellers","Third parties","Government only"],a:2,tag:"failure",type:"definition",objective:"LO 11.3 — Market failure",feedback:"Externalities affect people outside the direct buyer-seller exchange."},
-{id:5014,q:"Negative externalities lead to...",options:["Too little output","Too much output","Efficient output","Zero output"],a:1,tag:"failure",type:"interpretation",objective:"LO 11.3 — Market failure",feedback:"Negative externalities cause overproduction because some costs are pushed onto others."},
-{id:5015,q:"Deadweight loss represents...",options:["Profit","Lost surplus","Revenue","Cost"],a:1,tag:"failure",type:"definition",objective:"LO 11.3 — Market failure",feedback:"Deadweight loss is lost total surplus from an inefficient outcome."},
-{id:5016,q:"Market failure means resources are...",options:["Optimally allocated","Misallocated","Free","Unlimited"],a:1,tag:"failure",type:"interpretation",objective:"LO 11.3 — Market failure",feedback:"Market failure means resources are not allocated efficiently."},
-{id:5017,q:"A positive externality leads to...",options:["Too much output","Too little output","Efficient output","Zero demand"],a:1,tag:"failure",type:"interpretation",objective:"LO 11.3 — Market failure",feedback:"Positive externalities cause underproduction because some benefits are ignored by buyers."}
-],
-power:[
-{id:5018,q:"A monopolist is a firm that...",options:["Takes price","Controls price","Earns zero profit","Faces many rivals"],a:1,tag:"power",type:"definition",objective:"LO 12.1 — Sources of monopoly power",feedback:"A monopolist has market power and acts as a price maker."},
-{id:5019,q:"A monopolist produces where...",options:["P = MC","MR = MC","ATC minimized","Demand highest"],a:1,tag:"power",type:"definition",objective:"LO 12.2 — Monopoly price and output",feedback:"A monopolist maximizes profit by producing where marginal revenue equals marginal cost."},
-{id:5020,q:"Compared to competition, monopoly price is...",options:["Lower","Higher","Equal","Zero"],a:1,tag:"power",type:"interpretation",objective:"LO 12.3 — Problems with monopoly",feedback:"Monopolies usually charge higher prices than competitive markets."},
-{id:5021,q:"Monopoly output is...",options:["Higher","Lower","Same","Unlimited"],a:1,tag:"power",type:"interpretation",objective:"LO 12.3 — Problems with monopoly",feedback:"Monopolies restrict output relative to competitive markets."},
-{id:5022,q:"Natural monopoly occurs when...",options:["Many firms efficient","One firm lowest cost","Demand low","Prices fixed"],a:1,tag:"power",type:"definition",objective:"LO 12.1 — Sources of monopoly power",feedback:"A natural monopoly exists when one firm can serve the market at the lowest cost."},
-{id:5023,q:"Government regulation of monopoly aims to...",options:["Raise prices","Reduce inefficiency","Eliminate supply","Increase profit"],a:1,tag:"power",type:"interpretation",objective:"LO 12.5 — Natural monopoly regulation",feedback:"Regulation attempts to reduce the inefficiency caused by monopoly power."}
-],
-strategy:[
-{id:5024,q:"In Cournot competition, firms choose...",options:["Price","Output","Wages","Costs"],a:1,tag:"strategy",type:"definition",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"Cournot competition is a quantity-setting model."},
-{id:5025,q:"In Bertrand competition, firms choose...",options:["Output","Price","Capacity","Labor"],a:1,tag:"strategy",type:"definition",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"Bertrand competition is a price-setting model."},
-{id:5026,q:"Bertrand competition typically leads to prices...",options:["Above MC","Equal to MC","Below cost","Random"],a:1,tag:"strategy",type:"interpretation",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"With identical products and no capacity limits, Bertrand competition pushes price toward marginal cost."},
-{id:5027,q:"Cournot firms consider...",options:["No rivals","Strategic interaction","Only cost","Only demand"],a:1,tag:"strategy",type:"definition",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"Cournot firms choose output while considering rival behavior."},
-{id:5028,q:"First mover advantage means...",options:["Last mover wins","First firm gains advantage","No advantage","Prices fall"],a:1,tag:"strategy",type:"definition",objective:"LO 13.3 — First mover advantage",feedback:"A first mover may gain an advantage by committing before rivals respond."},
-{id:5029,q:"Product differentiation gives firms...",options:["No power","Some market power","Perfect competition","Zero demand"],a:1,tag:"strategy",type:"interpretation",objective:"LO 13.2 — Capacity constraints and product differentiation",feedback:"Product differentiation softens competition and gives firms some market power."}
-],
-equity:[
-{id:5030,q:"Equity refers to...",options:["Efficiency","Fairness","Profit","Output"],a:1,tag:"equity",type:"definition",objective:"LO 11.5 — Efficiency and equity",feedback:"Equity concerns fairness in the distribution of resources or outcomes."},
-{id:5031,q:"Efficiency refers to...",options:["Fairness","Max surplus","Equal income","Low cost"],a:1,tag:"equity",type:"definition",objective:"LO 11.5 — Efficiency and equity",feedback:"Efficiency focuses on maximizing total surplus, not necessarily fairness."},
-{id:5032,q:"An efficiency-equity tradeoff means...",options:["Both increase","Improving fairness may reduce efficiency","Efficiency always rises","No tradeoff"],a:1,tag:"equity",type:"interpretation",objective:"LO 11.5 — Efficiency and equity",feedback:"Policies that improve fairness may sometimes reduce total surplus."},
-{id:5033,q:"Redistribution policies aim to...",options:["Increase efficiency","Increase equity","Increase monopoly","Reduce supply"],a:1,tag:"equity",type:"interpretation",objective:"LO 11.5 — Efficiency and equity",feedback:"Redistribution policies focus on making outcomes more equitable."},
-{id:5034,q:"Policies that improve equity may...",options:["Increase efficiency","Reduce efficiency","Have no effect","Eliminate demand"],a:1,tag:"equity",type:"interpretation",objective:"LO 11.5 — Efficiency and equity",feedback:"Equity improvements can involve efficiency costs."},
-{id:5035,q:"Markets focus primarily on...",options:["Fairness","Efficiency","Equality","Regulation"],a:1,tag:"equity",type:"interpretation",objective:"LO 11.5 — Efficiency and equity",feedback:"Competitive markets tend to promote efficiency, but they do not guarantee equity."}
-]
-};
-    
-const mediumConceptPools = {
-interaction:[
-{id:6000,q:"Demand for SUVs increases. Steel is an input. What happens to steel prices?",options:["Fall","Rise","Stay constant","Become zero"],a:1,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"Higher SUV demand increases demand for steel, which puts upward pressure on steel prices."},
-{id:6001,q:"If the price of a complement rises, demand for the related good will...",options:["Rise","Fall","Stay constant","Double"],a:1,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"When the price of one complement rises, demand for the related good usually falls."},
-{id:6002,q:"If wages rise in one sector and workers leave other sectors to move there, wages in those other sectors will tend to...",options:["Rise","Fall","Stay constant","Disappear"],a:0,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"When workers leave other sectors, labor supply falls there, which tends to push wages up."},
-{id:6003,q:"A positive demand shock in one market leads to higher prices in related markets because...",options:["Markets are isolated","Input demand increases","Supply increases","Government intervenes"],a:1,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"A demand shock can raise demand for shared inputs and affect related markets."},
-{id:6004,q:"If two goods are substitutes and one price rises, demand for the other...",options:["Falls","Rises","Stays constant","Becomes elastic"],a:1,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"When one substitute becomes more expensive, buyers shift toward the other good."},
-{id:6005,q:"A cost increase in one industry will spill over into others when...",options:["Markets are independent","Inputs are shared","Demand is fixed","Prices are regulated"],a:1,tag:"interaction",type:"diagnostic",objective:"LO 11.1 — Related market disturbances",feedback:"Shared inputs link markets together, so cost changes can spread across industries."}
-],
-efficiency:[
-{id:6006,q:"If P > MC, what adjustment moves the market toward efficiency?",options:["Reduce output","Increase output","Raise costs","Lower demand"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"When price exceeds marginal cost, buyers value extra output more than it costs to produce."},
-{id:6007,q:"If two consumers have equal MRS, the allocation is...",options:["Inefficient","Efficient in exchange","Unstable","Unfair"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.4 — Pareto efficiency",feedback:"Equal MRS means no mutually beneficial trades remain between the consumers."},
-{id:6008,q:"If MRT ≠ MRS, what does this imply?",options:["Efficiency","Mismatch between production and preferences","Equilibrium","Profit maximization"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"When MRT does not equal MRS, production tradeoffs do not match consumer preferences."},
-{id:6009,q:"A point on the PPF but not tangent to an indifference curve is...",options:["Fully efficient","Technically efficient but not allocatively efficient","Impossible","Optimal"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"The economy may be producing efficiently, but not the mix consumers value most."},
-{id:6010,q:"Efficiency requires prices to reflect...",options:["Average cost","Marginal cost","Total revenue","Fixed cost"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"Efficient prices reflect the marginal cost of producing one more unit."},
-{id:6011,q:"If markets clear but P ≠ MC, the outcome is...",options:["Efficient","Inefficient","Optimal","Stable"],a:1,tag:"efficiency",type:"diagnostic",objective:"LO 11.2 — Competitive markets and efficiency",feedback:"Market clearing alone does not prove efficiency. Efficiency requires price to equal marginal cost."}
-],
-failure:[
-{id:6012,q:"If firms ignore external costs, the market outcome will be...",options:["Too low","Too high","Efficient","Zero"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"Ignoring external costs causes overproduction relative to the efficient level."},
-{id:6013,q:"If a good is non-rival and non-excludable, the likely outcome is...",options:["Overproduction","Underproduction","Efficiency","Zero demand"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"Public goods are usually underprovided because people can free ride."},
-{id:6014,q:"If buyers lack information about quality, this leads to...",options:["Perfect competition","Market failure","Efficiency","Equilibrium"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"Imperfect or asymmetric information can prevent efficient trades from happening."},
-{id:6015,q:"If social benefit exceeds private benefit, output is...",options:["Too high","Too low","Efficient","Optimal"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"When social benefit exceeds private benefit, the market underproduces the good."},
-{id:6016,q:"Deadweight loss indicates...",options:["All gains realized","Lost mutually beneficial trades","Profit maximization","Cost reduction"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"Deadweight loss means potential gains from trade are being left on the table."},
-{id:6017,q:"Market failure implies...",options:["Optimal allocation","Misallocation of resources","Zero profit","Perfect competition"],a:1,tag:"failure",type:"diagnostic",objective:"LO 11.3 — Market failure",feedback:"Market failure means resources are not being allocated efficiently."}
-],
-power:[
-{id:6018,q:"A monopolist produces where MR = MC. If MC rises, output will...",options:["Increase","Decrease","Stay constant","Double"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.2 — Monopoly price and output",feedback:"A higher marginal cost shifts the profit-maximizing output lower."},
-{id:6019,q:"If demand becomes more elastic, a monopolist will likely...",options:["Raise price","Lower price","Keep price constant","Exit"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.2 — Monopoly price and output",feedback:"More elastic demand gives the monopolist less room to mark up price."},
-{id:6020,q:"If MR < MC, the monopolist should...",options:["Increase output","Decrease output","Raise price","Exit"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.2 — Monopoly price and output",feedback:"If marginal cost exceeds marginal revenue, the firm is producing too much and should decrease output."},
-{id:6021,q:"Monopoly inefficiency arises because...",options:["P = MC","P > MC","MC > ATC","Demand is flat"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.3 — Problems with monopoly",feedback:"Monopoly creates inefficiency because price exceeds marginal cost, causing underproduction."},
-{id:6022,q:"If a monopolist can separate markets, it will charge higher prices to...",options:["More elastic groups","Less elastic groups","All groups equally","Low-income consumers"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.4 — Monopoly pricing strategies",feedback:"Price discrimination charges higher prices to consumers with less elastic demand."},
-{id:6023,q:"Two-part pricing allows a monopolist to...",options:["Reduce output","Capture consumer surplus","Lower costs","Increase competition"],a:1,tag:"power",type:"diagnostic",objective:"LO 12.4 — Monopoly pricing strategies",feedback:"A two-part tariff lets the firm use a fixed fee to capture consumer surplus."}
-],
-strategy:[
-{id:6024,q:"If a Cournot firm increases output, rivals will typically...",options:["Increase output","Decrease output","Exit","Do nothing"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"In Cournot competition, quantities are usually strategic substitutes, so a rival often reduces output when one firm expands."},
-{id:6025,q:"If a Bertrand firm lowers price below rivals, it will...",options:["Lose market share","Capture entire market","Exit","Break even"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"With identical goods, the lower-price firm can capture the market."},
-{id:6026,q:"If firms repeatedly interact, collusion becomes...",options:["Impossible","More sustainable","Less profitable","Irrelevant"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"Repeated interaction can make punishment strategies possible, which helps sustain collusion."},
-{id:6027,q:"If firms are impatient, collusion is...",options:["Easier","Harder","Guaranteed","Irrelevant"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"Impatient firms care less about future punishment, so collusion is harder to sustain."},
-{id:6028,q:"If products become more differentiated, firms will...",options:["Lower prices","Raise prices","Exit market","Collude"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.2 — Capacity constraints and product differentiation",feedback:"More differentiation softens direct competition and gives firms more pricing power."},
-{id:6029,q:"A Nash equilibrium requires...",options:["Cooperation","Best responses","Equal prices","Maximum output"],a:1,tag:"strategy",type:"diagnostic",objective:"LO 13.1 — Cournot and Bertrand behavior",feedback:"A Nash equilibrium occurs when each firm is choosing its best response to the other."}
-],
-equity:[
-{id:6030,q:"If an allocation is efficient but unequal, improving equity will likely...",options:["Increase efficiency","Reduce efficiency","Have no effect","Eliminate trade"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"Improving equity can require redistribution that reduces total surplus."},
-{id:6031,q:"Redistributing income changes...",options:["Preferences","Initial endowments","Technology","Costs"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"Redistribution changes the initial allocation of resources before trade occurs."},
-{id:6032,q:"If a policy increases fairness but reduces total surplus, this reflects...",options:["Efficiency gain","Equity-efficiency tradeoff","Market failure","Competition"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"That is the classic equity-efficiency tradeoff."},
-{id:6033,q:"Markets alone tend to produce outcomes that are...",options:["Fair","Efficient","Equal","Regulated"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"Competitive markets tend toward efficiency, but they do not guarantee fairness."},
-{id:6034,q:"If government redistributes resources before trade, the result can be...",options:["Only inefficient","Efficient and more equitable","Less trade","Zero output"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"Changing initial endowments before trade can support a more equitable efficient outcome."},
-{id:6035,q:"Equity focuses on...",options:["Output","Fairness","Cost","Profit"],a:1,tag:"equity",type:"diagnostic",objective:"LO 11.5 — Efficiency and equity",feedback:"Equity concerns fairness in the distribution of resources or outcomes."}
-]
+// Engine upgrade compatibility: National Engine does not need Market Gate's question text,
+// but the upgraded mode system expects legendary pools to exist.
+if(!questionBanks.legendary){
+    questionBanks.legendary = questionBanks.hard || questionBanks.medium || questionBanks.easy || [];
+}
+if(!questionBanks.legendaryBoss){
+    questionBanks.legendaryBoss = questionBanks.finalBoss || questionBanks.mediumBoss || questionBanks.easyBoss || [];
+}
+
+
+const objectiveLabels = {
+    "LO1.1": "Trade-offs, scarcity, efficiency, and equality",
+    "LO1.1_tradeoffs_analysis": "Trade-offs, scarcity, efficiency, and equality",
+    "LO1.2": "Opportunity cost and the value of the next best alternative",
+    "LO1.2_opportunity_cost": "Opportunity cost and the value of the next best alternative",
+    "LO1.2_calculate_opportunity_cost": "Calculating opportunity cost",
+    "LO1.3": "Marginal reasoning and decisions at the margin",
+    "LO1.3_marginal_decision": "Marginal benefit, marginal cost, and decisions at the margin",
+    "LO1.3_calculate_margin": "Calculating decisions at the margin",
+    "LO1.3_marginal_reasoning": "Marginal reasoning and incremental decision-making",
+    "LO1.4": "Incentives and behavioral responses",
+    "LO1.4_incentives_behavior": "Incentives and behavioral responses",
+    "LO1.5": "Trade, specialization, and mutual gains",
+    "LO1.5_gains_from_trade": "Trade, specialization, and mutual gains",
+    "LO1.5_trade_good_for_everyone": "Why trade can make people better off",
+    "LO1.6": "Markets, resource allocation, and market failure",
+    "LO1.6_markets_allocate_resources": "Markets and resource allocation",
+    "LO1.6_markets_not_perfect": "Market failure and limits of markets",
+    "LO1.6_markets_good_not_perfect": "Markets as useful but imperfect allocation systems",
+
+    "LO2.1": "Economic models, assumptions, and scientific reasoning",
+    "LO2.1_models_scientific_method": "Economic models, assumptions, and scientific reasoning",
+    "LO2.1_economic_models": "Economic models and simplification",
+    "LO2.2": "Circular flow, PPFs, trade-offs, efficiency, and growth",
+    "LO2.2_ppf_tradeoffs": "PPFs, trade-offs, and opportunity cost",
+    "LO2.2_ppf_efficiency": "Efficient, inefficient, attainable, and unattainable PPF points",
+    "LO2.2_ppf_opportunity_cost": "Opportunity cost on the PPF",
+    "LO2.2_ppf_choices_tradeoffs": "PPFs, choices, and trade-offs",
+    "LO2.2_circular_flow_model": "Circular-flow model and household-firm interactions",
+    "LO2.2_circular_flow": "Circular-flow model",
+    "LO2.3": "Microeconomics versus macroeconomics",
+    "LO2.3_microeconomics": "Microeconomics and individual market decisions",
+    "LO2.3_macroeconomics": "Macroeconomics and economy-wide issues",
+    "LO2.3_micro_vs_macro": "Microeconomics versus macroeconomics",
+    "LO2.4": "Positive versus normative statements",
+    "LO2.4_normative_statement": "Normative statements and value judgments",
+    "LO2.4_positive_statement": "Positive statements and testable claims",
+    "LO2.4_positive_vs_normative": "Positive versus normative statements",
+    "LO2.5": "Economists as scientists and policy advisers",
+    "LO2.5_economists_policy_role": "Economists as policy advisers",
+    "LO2.5_policy_roles": "Economists' roles in policy",
+
+    "LO4.1": "Competitive markets and price-taking behavior",
+    "LO4.1_competitive_market": "Competitive markets and price-taking behavior",
+    "LO4.1_define_competitive_market": "Defining competitive markets",
+    "LO4.2": "Demand, quantity demanded, and demand shifters",
+    "LO4.2_law_of_demand": "Law of demand and quantity demanded",
+    "LO4.2_quantity_demanded": "Movement along demand and quantity demanded",
+    "LO4.2_demand_shifts": "Demand shifters and changes in demand",
+    "LO4.2_demand": "Demand and quantity demanded",
+    "LO4.3": "Supply, quantity supplied, and supply shifters",
+    "LO4.3_law_of_supply": "Law of supply and quantity supplied",
+    "LO4.3_quantity_supplied": "Movement along supply and quantity supplied",
+    "LO4.3_supply_shifts": "Supply shifters and changes in supply",
+    "LO4.3_supply": "Supply and quantity supplied",
+    "LO4.4": "Market equilibrium, shortages, surpluses, and market changes",
+    "LO4.4_equilibrium": "Market equilibrium",
+    "LO4.4_shortage": "Shortages and upward price pressure",
+    "LO4.4_surplus": "Surpluses and downward price pressure",
+    "LO4.4_analyze_market_changes": "Analyzing market changes with supply and demand",
+    "LO4.4_supply_demand_together": "Supply and demand together",
+    "LO4.5": "Prices as signals for allocating scarce resources",
+    "LO4.5_prices_allocate_resources": "Prices as signals for allocating scarce resources",
+    "LO4.5_role_of_prices": "Role of prices in market economies",
+
+    "LO6.1": "Price ceilings, binding ceilings, and shortages",
+    "LO6.1_binding_price_ceiling": "Binding price ceilings",
+    "LO6.1_calculate_ceiling_effects": "Calculating shortages from price ceilings",
+    "LO6.1_price_ceiling": "Price ceilings",
+    "LO6.1_price_ceiling_effects": "Effects of price ceilings",
+    "LO6.2": "Price floors, binding floors, and surpluses",
+    "LO6.2_binding_price_floor": "Binding price floors",
+    "LO6.2_calculate_floor_effects": "Calculating surpluses from price floors",
+    "LO6.2_price_floor": "Price floors",
+    "LO6.2_price_floor_effects": "Effects of price floors",
+    "LO6.3": "Taxes, tax wedges, and quantity effects",
+    "LO6.3_tax_wedge": "Tax wedges between buyers and sellers",
+    "LO6.3_tax_quantity_effect": "Taxes and reduced quantity traded",
+    "LO6.3_tax_effects": "Effects of taxes on price and quantity",
+    "LO6.4": "Equivalence of taxes on buyers and sellers",
+    "LO6.4_tax_equivalence": "Equivalence of buyer and seller taxes",
+    "LO6.5": "Tax incidence and how burden is divided",
+    "LO6.5_tax_incidence": "Tax incidence and burden sharing",
+    "LO6.5_tax_burden_elasticity": "Tax burden and elasticity"
 };
 
+const microSkillRepairPools = {
+  movement_vs_demand_shift: [
+    { id: 5000, q: "When only the price of a good changes, what happens on the demand curve?", options: ["There is movement along the demand curve", "The demand curve shifts right", "The demand curve shifts left", "Supply shifts right"], a: 0, tag: "demand", type: "definition", objective: "LO4.2", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "movement_vs_demand_shift", repairSkill: "movement_vs_demand_shift", commonError: "treats_own_price_change_as_demand_shift", feedback: "A good's own price changes quantity demanded, not demand." },
+    { id: 5001, q: "The price of coffee falls. What is the most precise result?", options: ["Quantity demanded of coffee increases", "Demand for coffee increases", "Supply of coffee decreases", "Demand for coffee decreases"], a: 0, tag: "demand", type: "interpretation", objective: "LO4.2", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "movement_vs_demand_shift", repairSkill: "movement_vs_demand_shift", commonError: "calls_quantity_demanded_change_demand_change", feedback: "Because coffee's own price changed, buyers move along the demand curve." }
+  ],
+
+  movement_vs_supply_shift: [
+    { id: 5002, q: "When only the price of a good changes, what happens on the supply curve?", options: ["There is movement along the supply curve", "The supply curve shifts right", "The supply curve shifts left", "Demand shifts right"], a: 0, tag: "supply", type: "definition", objective: "LO4.3", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "movement_vs_supply_shift", repairSkill: "movement_vs_supply_shift", commonError: "treats_own_price_change_as_supply_shift", feedback: "A good's own price changes quantity supplied, not supply." },
+    { id: 5003, q: "The price of handmade tables rises. What is the most precise result?", options: ["Quantity supplied increases", "Supply increases", "Demand increases", "Supply decreases"], a: 0, tag: "supply", type: "interpretation", objective: "LO4.3", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "movement_vs_supply_shift", repairSkill: "movement_vs_supply_shift", commonError: "calls_quantity_supplied_change_supply_change", feedback: "Because the good's own price changed, sellers move along the supply curve." }
+  ],
+
+  demand_shifters: [
+    { id: 5004, q: "Which event shifts demand?", options: ["Consumer income changes", "The good's own price changes", "Quantity supplied changes", "The market moves along demand"], a: 0, tag: "demand", type: "definition", objective: "LO4.2", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "demand_shifters", repairSkill: "demand_shifters", commonError: "thinks_own_price_shifts_demand", feedback: "Income is a demand shifter. The good's own price causes movement along demand." },
+    { id: 5005, q: "If consumer income rises and tablets are a normal good, what happens?", options: ["Demand for tablets increases", "Quantity demanded falls", "Supply of tablets increases", "Demand for tablets decreases"], a: 0, tag: "demand", type: "interpretation", objective: "LO4.2", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "demand_shifters", repairSkill: "demand_shifters", commonError: "misses_income_as_demand_shifter", feedback: "For a normal good, higher income increases demand." }
+  ],
+
+  supply_shifters: [
+    { id: 5006, q: "Which event shifts supply?", options: ["Input costs change", "The good's own price changes", "Quantity demanded changes", "Consumers' income changes"], a: 0, tag: "supply", type: "definition", objective: "LO4.3", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "supply_shifters", repairSkill: "supply_shifters", commonError: "thinks_own_price_shifts_supply", feedback: "Input costs shift supply. The good's own price causes movement along supply." },
+    { id: 5007, q: "If the cost of steel rises for car producers, what happens to car supply?", options: ["Supply decreases", "Supply increases", "Demand decreases", "Quantity supplied increases"], a: 0, tag: "supply", type: "interpretation", objective: "LO4.3", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "supply_shifters", repairSkill: "supply_shifters", commonError: "gets_input_cost_effect_backwards", feedback: "Higher input costs make production more expensive, so supply decreases." }
+  ],
+
+  equilibrium_prediction: [
+    { id: 5008, q: "If demand increases and supply does not change, what happens to equilibrium price and quantity?", options: ["Both rise", "Both fall", "Price rises and quantity falls", "Price falls and quantity rises"], a: 0, tag: "equilibrium", type: "interpretation", objective: "LO4.4", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "equilibrium_prediction", repairSkill: "equilibrium_prediction", commonError: "gets_demand_increase_effect_backwards", feedback: "An increase in demand raises both equilibrium price and quantity." },
+    { id: 5009, q: "If supply increases and demand does not change, what happens to equilibrium price and quantity?", options: ["Price falls and quantity rises", "Price rises and quantity falls", "Both rise", "Both fall"], a: 0, tag: "equilibrium", type: "interpretation", objective: "LO4.4", difficulty: "repair", conceptCluster: "supply_demand", primarySkill: "equilibrium_prediction", repairSkill: "equilibrium_prediction", commonError: "gets_supply_increase_effect_backwards", feedback: "An increase in supply lowers equilibrium price and raises equilibrium quantity." }
+  ],
+
+  ppf_opportunity_cost: [
+    { id: 5010, q: "On a PPF, opportunity cost is measured by:", options: ["What must be given up to gain more of the other good", "The money price of the good only", "The legal maximum price", "The tax paid by buyers"], a: 0, tag: "ppf", type: "definition", objective: "LO2.2", difficulty: "repair", conceptCluster: "economic_models", primarySkill: "ppf_opportunity_cost", repairSkill: "ppf_opportunity_cost", commonError: "confuses_ppf_cost_with_money_price", feedback: "Opportunity cost on a PPF is what must be given up to get more of another good." },
+    { id: 5011, q: "Moving along a PPF gives up 12 units of Good Y to gain 4 units of Good X. What is the opportunity cost per Good X?", options: ["3 units of Good Y", "4 units of Good Y", "12 units of Good Y", "48 units of Good Y"], a: 0, tag: "ppf", type: "calculation", objective: "LO2.2", difficulty: "repair", conceptCluster: "economic_models", primarySkill: "ppf_opportunity_cost", repairSkill: "ppf_opportunity_cost", commonError: "divides_gain_by_loss_instead_of_loss_by_gain", feedback: "Opportunity cost per Good X is 12 / 4 = 3 units of Good Y." }
+  ],
+
+  positive_vs_normative: [
+    { id: 5012, q: "A positive statement is best described as:", options: ["A testable claim about how the world is", "A claim about how the world should be", "A statement that is always good", "A policy recommendation"], a: 0, tag: "positive_normative", type: "definition", objective: "LO2.4", difficulty: "repair", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", repairSkill: "positive_vs_normative", commonError: "confuses_positive_with_good", feedback: "Positive statements describe or predict how the world is." },
+    { id: 5013, q: "A statement using 'should' is usually:", options: ["Normative", "Positive", "A demand shifter", "A supply schedule"], a: 0, tag: "positive_normative", type: "definition", objective: "LO2.4", difficulty: "repair", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", repairSkill: "positive_vs_normative", commonError: "misses_should_language", feedback: "Normative statements make value judgments about what should happen." }
+  ],
+
+  binding_price_ceiling: [
+    { id: 5014, q: "A price ceiling is binding when it is set:", options: ["Below equilibrium price", "Above equilibrium price", "Exactly at zero", "Above quantity supplied"], a: 0, tag: "price_ceiling", type: "definition", objective: "LO6.1", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "binding_price_ceiling", repairSkill: "binding_price_ceiling", commonError: "gets_binding_ceiling_direction_backwards", feedback: "A price ceiling binds only when it is below equilibrium price." },
+    { id: 5015, q: "A binding price ceiling usually creates:", options: ["A shortage", "A surplus", "A tax wedge", "An outward PPF shift"], a: 0, tag: "price_ceiling", type: "definition", objective: "LO6.1", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "binding_price_ceiling", repairSkill: "binding_price_ceiling", commonError: "confuses_ceiling_shortage_with_floor_surplus", feedback: "A binding ceiling keeps price too low, so quantity demanded exceeds quantity supplied." }
+  ],
+
+  ceiling_shortage_calculation: [
+    { id: 5016, q: "At a binding price ceiling, Qd = 90 and Qs = 60. What is the shortage?", options: ["30 units", "60 units", "90 units", "150 units"], a: 0, tag: "price_ceiling", type: "calculation", objective: "LO6.1", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "ceiling_shortage_calculation", repairSkill: "ceiling_shortage_calculation", commonError: "adds_qd_and_qs_instead_of_subtracting", feedback: "Shortage equals Qd - Qs: 90 - 60 = 30." },
+    { id: 5017, q: "At a binding ceiling, buyers want 120 units and sellers offer 75 units. What happens?", options: ["A shortage of 45 units", "A surplus of 45 units", "A shortage of 195 units", "No shortage"], a: 0, tag: "price_ceiling", type: "calculation", objective: "LO6.1", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "ceiling_shortage_calculation", repairSkill: "ceiling_shortage_calculation", commonError: "reverses_shortage_formula", feedback: "The shortage is quantity demanded minus quantity supplied: 120 - 75 = 45." }
+  ],
+
+  binding_price_floor: [
+    { id: 5018, q: "A price floor is binding when it is set:", options: ["Above equilibrium price", "Below equilibrium price", "Exactly at zero", "Below quantity demanded"], a: 0, tag: "price_floor", type: "definition", objective: "LO6.2", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "binding_price_floor", repairSkill: "binding_price_floor", commonError: "gets_binding_floor_direction_backwards", feedback: "A price floor binds only when it is above equilibrium price." },
+    { id: 5019, q: "A binding price floor usually creates:", options: ["A surplus", "A shortage", "A tax wedge", "A demand increase"], a: 0, tag: "price_floor", type: "definition", objective: "LO6.2", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "binding_price_floor", repairSkill: "binding_price_floor", commonError: "confuses_floor_surplus_with_ceiling_shortage", feedback: "A binding floor keeps price too high, so quantity supplied exceeds quantity demanded." }
+  ],
+
+  floor_surplus_calculation: [
+    { id: 5020, q: "At a binding price floor, Qs = 110 and Qd = 80. What is the surplus?", options: ["30 units", "80 units", "110 units", "190 units"], a: 0, tag: "price_floor", type: "calculation", objective: "LO6.2", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "floor_surplus_calculation", repairSkill: "floor_surplus_calculation", commonError: "adds_qs_and_qd_instead_of_subtracting", feedback: "Surplus equals Qs - Qd: 110 - 80 = 30." },
+    { id: 5021, q: "At a binding floor, sellers offer 140 units and buyers want 95 units. What happens?", options: ["A surplus of 45 units", "A shortage of 45 units", "A surplus of 235 units", "No surplus"], a: 0, tag: "price_floor", type: "calculation", objective: "LO6.2", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "floor_surplus_calculation", repairSkill: "floor_surplus_calculation", commonError: "reverses_surplus_formula", feedback: "The surplus is quantity supplied minus quantity demanded: 140 - 95 = 45." }
+  ],
+
+  tax_wedge_incidence: [
+    { id: 5022, q: "A tax wedge is the difference between:", options: ["The price buyers pay and the price sellers receive", "Quantity demanded and quantity supplied", "Two points on a PPF", "A price ceiling and a price floor"], a: 0, tag: "taxes", type: "definition", objective: "LO6.3", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "tax_wedge_incidence", repairSkill: "tax_wedge_incidence", commonError: "misses_buyer_price_seller_price_gap", feedback: "A tax wedge separates what buyers pay from what sellers receive." },
+    { id: 5023, q: "Buyers pay $18 after a tax and sellers receive $12. What is the tax per unit?", options: ["$6", "$12", "$18", "$30"], a: 0, tag: "taxes", type: "calculation", objective: "LO6.3", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "tax_wedge_incidence", repairSkill: "tax_wedge_incidence", commonError: "adds_buyer_and_seller_prices", feedback: "The tax wedge is $18 - $12 = $6." }
+  ],
+
+  tax_incidence_less_elastic_side: [
+    { id: 5024, q: "The less elastic side of the market usually bears:", options: ["More of the tax burden", "Less of the tax burden", "None of the tax burden", "Only the legal paperwork"], a: 0, tag: "tax_incidence", type: "definition", objective: "LO6.5", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "tax_incidence_less_elastic_side", repairSkill: "tax_incidence_less_elastic_side", commonError: "thinks_more_elastic_side_bears_more_tax", feedback: "The less elastic side adjusts less, so it bears more of the tax burden." },
+    { id: 5025, q: "If demand is less elastic than supply, who bears more of a tax?", options: ["Buyers", "Sellers", "Neither side", "Only the government"], a: 0, tag: "tax_incidence", type: "interpretation", objective: "LO6.5", difficulty: "repair", conceptCluster: "government_policy", primarySkill: "tax_incidence_less_elastic_side", repairSkill: "tax_incidence_less_elastic_side", commonError: "gets_less_elastic_side_backwards", feedback: "If demand is less elastic, buyers bear more of the tax burden." }
+  ]
+};
+    
+const microSkillBridgePools = {
+  movement_vs_demand_shift: [
+    { id: 6000, q: "The price of streaming subscriptions rises, and fewer subscriptions are purchased. What is the most precise explanation?", options: ["Quantity demanded decreased because the good's own price changed", "Demand decreased because the curve shifted left", "Supply increased because sellers charged more", "Demand increased because price rose"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "movement_vs_demand_shift", repairSkill: "movement_vs_demand_shift", commonError: "treats_own_price_change_as_demand_shift", feedback: "The good's own price changed, so this is a movement along demand and a change in quantity demanded." },
+    { id: 6001, q: "The price of coffee falls from $5 to $4, and consumers buy more coffee. Which statement avoids the common mistake?", options: ["Quantity demanded increased, but demand did not necessarily change", "Demand increased because buyers bought more", "Supply decreased because price fell", "Demand shifted right because the price changed"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "movement_vs_demand_shift", repairSkill: "movement_vs_demand_shift", commonError: "calls_quantity_demanded_change_demand_change", feedback: "A price change causes movement along the demand curve. Demand shifts only when a non-price determinant changes." }
+  ],
+
+  movement_vs_supply_shift: [
+    { id: 6002, q: "The price of handmade tables rises, and sellers bring more tables to market. What is the most precise explanation?", options: ["Quantity supplied increased because the good's own price changed", "Supply increased because the curve shifted right", "Demand increased because price rose", "Supply decreased because sellers produced more"], a: 0, tag: "supply", type: "diagnostic", objective: "LO4.3", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "movement_vs_supply_shift", repairSkill: "movement_vs_supply_shift", commonError: "treats_own_price_change_as_supply_shift", feedback: "The good's own price changed, so sellers moved along the supply curve." },
+    { id: 6003, q: "The price of concert tickets falls, and venues offer fewer tickets for resale. Which statement is most precise?", options: ["Quantity supplied decreased, but supply did not necessarily shift", "Supply decreased because price changed", "Demand increased because price fell", "Supply shifted right because sellers offered fewer tickets"], a: 0, tag: "supply", type: "diagnostic", objective: "LO4.3", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "movement_vs_supply_shift", repairSkill: "movement_vs_supply_shift", commonError: "calls_quantity_supplied_change_supply_change", feedback: "A change in the good's own price changes quantity supplied, not supply." }
+  ],
+
+  demand_shifters: [
+    { id: 6004, q: "Consumers expect the price of laptops to rise next month, so they buy more laptops today. What happens today?", options: ["Current demand increases", "Current quantity demanded falls", "Supply decreases", "Demand stays fixed because only current price matters"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "demand_shifters", repairSkill: "demand_shifters", commonError: "misses_expectations_as_demand_shifter", feedback: "Expectations about future prices can shift current demand." },
+    { id: 6005, q: "A recession lowers consumer income. If restaurant meals are a normal good, what happens to demand for restaurant meals?", options: ["Demand decreases", "Demand increases", "Quantity demanded increases because price changed", "Supply increases"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "demand_shifters", repairSkill: "demand_shifters", commonError: "gets_normal_good_income_effect_backwards", feedback: "For a normal good, lower income decreases demand." }
+  ],
+
+  related_goods_demand: [
+    { id: 6006, q: "The price of peanut butter rises. If jelly is a complement, what happens to demand for jelly?", options: ["Demand for jelly decreases", "Demand for jelly increases", "Supply of jelly decreases", "Quantity supplied of jelly increases"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "related_goods_demand", repairSkill: "related_goods_demand", commonError: "gets_complement_effect_backwards", feedback: "Complements are used together. If peanut butter becomes more expensive, demand for jelly falls." },
+    { id: 6007, q: "The price of bus rides rises. If subway rides are substitutes, what happens to demand for subway rides?", options: ["Demand for subway rides increases", "Demand for subway rides decreases", "Supply of subway rides increases", "Quantity demanded of bus rides increases"], a: 0, tag: "demand", type: "diagnostic", objective: "LO4.2", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "related_goods_demand", repairSkill: "related_goods_demand", commonError: "gets_substitute_effect_backwards", feedback: "When the price of a substitute rises, demand for the other good increases." }
+  ],
+
+  supply_shifters: [
+    { id: 6008, q: "A new machine lowers the cost of producing shoes. What happens in the shoe market?", options: ["Supply increases", "Supply decreases", "Demand increases", "Quantity demanded decreases"], a: 0, tag: "supply", type: "diagnostic", objective: "LO4.3", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "supply_shifters", repairSkill: "supply_shifters", commonError: "misses_technology_as_supply_shifter", feedback: "Better technology lowers production costs, shifting supply right." },
+    { id: 6009, q: "The cost of steel rises for car producers. What happens to car supply?", options: ["Supply decreases", "Supply increases", "Demand decreases", "Quantity supplied increases"], a: 0, tag: "supply", type: "diagnostic", objective: "LO4.3", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "supply_shifters", repairSkill: "supply_shifters", commonError: "gets_input_cost_effect_backwards", feedback: "Higher input costs make production more expensive, so supply decreases." }
+  ],
+
+  equilibrium_prediction: [
+    { id: 6010, q: "Demand for a product increases while supply stays the same. What happens to equilibrium price and quantity?", options: ["Price rises and quantity rises", "Price falls and quantity falls", "Price rises and quantity falls", "Price falls and quantity rises"], a: 0, tag: "equilibrium", type: "diagnostic", objective: "LO4.4", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "equilibrium_prediction", repairSkill: "equilibrium_prediction", commonError: "gets_demand_increase_effect_backwards", feedback: "An increase in demand raises both equilibrium price and equilibrium quantity." },
+    { id: 6011, q: "Supply for a product decreases while demand stays the same. What happens to equilibrium price and quantity?", options: ["Price rises and quantity falls", "Price falls and quantity rises", "Price rises and quantity rises", "Price falls and quantity falls"], a: 0, tag: "equilibrium", type: "diagnostic", objective: "LO4.4", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "equilibrium_prediction", repairSkill: "equilibrium_prediction", commonError: "gets_supply_decrease_effect_backwards", feedback: "A decrease in supply raises equilibrium price and lowers equilibrium quantity." }
+  ],
+
+  surplus_shortage_identification: [
+    { id: 6012, q: "At a price above equilibrium, quantity supplied is greater than quantity demanded. What exists, and what pressure follows?", options: ["A surplus; price tends to fall", "A shortage; price tends to rise", "A surplus; price tends to rise", "A shortage; price tends to fall"], a: 0, tag: "surplus_shortage", type: "diagnostic", objective: "LO4.4", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "surplus_shortage_identification", repairSkill: "surplus_shortage_identification", commonError: "reverses_surplus_and_shortage_pressure", feedback: "A surplus occurs when quantity supplied exceeds quantity demanded. Sellers compete, pushing price down." },
+    { id: 6013, q: "At a price below equilibrium, quantity demanded is greater than quantity supplied. What exists, and what pressure follows?", options: ["A shortage; price tends to rise", "A surplus; price tends to fall", "A shortage; price tends to fall", "A surplus; price tends to rise"], a: 0, tag: "surplus_shortage", type: "diagnostic", objective: "LO4.4", difficulty: "bridge", conceptCluster: "supply_demand", primarySkill: "surplus_shortage_identification", repairSkill: "surplus_shortage_identification", commonError: "reverses_shortage_and_surplus_pressure", feedback: "A shortage occurs when quantity demanded exceeds quantity supplied. Buyers compete, pushing price up." }
+  ],
+
+  ppf_opportunity_cost: [
+    { id: 6014, q: "Moving along a PPF gives up 18 units of Good Y to gain 6 units of Good X. What is the opportunity cost per unit of Good X?", options: ["3 units of Good Y", "6 units of Good Y", "18 units of Good Y", "108 units of Good Y"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_opportunity_cost", repairSkill: "ppf_opportunity_cost", commonError: "divides_gain_by_loss_instead_of_loss_by_gain", feedback: "Opportunity cost per Good X is what is given up divided by what is gained: 18 / 6 = 3." },
+    { id: 6015, q: "A PPF move gains 5 units of Good X but gives up 20 units of Good Y. What is the opportunity cost per additional Good X?", options: ["4 units of Good Y", "5 units of Good Y", "20 units of Good Y", "0.25 units of Good Y"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_opportunity_cost", repairSkill: "ppf_opportunity_cost", commonError: "uses_gain_in_x_as_cost", feedback: "The economy gives up 20 units of Good Y to gain 5 units of Good X, so 20 / 5 = 4." }
+  ],
+
+  ppf_efficiency_status: [
+    { id: 6016, q: "An economy is producing inside its PPF. What is the best interpretation?", options: ["The point is attainable but inefficient", "The point is unattainable", "The point is efficient", "The point eliminates scarcity"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_efficiency_status", repairSkill: "ppf_efficiency_status", commonError: "confuses_inside_ppf_with_unattainable", feedback: "A point inside the PPF can be produced, but resources are not being used efficiently." },
+    { id: 6017, q: "An economy moves from inside the PPF to a point on the PPF. What changed?", options: ["It used idle resources more efficiently", "It experienced economic growth", "It moved to an unattainable point", "It created a price ceiling"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_efficiency_status", repairSkill: "ppf_efficiency_status", commonError: "confuses_efficiency_gain_with_ppf_growth", feedback: "Moving from inside the PPF to the frontier means better use of existing resources, not necessarily growth." }
+  ],
+
+  ppf_growth: [
+    { id: 6018, q: "An economy gains more capital and better technology. What happens to its PPF?", options: ["It shifts outward", "It shifts inward", "It becomes a demand curve", "It creates a binding price floor"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_growth", repairSkill: "ppf_growth", commonError: "confuses_growth_with_movement_along_ppf", feedback: "More resources or better technology increase productive capacity, shifting the PPF outward." },
+    { id: 6019, q: "A natural disaster destroys factories and equipment. What happens to the PPF?", options: ["It shifts inward", "It shifts outward", "The economy moves along demand", "Opportunity cost disappears"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "ppf_growth", repairSkill: "ppf_growth", commonError: "does_not_connect_resource_loss_to_ppf_shift", feedback: "A loss of productive resources reduces what the economy can produce, shifting the PPF inward." }
+  ],
+
+  increasing_opportunity_cost: [
+    { id: 6020, q: "A bowed-out PPF shows that as more Good X is produced:", options: ["The opportunity cost of Good X rises", "The opportunity cost of Good X falls to zero", "The economy escapes scarcity", "The PPF becomes a price floor"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "increasing_opportunity_cost", repairSkill: "increasing_opportunity_cost", commonError: "misses_bowed_shape_as_increasing_cost", feedback: "A bowed-out PPF shows increasing opportunity cost as resources are shifted toward one good." },
+    { id: 6021, q: "Why does opportunity cost usually rise along a bowed-out PPF?", options: ["Resources are not equally well suited to producing both goods", "Resources are perfectly identical in every use", "Scarcity disappears at high output levels", "Prices are fixed by government"], a: 0, tag: "ppf", type: "diagnostic", objective: "LO2.2", difficulty: "bridge", conceptCluster: "economic_models", primarySkill: "increasing_opportunity_cost", repairSkill: "increasing_opportunity_cost", commonError: "does_not_understand_resource_specialization", feedback: "Opportunity cost rises because resources are specialized and become less well suited as they are shifted into the other good." }
+  ],
+
+  positive_vs_normative: [
+    { id: 6022, q: "Which statement is positive?", options: ["A binding rent ceiling will reduce the quantity of apartments supplied", "The city should make rent cheaper", "Rent control is morally necessary", "Housing should be a right"], a: 0, tag: "positive_normative", type: "diagnostic", objective: "LO2.4", difficulty: "bridge", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", repairSkill: "positive_vs_normative", commonError: "assumes_policy_topic_means_normative", feedback: "A positive statement makes a testable claim about what will happen." },
+    { id: 6023, q: "Which statement is normative?", options: ["The government should accept some efficiency loss to help low-income renters", "A tax creates a wedge between buyer and seller prices", "A price floor above equilibrium creates a surplus", "A demand increase raises equilibrium price"], a: 0, tag: "positive_normative", type: "diagnostic", objective: "LO2.4", difficulty: "bridge", conceptCluster: "economic_thinking", primarySkill: "positive_vs_normative", repairSkill: "positive_vs_normative", commonError: "misses_should_language_and_value_judgment", feedback: "The word should signals a policy judgment, so the statement is normative." }
+  ],
+
+  binding_price_ceiling: [
+    { id: 6024, q: "A rent ceiling is set at $900 when equilibrium rent is $1,300. What happens?", options: ["The ceiling is binding and creates a shortage", "The ceiling is nonbinding and has no effect", "The ceiling creates a surplus", "The ceiling shifts supply right"], a: 0, tag: "price_ceiling", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_ceiling", repairSkill: "binding_price_ceiling", commonError: "gets_binding_ceiling_direction_backwards", feedback: "A ceiling below equilibrium is binding and creates a shortage." },
+    { id: 6025, q: "A price ceiling is set above equilibrium. Why does it usually have no effect?", options: ["The market price can still settle below the legal maximum", "All ceilings create shortages", "Sellers must charge the maximum", "Demand must fall to zero"], a: 0, tag: "price_ceiling", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_ceiling", repairSkill: "binding_price_ceiling", commonError: "thinks_all_price_ceilings_bind", feedback: "A ceiling above equilibrium does not stop the market from reaching equilibrium." }
+  ],
+
+  ceiling_shortage_calculation: [
+    { id: 6026, q: "A binding rent ceiling creates Qd = 1,100 apartments and Qs = 760 apartments. What is the shortage?", options: ["340 apartments", "760 apartments", "1,100 apartments", "1,860 apartments"], a: 0, tag: "price_ceiling", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "ceiling_shortage_calculation", repairSkill: "ceiling_shortage_calculation", commonError: "adds_qd_and_qs_instead_of_subtracting", feedback: "Shortage equals Qd - Qs: 1,100 - 760 = 340." },
+    { id: 6027, q: "At a legal maximum price, buyers want 500 units and sellers provide 375 units. What is the result?", options: ["A shortage of 125 units", "A surplus of 125 units", "A shortage of 875 units", "No shortage because price is legal"], a: 0, tag: "price_ceiling", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "ceiling_shortage_calculation", repairSkill: "ceiling_shortage_calculation", commonError: "reverses_shortage_formula", feedback: "The shortage is quantity demanded minus quantity supplied: 500 - 375 = 125." }
+  ],
+
+  binding_price_floor: [
+    { id: 6028, q: "A minimum wage is set at $15 when equilibrium wage is $11. What happens?", options: ["The floor is binding and creates a labor surplus", "The floor is nonbinding and has no effect", "The floor creates a labor shortage", "The floor shifts labor demand right"], a: 0, tag: "price_floor", type: "diagnostic", objective: "LO6.2", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_floor", repairSkill: "binding_price_floor", commonError: "gets_binding_floor_direction_backwards", feedback: "A floor above equilibrium is binding and creates a surplus." },
+    { id: 6029, q: "A price floor is set below equilibrium. Why does it usually have no effect?", options: ["The market price can still settle above the legal minimum", "All floors create surpluses", "Buyers must pay the lowest possible price", "Supply must fall to zero"], a: 0, tag: "price_floor", type: "diagnostic", objective: "LO6.2", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_floor", repairSkill: "binding_price_floor", commonError: "thinks_all_price_floors_bind", feedback: "A floor below equilibrium does not stop the market from reaching equilibrium." }
+  ],
+
+  floor_surplus_calculation: [
+    { id: 6030, q: "A binding price floor creates Qs = 980 units and Qd = 640 units. What is the surplus?", options: ["340 units", "640 units", "980 units", "1,620 units"], a: 0, tag: "price_floor", type: "diagnostic", objective: "LO6.2", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "floor_surplus_calculation", repairSkill: "floor_surplus_calculation", commonError: "adds_qs_and_qd_instead_of_subtracting", feedback: "Surplus equals Qs - Qd: 980 - 640 = 340." },
+    { id: 6031, q: "At a legal minimum price, sellers offer 700 units and buyers want 455 units. What is the result?", options: ["A surplus of 245 units", "A shortage of 245 units", "A surplus of 1,155 units", "No surplus because price is legal"], a: 0, tag: "price_floor", type: "diagnostic", objective: "LO6.2", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "floor_surplus_calculation", repairSkill: "floor_surplus_calculation", commonError: "reverses_surplus_formula", feedback: "The surplus is quantity supplied minus quantity demanded: 700 - 455 = 245." }
+  ],
+
+  binding_price_controls: [
+    { id: 6032, q: "A legal maximum below equilibrium and a legal minimum above equilibrium have what in common?", options: ["Both are binding price controls", "Both create market equilibrium", "Both create tax wedges", "Both increase quantity traded"], a: 0, tag: "price_controls", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_controls", repairSkill: "binding_price_controls", commonError: "cannot_distinguish_binding_from_nonbinding_controls", feedback: "A ceiling below equilibrium and a floor above equilibrium both bind because they prevent the market from reaching equilibrium." },
+    { id: 6033, q: "Which policy-price pairing is nonbinding?", options: ["A price ceiling above equilibrium", "A price ceiling below equilibrium", "A price floor above equilibrium", "A rent ceiling below market rent"], a: 0, tag: "price_controls", type: "diagnostic", objective: "LO6.1", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "binding_price_controls", repairSkill: "binding_price_controls", commonError: "thinks_all_controls_bind", feedback: "A price ceiling above equilibrium is nonbinding because the market price can settle below it." }
+  ],
+
+  tax_wedge_incidence: [
+    { id: 6034, q: "Before a tax, buyers pay $20 and sellers receive $20. After the tax, buyers pay $24 and sellers receive $18. What is the tax per unit?", options: ["$6", "$4", "$2", "$42"], a: 0, tag: "taxes", type: "diagnostic", objective: "LO6.3", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_wedge_incidence", repairSkill: "tax_wedge_incidence", commonError: "uses_only_buyer_price_change_instead_of_full_wedge", feedback: "The tax wedge is buyer price minus seller price: $24 - $18 = $6." },
+    { id: 6035, q: "A tax raises the price buyers pay and lowers the price sellers receive. What else usually happens?", options: ["Quantity traded falls", "Quantity traded rises", "Scarcity disappears", "The PPF shifts outward"], a: 0, tag: "taxes", type: "diagnostic", objective: "LO6.3", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_wedge_incidence", repairSkill: "tax_wedge_incidence", commonError: "misses_tax_reduces_trades", feedback: "A tax creates a wedge and reduces the quantity traded." }
+  ],
+
+  tax_equivalence: [
+    { id: 6036, q: "A $4 tax on buyers and a $4 tax on sellers create the same wedge in the same market. What should happen to the market outcome?", options: ["The outcome should be equivalent", "The buyer tax must hurt only buyers", "The seller tax must hurt only sellers", "Only the seller tax reduces quantity"], a: 0, tag: "taxes", type: "diagnostic", objective: "LO6.4", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_equivalence", repairSkill: "tax_equivalence", commonError: "thinks_legal_tax_assignment_controls_outcome", feedback: "Equivalent taxes on buyers or sellers create the same wedge and market outcome." },
+    { id: 6037, q: "A student says, 'If sellers legally pay the tax, buyers avoid the burden.' What is wrong?", options: ["Tax burden depends on market responses, not just legal assignment", "The statement is always correct", "Sellers cannot change prices", "Taxes do not affect buyers"], a: 0, tag: "tax_incidence", type: "diagnostic", objective: "LO6.4", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_equivalence", repairSkill: "tax_equivalence", commonError: "thinks_legal_assignment_determines_full_burden", feedback: "Legal assignment does not determine who bears the economic burden." }
+  ],
+
+  tax_incidence_less_elastic_side: [
+    { id: 6038, q: "A tax causes buyers to pay $5 more and sellers to receive $2 less. Which side likely has less elastic behavior?", options: ["Buyers", "Sellers", "Neither side", "The government"], a: 0, tag: "tax_incidence", type: "diagnostic", objective: "LO6.5", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_incidence_less_elastic_side", repairSkill: "tax_incidence_less_elastic_side", commonError: "thinks_more_elastic_side_bears_more_tax", feedback: "The side bearing more of the tax is usually less elastic. Buyers bear $5, so demand is likely less elastic." },
+    { id: 6039, q: "Supply is less elastic than demand. Who is expected to bear more of a tax?", options: ["Sellers", "Buyers", "Both sides bear zero", "Only the legal taxpayer"], a: 0, tag: "tax_incidence", type: "diagnostic", objective: "LO6.5", difficulty: "bridge", conceptCluster: "government_policy", primarySkill: "tax_incidence_less_elastic_side", repairSkill: "tax_incidence_less_elastic_side", commonError: "gets_less_elastic_side_backwards", feedback: "The less elastic side bears more of the tax. If supply is less elastic, sellers bear more." }
+  ]
+};
+	  
 // =============================================
 // ANSWER SHUFFLING — DO NOT MODIFY CORE LOGIC
 // =============================================
@@ -3885,7 +4867,13 @@ function shuffleOptions(question){
         tag: question.tag,
         type: question.type,
         objective: question.objective,
-        image: question.image
+        image: question.image,
+		difficulty: question.difficulty,
+        conceptCluster: question.conceptCluster,
+        primarySkill: question.primarySkill,
+        secondarySkills: question.secondarySkills || [],
+        repairSkill: question.repairSkill,
+        commonError: question.commonError
     };
 
     let correct = q.options[q.a];
@@ -3911,6 +4899,19 @@ function shuffleOptions(question){
 //
 // Keep structure consistent (q, options, a, feedback)
        
+
+    
+// =============================================
+// QUESTION SELECTION ENGINE — DO NOT MODIFY
+// =============================================
+// Handles:
+// - non-repetition
+// - difficulty filtering
+// - type balancing
+//
+// Breaking this = repeated questions or bad difficulty scaling
+     
+// 3. Remove the special calculated rooms block from randomQuestion()
 function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 function getMonopolyCalc(){
@@ -3950,6 +4951,11 @@ What price will the firm charge?`,
         feedback:"Set MR = MC to find the profit-maximizing quantity, then plug that quantity into demand to find price. Do not stop at quantity."
     };
 }
+
+function profitAt(q){
+        let p = a - b * q;
+        return (p - mc) * q;
+    }
 
 function getEfficiencyTrap(){
     let p = rand(12,30);
@@ -4077,30 +5083,25 @@ Which group will be charged the higher price?`,
         feedback:"The monopolist charges the higher price to the group with lower elasticity because that group is less sensitive to price changes."
     };
 }
-    
-const calculationGenerators = [
-    getMonopolyCalc,
-    getEfficiencyTrap,
-    getBertrandTrap,
-    getSpilloverChain,
-    getCournotTrap,
-    getPriceDisc
-];
-    
-// =============================================
-// QUESTION SELECTION ENGINE — DO NOT MODIFY
-// =============================================
-// Handles:
-// - non-repetition
-// - difficulty filtering
-// - type balancing
-//
-// Breaking this = repeated questions or bad difficulty scaling
-     
+
+function pickConceptQuestion(pool){
+    if(!pool._remaining || pool._remaining.length === 0){
+        pool._remaining = shuffle([...pool]);
+    }
+    return pool._remaining.pop();
+}
+
+function pickCalcGenerator(){
+    if(calcBag.length === 0){
+        calcBag = shuffle([...calculationGenerators]);
+    }
+    return calcBag.pop();
+}
+
 function randomQuestion(poolName) {
     // --- SPECIAL CALCULATED ROOMS (26-29) ---
     // These ensure the student practices specific math skills before the boss
-if (room >= 26 && room <= 29){
+if (gameMode === "standard" && poolName === "calculation" && room >= 26 && room <= 29){
     let generators = [
         getMonopolyCalc,
         getEfficiencyTrap,
@@ -4126,6 +5127,7 @@ if (room >= 26 && room <= 29){
         ...usedQuestions.easyBoss,
         ...usedQuestions.mediumBoss,
         ...usedQuestions.finalBoss,
+        ...usedQuestions.legendaryBoss,
     ];
 
     let available = pool.filter(q => !used.includes(q.id));
@@ -4159,13 +5161,6 @@ lastTypes.shift()
 
     return question;
 }
-
-function pickConceptQuestion(pool){
-    if(!pool._remaining || pool._remaining.length === 0){
-        pool._remaining = shuffle([...pool]);
-    }
-    return pool._remaining.pop();
-}
     
 // =============================================
 // MAZE TRACK VISUAL SYSTEM — SAFE TO EDIT (WITH RULES)
@@ -4173,7 +5168,7 @@ function pickConceptQuestion(pool){
 // This function renders the 30-room progression map.
 //
 // What you CAN change:
-// - Icons (🟩 🟦 ⬛ 🎲 🛡️ 👑)
+// - Icons (🟨 🟦 ⬛ 🎲 🛡️ 👑)
 // - Colors / styles (opacity, glow, etc.)
 // - Visual themes (make it sci-fi, medieval, etc.)
 //
@@ -4204,18 +5199,18 @@ function updateMazeTrack() {
         
         // Determine the icon and state
         if (i < room) {
-            box.innerText = "🟩";
+            box.innerText = "⬜";
             box.style.opacity = "0.6";
         } else if (i === room) {
-            box.classList.add("active"); // Trigger the gold pulse
+            box.classList.add("active"); // Trigger the blue pulse
             box.setAttribute("aria-label",`Current room ${i} of 30`);
-            box.innerText = "🟨";
+            box.innerText = "🟦";
         } else {
             // Boss icons for future rooms
             if (i === 10){box.innerHTML = '<img src="registrar.png" class="boss-icon">';box.classList.add("boss10");}
             else if (i === 20){box.innerHTML = '<img src="warden.png" class="boss-icon">';box.classList.add("boss20");}
             else if (i === 30){box.innerHTML = '<img src="comptroller.png" class="boss-icon">';box.classList.add("boss30");}
-            else box.innerText = "⬛";
+            else box.innerText = "🟨";
         }
         
         track.appendChild(box);
@@ -4259,19 +5254,6 @@ function shuffle(arr){
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
-}
-
-// Bag system for calculation generators
-// Ensures all generators are used before repeating
-let calcBag = [];
-
-// Pulls one calculation generator from the bag
-// Refills bag when empty (reshuffled)
-function pickCalcGenerator(){
-    if(calcBag.length === 0){
-        calcBag = shuffle([...calculationGenerators]);
-    }
-    return calcBag.pop();
 }
 
 // Generic bag-based random picker for any pool
@@ -4362,6 +5344,16 @@ function playFinalBossMusic(){
 // Changing logic here will break progression.
      
 function loadQuestion() {
+    if(gameMode === "timed" && timedModeEndTime && Date.now() >= timedModeEndTime){
+        endTimedModeRun();
+        return;
+    }
+
+    if((gameMode === "timed" || gameMode === "exam") && room > 30){
+        handlePracticeModeComplete();
+        return;
+    }
+
     questionStartTime = Date.now(); 
     updateMazeTrack();
     const questionElement = document.getElementById("question");
@@ -4376,15 +5368,9 @@ function loadQuestion() {
 	imageBox.style.display = "none";
 
     // 1. Determine Difficulty and Boss Status
-    let diff = (room <= 9) ? "easy"
-             : (room === 10) ? "easyBoss"
-             : (room <= 19) ? "medium"
-             : (room === 20) ? "mediumBoss"
-             : (room <= 25) ? "hard"
-             : (room <= 29) ? "calculation"
-             : "finalBoss";
+	let diff = getDifficultyForMode();
 
-   const isBoss = diff.includes("Boss");
+   const isBoss = diff.includes("Boss") && gameMode !== "exam" && gameMode !== "timed";
 
    // Only reset health if the bossPool is currently empty (meaning a new encounter)
      if (isBoss && (!bossPool || bossPool.length === 0)) {
@@ -4392,7 +5378,7 @@ function loadQuestion() {
    }
     
     // --- MUSIC CONTROL ---
-    if(diff === "finalBoss"){
+    if(diff === "finalBoss" || (diff === "legendaryBoss" && room === 30)){
         playFinalBossMusic();
         }
     else if(diff.includes("Boss")){
@@ -4409,87 +5395,114 @@ function loadQuestion() {
     gameBox.classList.toggle("boss-mode", isBoss);
    
     // 2. UI & Progress Updates
-    document.getElementById("progressFill").style.width = (room / 30 * 100) + "%";
-    document.getElementById("areaDisplay").innerText = `${getAreaName(room)} (${room}/30)`;
-    document.getElementById("srAnnouncements").innerText = `Entering ${getAreaName(room)}. Room ${room} of 30.`;
+    document.getElementById("progressFill").style.width = (Math.min(room, 30) / 30 * 100) + "%";
+    const roomCap = (gameMode === "timed" || gameMode === "exam") ? Math.min(room, 30) : room;
+    document.getElementById("areaDisplay").innerText = `${getModeDisplayName()} — ${getAreaName(roomCap)} (${roomCap}/30)`;
+    document.getElementById("srAnnouncements").innerText = `Entering ${getModeDisplayName()}. ${getAreaName(roomCap)}. Room ${roomCap} of 30.`;
 
     // 3. Select the Question (CHANGE BOSS NAMES AND PNG)
-    if (isBoss) {
-        // 1. If it's a new fight (Health 3), decide the "Theme" of the boss
-        if (bossHealth === 3 || !bossPool || bossPool.length === 0) {
-            const bank = [...questionBanks[diff]];
-            let chosenTag = getWeakestTag();
+if (isBoss) {
+    // 1. If it's a new fight, build a three-question boss pool
+    if (bossHealth === 3 || !bossPool || bossPool.length === 0) {
+        const bank = [...questionBanks[diff]];
+        let chosenTag = getWeakestTag();
 
-            bossPool = chosenTag 
-                ? bank.filter(q => q.tag === chosenTag) 
-                : [];
+        const bossTags = [...new Set(bank.map(q => q.tag).filter(Boolean))];
 
-            if (bossPool.length < 3) {
-                bossPool = bank.slice(0, 3);
-            }
+        const eligibleTags = bossTags.filter(tag =>
+            bank.filter(q => q.tag === tag).length >= 3
+        );
+
+        let candidatePool = chosenTag
+            ? bank.filter(q => q.tag === chosenTag)
+            : [];
+
+        // If weakest tag cannot support a full boss set, choose another valid tag.
+        if (candidatePool.length < 3 && eligibleTags.length > 0) {
+            const randomTag = eligibleTags[Math.floor(Math.random() * eligibleTags.length)];
+            candidatePool = bank.filter(q => q.tag === randomTag);
         }
 
-        // 2. Select the specific question based on boss health
-        currentQuestion = shuffleOptions(bossPool[3 - bossHealth]);
+        // Last-resort fallback: use any available questions from this difficulty.
+        if (candidatePool.length < 3) {
+            candidatePool = bank.filter(q => {
+                if (!q) return false;
+                if (usedQuestions[diff] && usedQuestions[diff].includes(q.id)) return false;
+                return true;
+            });
+        }
 
-		if(currentQuestion.image){
-   		imageBox.innerHTML = `<img src="${currentQuestion.image}" alt="Question graph">`;
-   		imageBox.style.display = "block";
-		}
+        // If used-question filtering leaves too few, reset and use the whole bank.
+        if (candidatePool.length < 3) {
+            if (usedQuestions[diff]) usedQuestions[diff] = [];
+            candidatePool = [...bank];
+        }
 
-       // 3. Boss Identity UI (Logic moved ABOVE the return)
-        let bTitle = room === 10 ? "THE REGISTRAR OF FALSE MEASURES "
-               : room === 20 ? "THE WARDEN OF LABOR FLOWS"
-               : "THE COMPTROLLER OF EQUILIBRIUM";
+        bossPool = shuffle([...candidatePool]).slice(0, 3);
 
-       let bColor = room === 10 ? "#a78bfa"
-               : room === 20 ? "#7c3aed"
-               : "#991b1b";
-       
-        document.getElementById("srAnnouncements").innerText =`Boss encounter. ${bTitle}. Prepare yourself`;
-        bossMsg.innerText = "⚠ BOSS ENCOUNTER ⚠";
-        bossMsg.style.color = bColor;
-        gameBox.style.setProperty('--bossColor', bColor);
-		
-        let bossImage = "";
-        let bossClass = "";
+        if (usedQuestions[diff]) {
+            bossPool.forEach(q => {
+                if (q && !usedQuestions[diff].includes(q.id)) {
+                    usedQuestions[diff].push(q.id);
+                }
+            });
+        }
+    }
 
-// =============================================
-// BOSS VISUAL CONFIGURATION — SAFE TO EDIT
-// =============================================
-// Change:
-// - boss images
-// - boss class
-//
-// Keep room numbers (10, 20, 30) intact.
-// =============================================
-        
-    if(room === 10){
+    // 2. Select the specific question based on boss health
+    currentQuestion = shuffleOptions(bossPool[3 - bossHealth]);
+
+    if (currentQuestion.image) {
+        imageBox.innerHTML = `<img src="${currentQuestion.image}" alt="Question graph">`;
+        imageBox.style.display = "block";
+    } else {
+        imageBox.innerHTML = "";
+        imageBox.style.display = "none";
+    }
+
+    // 3. Boss Identity UI — National Engine
+    let bTitle = room === 10 ? "THE REGISTRAR OF FALSE MEASURES"
+        : room === 20 ? "THE WARDEN OF LABOR FLOWS"
+        : "THE COMPTROLLER OF EQUILIBRIUM";
+
+    let bColor = room === 10 ? "#a78bfa"
+        : room === 20 ? "#7c3aed"
+        : "#991b1b";
+
+    document.getElementById("srAnnouncements").innerText =
+        `Boss encounter. ${bTitle}. Prepare yourself`;
+
+    bossMsg.innerText = "⚠ BOSS ENCOUNTER ⚠";
+    bossMsg.style.color = bColor;
+    gameBox.style.setProperty("--bossColor", bColor);
+
+    let bossImage = "";
+    let bossClass = "";
+
+    if (room === 10) {
         bossImage = "registrar.png";
         bossClass = "registrarGlow";
     }
-    else if(room === 20){
+    else if (room === 20) {
         bossImage = "warden.png";
         bossClass = "wardenGlow";
     }
-    else{
+    else {
         bossImage = "comptroller.png";
         bossClass = "comptrollerGlow";
     }
 
-        questionElement.innerHTML = `
-            <img src="${bossImage}" class="bossIcon ${bossClass}">
-            <span class="boss-title" style="color:${bColor}">${bTitle}</span>
-            <div class="boss-q" style="--bossColor:${bColor}">
-                ${currentQuestion.q}
-            </div>`;
+    questionElement.innerHTML = `
+        <img src="${bossImage}" class="bossIcon ${bossClass}">
+        <span class="boss-title" style="color:${bColor}">${bTitle}</span>
+        <div class="boss-q" style="--bossColor:${bColor}">
+            ${currentQuestion.q}
+        </div>`;
 
-        // 4. THE CORRECT PLACEMENT OF RETURN
-        // We draw the UI first, THEN we exit the function.
-        displayQuestion(); 
-        return; 
+    displayQuestion();
+    return;
 
-    } else {
+} else {
 
     // --- STREAK + MASTERY ADAPTIVE LOGIC ---
     let adjustedDiff = diff;
@@ -4499,7 +5512,32 @@ function loadQuestion() {
     const weakestTag = getWeakestTag();
     adaptiveMode = purpose;
 
-    if(diff === "easy" && profile.mediumReady){
+    if(gameMode === "legendary"){
+        adaptiveMode = "legendary";
+        currentQuestion = shuffleOptions(
+            getAdaptiveQuestion("legendary", strongestTag || weakestTag, {
+                mode: "challenge",
+                preferredTypes: ELITE_PREFERRED_TYPES,
+                purpose: "stretch"
+            })
+        );
+
+        if(currentQuestion.image){
+            imageBox.innerHTML = `<img src="${currentQuestion.image}" alt="Question graph">`;
+            imageBox.style.display = "block";
+        }
+
+        if(!currentQuestion.type){ currentQuestion.type = "synthesis"; }
+        wizardSpeak(getWizardLine(currentQuestion.type));
+
+        bossMsg.innerText = (room === 9 || room === 19 || room === 29)
+            ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️"
+            : "";
+        bossMsg.style.color = "#f97316";
+
+        questionElement.innerHTML = `<div>${currentQuestion.q}</div>`;
+    }
+    else if(diff === "easy" && profile.mediumReady){
         adjustedDiff = "medium";
     }
 
@@ -4515,12 +5553,7 @@ function loadQuestion() {
 // =============================
 // QUESTION SELECTION
 // =============================
-
-if(diff === "calculation"){
-    const generator = pickCalcGenerator();
-    currentQuestion = shuffleOptions(generator());
-}
-else if(adjustedDiff === "elite"){
+if(adjustedDiff === "elite"){
     currentQuestion = shuffleOptions(
         getAdaptiveQuestion("elite", strongestTag || weakestTag, {
             mode: "challenge",
@@ -4529,6 +5562,7 @@ else if(adjustedDiff === "elite"){
         })
     );
 }
+	
 else if(adjustedDiff === "hard"){
     currentQuestion = shuffleOptions(
         getAdaptiveQuestion("hard", strongestTag || weakestTag, {
@@ -4563,8 +5597,8 @@ if(currentQuestion.image){
     wizardSpeak(wizardText);
 
     // --- UI ---
-    bossMsg.innerText = (room === 9 || room === 19 || room === 29)
-        ? "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️"
+    bossMsg.innerText = ((gameMode === "standard" || gameMode === "legendary") && (room === 9 || room === 19 || room === 29))
+        ? (gameMode === "legendary" ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️" : "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️")
         : "";
     bossMsg.style.color = "#ef4444";
 
@@ -4686,11 +5720,11 @@ function answer(choice) {
    
     totalAttempts++;
    
-    const isBossRoom = (room === 10 || room === 20 || room === 30);
+    const isBossRoom = isBossRoomForMode(room);
     const msgElement = document.getElementById("message");
     const wizard = document.getElementById("wizardImage");
-const isCorrect = (choice === currentQuestion.a);
-const responseTime = Date.now() - questionStartTime;
+	const isCorrect = (choice === currentQuestion.a);
+	const responseTime = Date.now() - questionStartTime;
 
 // =============================================
 // RAPID GUESSING LOCKOUT
@@ -4777,10 +5811,10 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
         type: currentQuestion.type || "none",
         objective: currentQuestion.objective || inferObjective(currentQuestion),
         responseTime: responseTime,
-	     attempt: totalAttempts ?? 0,
-		  streak: streak ?? 0,
-		  elapsedTime: startTime ? (Date.now() - startTime) : 0,
-          adaptiveMode: adaptiveMode
+	    attempt: totalAttempts ?? 0,
+		streak: streak ?? 0,
+	    elapsedTime: startTime ? (Date.now() - startTime) : 0,
+        adaptiveMode: adaptiveMode
     });
 
     // =============================================
@@ -4813,7 +5847,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
         handleStreakVisuals();
        
         // --- STAGED REMEDIATION SUCCESS PATH ---
-if(remediationState.active){
+  if(remediationState.active){
     if(remediationState.stage === "repair"){
         remediationState.stage = "bridge";
         adaptiveMode = "bridge";
@@ -4871,7 +5905,7 @@ if(remediationState.active){
         `<span class='fade-out-text'>${getRecoveryLine("complete")}</span>`;
 
     room = returnRoom;
-    saveGameState();
+    localStorage.setItem("gauntletRoom", room);
 
     setTimeout(loadQuestion, TIMING.normal);
     return;
@@ -4890,8 +5924,21 @@ if(remediationState.active){
         if(isBossRoom){
         bossHealth--;
         
-        msgElement.innerHTML = `<span style='color:#f87171;font-weight:bold;'>⚔ HIT! Boss Health: ${bossHealth}/3</span><br><span class='fade-out-text'>${getNationalEngineBossLine({ isCorrect, tag: currentQuestion.tag, type: currentQuestion.type, objective: currentQuestion.objective || inferObjective(currentQuestion), streak, bossHealth, responseTime })}</span>`;
-        triggerBossShake();
+		const bossLine = getNationalEngineBossLine({
+ 		 isCorrect: true,
+ 		 tag: currentQuestion.tag || "",
+		  type: currentQuestion.type || "",
+ 		 objective: currentQuestion.objective || inferObjective(currentQuestion),
+ 		 streak,
+ 		 bossHealth,
+ 		 responseTime
+		});
+
+		msgElement.innerHTML =
+		  `<span style='color:#f87171;font-weight:bold;'>⚔ HIT! Boss Health: ${bossHealth}/3</span><br>
+   			<span class='fade-out-text'>${bossLine}</span>`;
+
+		triggerBossShake();
         
         if (bossHealth > 0) {
            setTimeout(loadQuestion, TIMING.boss);
@@ -4903,30 +5950,32 @@ if(remediationState.active){
 			game: "The National Engine",
             event: "boss_defeated",
             user: username,
-			email: studentEmail,
+		    email: studentEmail,
             room: room
          });
            
          bossPool = [];
            
-        // Boss defeated (CHANGE ARTIFACT NAMES)
-        if(room === 10){
+       // Boss defeated — National Engine boss artifacts
+if(modeAllowsRealmProgress()){
+    if(room === 10){
         document.getElementById("vaultIndex").classList.add("unlocked");
         localStorage.setItem("vaultIndex", "true");
         showArtifact(artifacts.index.img, artifacts.index.title, artifacts.index.text);
-        }
+    }
 
-        if(room === 20){
+    if(room === 20){
         document.getElementById("vaultValve").classList.add("unlocked");
         localStorage.setItem("vaultValve", "true");
         showArtifact(artifacts.valve.img, artifacts.valve.title, artifacts.valve.text);
-        }
+    }
 
-        if(room === 30){
+    if(room === 30){
         document.getElementById("vaultSeal").classList.add("unlocked");
         localStorage.setItem("vaultSeal", "true");
         showArtifact(artifacts.seal.img, artifacts.seal.title, artifacts.seal.text);
-        }
+    }
+}
 
 // ... (Inside the Boss Victory check)
         showKnowledgeRoom(room);
@@ -4940,7 +5989,15 @@ if(remediationState.active){
     // AND it wasn't a Boss Room (or a Detour).
    msgElement.innerHTML = "";
    room++;
+   timedHighestRoom = Math.max(timedHighestRoom, Math.min(room, 30));
    saveGameState();
+   localStorage.setItem("gauntletRoom", room);
+
+   if(gameMode === "timed" && timedModeEndTime && Date.now() >= timedModeEndTime){
+       endTimedModeRun();
+       return;
+   }
+
    showHallwayTransition(currentQuestion.feedback);
    return;
     }      
@@ -4975,9 +6032,19 @@ if(remediationState.active){
             (conceptMemory[currentQuestion.tag] || 0) + rushPenalty;
     }
 
-    if(isBossRoom){
-        msgElement.innerHTML = `<span class='fade-out-text'>${getNationalEngineBossLine({ isCorrect, tag: currentQuestion.tag, type: currentQuestion.type, objective: currentQuestion.objective || inferObjective(currentQuestion), streak, bossHealth, responseTime })}</span>`;
-    }
+	if(isBossRoom){
+	  const bossLine = getNationalEngineBossLine({
+    	isCorrect: false,
+    	tag: currentQuestion.tag || "",
+    	type: currentQuestion.type || "",
+    	objective: currentQuestion.objective || inferObjective(currentQuestion),
+    	streak,
+    	bossHealth,
+    	responseTime
+  	 });
+
+     msgElement.innerHTML = `<span class='fade-out-text'>${bossLine}</span>`;
+   }
 
     // --- IF STUDENT MISSES DURING ACTIVE REMEDIATION ---
 if(remediationState.active){
@@ -5004,7 +6071,7 @@ if(remediationState.active){
 }
 
 // --- STAGED REMEDIATION TRIGGER ---
-if (!remediationState.active && currentQuestion.tag && shouldTriggerDetour(currentQuestion)) {
+if (gameMode !== "legendary" && !remediationState.active && currentQuestion.tag && shouldTriggerDetour(currentQuestion)) {
     remediationState = planRemediation(currentQuestion, responseTime) || remediationState;
     detourActive = true;
     detourReturnRoom = room;
@@ -5022,10 +6089,10 @@ if (!remediationState.active && currentQuestion.tag && shouldTriggerDetour(curre
             currentQuestion.hint ? "💡 Hint: " + currentQuestion.hint : "";
 
         const remediationMessage = remediationState.careless
-            ? "You rushed the choice. Slow down and audit the measure."
+            ? "You rushed the choice. Slow down and regain control."
             : remediationState.slowStruggle
-                ? "The Engine resists. Rebuild the macro concept before advancing."
-                : getRecoveryLine(remediationState.stage);
+                ? "The Gate doesn't budge. Rebuild the concept before advancing."
+                : "Your control fractured. Repair the weakness before moving on.";
 
         msgElement.innerHTML =
             `<span class='fade-out-text'>${remediationMessage}</span>`;
@@ -5045,13 +6112,20 @@ if (!remediationState.active && currentQuestion.tag && shouldTriggerDetour(curre
 	let newRoom = room - fallback;
 
 // Never fall back behind the most recently cleared boss gate
-	room = Math.max(bossCheckpoint, newRoom);
+room = Math.max(bossCheckpoint, newRoom);
 
-    saveGameState();
+if(gameMode === "timed") timedSetbacks++;
 
-    alert(`Incorrect! You trip in the darkness and tumble back to Room ${room}.`);
-
-    loadQuestion();
+localStorage.setItem("gauntletRoom", room);
+	
+showGameModal({
+    title: "Wrong Turn",
+    text: `Incorrect! You trip in the darkness and tumble back to Room ${room}.`,
+    confirmText: "Continue",
+    onConfirm: function(){
+        loadQuestion();
+    }
+});
 }
 
 // =============================================
@@ -5084,7 +6158,6 @@ function unlockArtifact(key) {
     const id = "vault" + key.charAt(0).toUpperCase() + key.slice(1);
     document.getElementById(id).classList.add("unlocked");
     localStorage.setItem(id, "true");
-    saveGameState();
     showArtifact(artifacts[key].img, artifacts[key].title, artifacts[key].text);
 }
     
@@ -5100,22 +6173,22 @@ function unlockArtifact(key) {
 //
 // Keep variable "streak" intact.
 // =============================================
- function handleStreakVisuals() {
+function handleStreakVisuals() {
     let streakMsg = "";
-    let streakColor = "#fbbf24";
+    let streakColor = "#f0c86a";
 
-if (streak === 5) {
-    streakMsg = `<span class="streak"><img src="streakentry.png" class="streak-icon">ENTRY ACCEPTED</span>`;
-    streakColor = "#d6b15c";
-}
-else if (streak === 10) {
-    streakMsg = `<span class="streak"><img src="streakaudit.png" class="streak-icon">AUDIT PASSED</span>`;
-    streakColor = "#c46a3a";
-}
-else if (streak === 20) {
-    streakMsg = `<span class="streak"><img src="streakledger.png" class="streak-icon">THE LEDGER OBEYS</span>`;
-    streakColor = "#f0c75e";
-}
+    if (streak === 5) {
+        streakMsg = `<span class="streak"><img src="streaksignal.png" class="streak-icon">DEMAND SIGNAL FOUND</span>`;
+        streakColor = "#f0c86a";
+    }
+    else if (streak === 10) {
+        streakMsg = `<span class="streak"><img src="streakkey.png" class="streak-icon">ENTRY KEY CLAIMED</span>`;
+        streakColor = "#38bdf8";
+    }
+    else if (streak === 20) {
+        streakMsg = `<span class="streak"><img src="streakseal.png" class="streak-icon">EQUILIBRIUM SEALED</span>`;
+        streakColor = "#f5e6b8";
+    }
 
     if (streakMsg) {
         sfxMilestone.currentTime = 0;
@@ -5124,9 +6197,9 @@ else if (streak === 20) {
         document.getElementById("streakDisplay").style.color = streakColor;
     } else if (streak > 0) {
         document.getElementById("streakDisplay").innerText = `Streak: ${streak}`;
-        document.getElementById("streakDisplay").style.color = "#fbbf24";
+        document.getElementById("streakDisplay").style.color = "#f0c86a";
     }
-}  
+}
 
 // =============================================
 // TRANSITION SCREEN — SAFE TO CUSTOMIZE
@@ -5148,17 +6221,17 @@ function showHallwayTransition(feedback){
 // pick a random hallway image
     const randomHall = hallwayImages[Math.floor(Math.random()*hallwayImages.length)];
 
-    overlay.style.background =
-    `linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url('${randomHall}')`;
+overlay.style.background =
+`linear-gradient(rgba(5,3,18,.64),rgba(5,3,18,.82)), url('${randomHall}')`;
 
     overlay.style.backgroundSize = "cover";
     overlay.style.backgroundPosition = "center";
 
-    text.innerHTML = `
-    <div style="font-size:22px;margin-bottom:15px;color:#4ade80;">${getWizardFeedback("correct")}</div>
-    <div style="font-size:18px;opacity:.9;">${feedback}</div>
-    <div style="margin-top:25px;font-size:14px;opacity:.7;">You move deeper into the Engine...</div>
-    `;
+text.innerHTML = `
+<div style="font-size:22px;margin-bottom:15px;color:#f0c86a;text-shadow:0 0 10px rgba(240,200,106,0.36);">${getWizardFeedback("correct")}</div>
+<div style="font-size:18px;opacity:.92;color:#f5e6b8;">${feedback}</div>
+<div style="margin-top:25px;font-size:14px;opacity:.74;color:#c4b5fd;">You move further past the Gate...</div>
+`;
 
     overlay.classList.add("active");
 
@@ -5256,6 +6329,7 @@ function triggerBossShake() {
 // This is BOTH UI + progression logic.
 // Edit carefully.
 // =============================================
+	 
 function showKnowledgeRoom(bossRoom) {
     playExplorationMusic();  
   
@@ -5280,28 +6354,28 @@ function showKnowledgeRoom(bossRoom) {
 // Keep room numbers aligned with:
 // - actual boss encounters
 // =============================================    
-   if (bossRoom === 10) {
-    title = "THE REGISTRAR CONCEDES: EQUILIBRIUM HOLDS";
-    summary = "The system holds. You have traced the connections and recognized how equilibrium is maintained. Disturbance no longer confuses you—you anticipate the adjustment.";
+if (bossRoom === 10) {
+  title = "THE FRONTIER KEEPER YIELDS";
+  summary = "The Frontier Compass locks into place. Scarcity, tradeoffs, opportunity cost, and the production frontier begin to stabilize. The Gate now recognizes that every choice carries a cost.";
 } 
 else if (bossRoom === 20) {
-    title = "THE WARDEN SUBMITS: MARKET POWER BROKEN.";
-    summary = "Control is understood. Price is no longer taken—it is set. You recognize how power shapes outcomes, and how others respond within its shadow.";
+  title = "THE SIGNAL BROKER FALLS";
+  summary = "The Signal Lens clears. Demand, supply, equilibrium, and market shifts become visible again. Prices can speak, and the Gate can read the movement of buyers and sellers.";
 } 
 else if (bossRoom === 30) {
-    title = "THE COMPTROLLER FALLS: YOU ANTICIPATED EVERY MOVE.";
-    summary = "You have mastered response. Every move, every reaction, every outcome—anticipated. Strategy is no longer uncertain. The system no longer tests you. It answers to you.";
+  title = "THE PRICE MAGISTRATE DEFEATED";
+  summary = "The Magistrate's Scales settle. Price ceilings, floors, taxes, shortages, surpluses, and tax burdens have been weighed. The National Engine is restored.";
 }
 
-    // Update the UI
-   qContainer.innerHTML = `
+// Update the UI
+qContainer.innerHTML = `
     <span class="boss-title">${title}</span>
     <div class="boss-q">${summary}</div>
-   `;
-    
-    // logic to ensure Room 30 triggers the end game, while 10 and 20 trigger the next level
-    let nextAction = bossRoom === 30 ? "handleVictory()" : "room++; saveGameState(); loadQuestion();";
-    let buttonLabel = bossRoom === 30 ? "FINALIZE THE ENGINE CONQUEST →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
+`;
+
+// logic to ensure Room 30 triggers the end game, while 10 and 20 trigger the next level
+let nextAction = bossRoom === 30 ? "handleVictory()" : "room++; loadQuestion();";
+let buttonLabel = bossRoom === 30 ? "RESTORE THE MARKET GATE →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
 
 aContainer.innerHTML = `
 <button id="continueBtn" class="continue-btn">
@@ -5328,14 +6402,139 @@ document.getElementById("continueBtn").onclick = () => {
     if(bossRoom === 20) bossCheckpoint = 21;
     if(bossRoom === 30) bossCheckpoint = 31;
 	
-    if(bossRoom === 30){
-        handleVictory();
-    } else {
-        room++;
-        saveGameState();
-        loadQuestion();
-    }
+if(bossRoom === 30){
+    handleVictory();
+} else {
+    room++;
+    saveGameState();
+    loadQuestion();
+}
 };
+}
+
+
+function handleLegendaryVictory(){
+    stopTimedModeClock();
+    localStorage.setItem("macroHub_engine_legendary_complete", "true");
+    localStorage.setItem("nationalEngineLegendaryComplete", "true");
+    clearSavedGame();
+
+    bgMusic.pause();
+    bossMusic.pause();
+    finalBossMusic.pause();
+    if (typeof sfxVictory !== 'undefined') {
+        sfxVictory.currentTime = 0;
+        sfxVictory.play();
+    }
+
+    const totalTimeMs = Date.now() - startTime;
+    const timeString = formatTime(totalTimeMs);
+    const accuracy = totalAttempts > 0 ? Math.round((correctAnswers / totalAttempts) * 100) : 0;
+    const verificationCode = generateCode(username + "|LEGENDARY", accuracy, maxStreak, totalTimeMs);
+
+    sendGameData({
+        runID: runID,
+        game: "The National Engine",
+        event: "legendary_complete",
+        user: username,
+        email: studentEmail,
+        room: room,
+        questionId: 0,
+        correct: 1,
+        tag: "",
+        type: "",
+        objective: "",
+        responseTime: 0,
+        attempt: totalAttempts,
+        streak: streak,
+        elapsedTime: totalTimeMs,
+        adaptiveMode: "legendary_complete",
+        totalTime: totalTimeMs,
+        accuracy: accuracy / 100,
+        maxStreak: maxStreak,
+        totalAttempts: totalAttempts,
+        verificationCode: verificationCode
+    });
+
+    let judgment = "You cleared Legendary Mode. That means you survived the full National Engine with the hardest available items, chained pressure, close answers, and no soft landing.";
+    if(accuracy >= 90){
+        judgment = "Legendary run confirmed. You did not just recognize terms. You read the models, tracked the traps, and handled the pressure.";
+    } else if(accuracy < 75){
+        judgment = "You survived Legendary Mode, but the Gate left dents. Completion counts. Mastery still needs another run.";
+    }
+
+    document.getElementById("bossMessage").innerText = "";
+    document.getElementById("formulaHint").innerText = "";
+    document.getElementById("artifactDrop").style.display = "none";
+
+    document.getElementById("question").innerHTML = `
+        <span class="boss-title">LEGENDARY MODE COMPLETE</span>
+        <div class="boss-q">
+            ${judgment}<br><br>
+            Accuracy: ${accuracy}%<br>
+            Total Attempts: ${totalAttempts}<br>
+            Best Streak: ${maxStreak}<br>
+            Total Time: ${timeString}<br>
+            Verification Code: <strong>${verificationCode}</strong>
+        </div>
+    `;
+
+    document.getElementById("answers").innerHTML = `
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run Run</button>
+    `;
+
+    document.getElementById("message").innerText = "Legendary completion saved separately. Standard realm progress was not changed.";
+}
+
+function handlePracticeModeComplete(){
+    stopTimedModeClock();
+
+    const accuracy = totalAttempts > 0
+        ? Math.round((correctAnswers / totalAttempts) * 100)
+        : 0;
+
+    sendGameData({
+        runID: runID,
+        game: "The National Engine",
+        event: `${gameMode}_complete`,
+        user: username,
+        email: studentEmail,
+        room: room,
+        questionId: 0,
+        correct: 1,
+        tag: "",
+        type: "",
+        objective: "",
+        responseTime: 0,
+        attempt: totalAttempts,
+        streak: streak,
+        elapsedTime: startTime ? (Date.now() - startTime) : 0,
+        adaptiveMode: `${gameMode}_complete`,
+        totalTime: startTime ? (Date.now() - startTime) : 0,
+        accuracy: accuracy / 100,
+        maxStreak: maxStreak,
+        totalAttempts: totalAttempts
+    });
+
+    document.getElementById("bossMessage").innerText = "";
+    document.getElementById("formulaHint").innerText = "";
+    document.getElementById("artifactDrop").style.display = "none";
+
+    document.getElementById("question").innerHTML = `
+        <span class="boss-title">${getModeDisplayName().toUpperCase()} COMPLETE</span>
+        <div class="boss-q">
+            You reached the end of this practice path.<br><br>
+            Accuracy: ${accuracy}%<br>
+            Total Attempts: ${totalAttempts}<br>
+            Best Streak: ${maxStreak}
+        </div>
+    `;
+
+    document.getElementById("answers").innerHTML = `
+        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run Run</button>
+    `;
+
+    document.getElementById("message").innerText = "Practice complete. The campaign record was not changed.";
 }
 
 // =============================================
@@ -5356,9 +6555,9 @@ document.getElementById("continueBtn").onclick = () => {
 //
 // ---------------------------------------------
 // DO NOT CHANGE:
-// - string structure (name|acc|streak|total|ARCHIVE42)
+// - string structure (name|acc|streak|total|CITADEL00)
 // - hashing logic
-// - return format ("ARCH-...")
+// - return format ("GATE-...")
 //
 // Changing this WILL:
 // - invalidate all existing completion codes
@@ -5373,7 +6572,7 @@ document.getElementById("continueBtn").onclick = () => {
 // It is a lightweight integrity check.
 // =============================================
 function generateCode(name, acc, streak, total){
-    let str = `${name}|${acc}|${streak}|${total}|ENGINE85`;
+    let str = `${name}|${acc}|${streak}|${total}|GATE07`;
     let hash = 0;
 
     for(let i = 0; i < str.length; i++){
@@ -5381,7 +6580,7 @@ function generateCode(name, acc, streak, total){
         hash |= 0;
     }
 
-    return "ENGINE-" + Math.abs(hash).toString(36).toUpperCase();
+    return "GATE-" + Math.abs(hash).toString(36).toUpperCase();
 } 
 
 // =============================================
@@ -5415,14 +6614,22 @@ function generateCode(name, acc, streak, total){
 // This is a PRESENTATION layer, not a logic layer.
 // =============================================     
 function handleVictory() {
+    if(!modeAllowsRealmProgress()){
+        if(gameMode === "legendary"){
+            handleLegendaryVictory();
+        } else {
+            handlePracticeModeComplete();
+        }
+        return;
+    }
+
     localStorage.setItem(REALM_STARTED_KEY, "true");
-    localStorage.setItem(REALM_COMPLETE_KEY, "true");
-    localStorage.setItem(REALM_STATUS_KEY, "restored");
-    localStorage.setItem(REALM_ROOM_KEY, "30");
-
-    clearSavedGame();
-
-    bgMusic.pause();
+	localStorage.setItem(REALM_COMPLETE_KEY, "true");
+	localStorage.setItem(REALM_STATUS_KEY, "restored");
+	localStorage.setItem(REALM_ROOM_KEY, "30");
+	
+	clearSavedGame();
+	bgMusic.pause();
     bossMusic.pause();
     if (typeof sfxVictory !== 'undefined') {
         sfxVictory.currentTime = 0;
@@ -5470,25 +6677,25 @@ sendGameData({
 // DO NOT remove the structure (if / else blocks)
 // unless you understand accuracy calculation.
 // =============================================
-    let archivistLine = "";
-    if(accuracy >= 90){
-        archivistLine = "You have mastered the Engine. Few reach this level of clarity.";
-    }
-    else if(accuracy >= 75){
-        archivistLine = "You see much… but not all. The Engine still holds power over you.";
-    }
-    else{
-        archivistLine = "You survived. Barely. The Engine is not finished with you.";
-    }
+let archivistLine = "";
+if(accuracy >= 90){
+    archivistLine = "You have mastered the National Engine. GDP, inflation, unemployment, growth, and welfare signals move clearly before you.";
+}
+else if(accuracy >= 75){
+    archivistLine = "You read the national accounts well enough to advance. But measurement errors, labor-flow traps, and real-versus-nominal confusion can still catch you slipping.";
+}
+else{
+    archivistLine = "You survived the National Engine. Barely. The economy gave you signals, and you tried to hand-wave the accounting. Bad move.";
+}
 
-    let lineColor = "#5123db";
+let lineColor = "#d6b15c"; // engine gold
 
-    if(accuracy >= 90){
-        lineColor = "#9b0909"; // crimson
-    }
-    else if(accuracy < 75){
-    lineColor = "#f87171"; // red
-    }
+if(accuracy >= 90){
+    lineColor = "#f0c86a"; // gold
+}
+else if(accuracy < 75){
+    lineColor = "#b91c1c"; // red
+}
 
     const gameBox = document.getElementById("gameBox");
 
@@ -5504,31 +6711,33 @@ sendGameData({
 //
 // Everything else is fair game.
 // =============================================
-    gameBox.innerHTML = `
-        <div style="text-align:center; padding:30px;">
-            <h1 class="victory" style="color:gold; text-shadow: 0 0 20px gold;">👑 CONQUEST COMPLETE 👑</h1>
+   gameBox.innerHTML = `
+    <div style="text-align:center; padding:30px;">
+        <h1 class="victory" style="color:#f0c86a; text-shadow:0 0 18px rgba(240,200,106,0.9), 0 0 34px rgba(56,189,248,0.35); letter-spacing:2px;">
+            ENGINE STABILIZED
+        </h1>
 
-            <div style="margin: 20px 0; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid #374151;">
-                <p>👤 Adventurer: <strong>${username}</strong></p>
-                <p>🎯 Accuracy: <strong>${accuracy}%</strong> | 🔥 Best Streak: <strong>${maxStreak}</strong></p>
-                <p>⏱️ Time: <strong>${timeString}</strong> | 📝 Total Questions: <strong>${totalAttempts}</strong></p>
-                <p style="font-size: 0.8em; color: #9ca3af;">🔑 Verification Code: <span id="vCode">${verificationCode}</span></p>
-            </div>
-
-            <p id="archivistLine" style="margin-top:20px; font-style:italic; color:#93c5fd; font-size:1.1em; color:${lineColor}; text-shadow: 0 0 6px rgba(147,197,253,0.4); opacity:0;">
-                ${archivistLine}
-            </p>
-
-            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-                <button id="shareBtn" onclick="copyResults()" style="background:#4ade80; color:black; font-weight:bold; padding:12px 24px; border:none; border-radius:6px; cursor:pointer;">
-                    📋 Copy Results
-                </button>
-                <button onclick="location.reload()" style="background:transparent; color:white; border:1px solid white; padding:12px 24px; border-radius:6px; cursor:pointer;">
-                    Try Again
-                </button>
-            </div>
+        <div style="margin:20px 0; padding:16px; background:rgba(5,10,18,0.82); border-radius:10px; border:1px solid rgba(240,200,106,0.35); box-shadow:0 0 24px rgba(0,0,0,0.65), inset 0 0 22px rgba(56,189,248,0.08);">
+            <p>Engine Record: <strong>${username}</strong></p>
+            <p>Accuracy: <strong>${accuracy}%</strong> | Best Streak: <strong>${maxStreak}</strong></p>
+            <p>Elapsed Time: <strong>${timeString}</strong> | Total Questions: <strong>${totalAttempts}</strong></p>
+            <p style="font-size:0.8em; color:#9ca3af;">Verification Code: <span id="vCode" style="color:#f0c86a;">${verificationCode}</span></p>
         </div>
-    `;
+
+        <p id="archivistLine" style="margin-top:20px; font-style:italic; color:${lineColor}; font-size:1.1em; text-shadow:0 0 8px rgba(56,189,248,0.35); opacity:0;">
+            ${archivistLine}
+        </p>
+
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+            <button id="shareBtn" onclick="copyResults()" style="background:linear-gradient(180deg,#f0c86a,#9a6b1f); color:#111827; font-weight:bold; padding:12px 24px; border:1px solid rgba(255,255,255,0.25); border-radius:6px; cursor:pointer;">
+                Copy Results
+            </button>
+            <button onclick="location.reload()" style="background:transparent; color:#e5e7eb; border:1px solid rgba(229,231,235,0.55); padding:12px 24px; border-radius:6px; cursor:pointer;">
+                Run The Engine Again
+            </button>
+        </div>
+    </div>
+`;
 
     // --- THEN RUN THE FADE-IN ---
     setTimeout(() => {
@@ -5640,13 +6849,14 @@ function copyResults() {
     const code = document.getElementById("vCode").innerText;
     const accuracy = Math.round((correctAnswers / totalAttempts) * 100);
 
-    const shareText = `Adventurer: ${username}
-        Time: ${timeString}
-        Accuracy: ${accuracy}%
-        Best Streak: ${maxStreak}
-        Total Questions: ${totalAttempts}
-        Code: ${code}
-        Verified by The Custodian`;
+    const shareText = `National Engine Run
+Student: ${username}
+Time: ${timeString}
+Accuracy: ${accuracy}%
+Best Streak: ${maxStreak}
+Total Questions: ${totalAttempts}
+Code: ${code}
+Verified by The Custodian`;
 
     navigator.clipboard.writeText(shareText).then(() => {
         const btn = document.getElementById("shareBtn");
@@ -5668,9 +6878,10 @@ function sendGameData(data) {
     timestamp: new Date().toISOString(),
     runID: data.runID || localStorage.getItem("gauntletRunID") || "",
     token: data.token || "",
-    version: "NationalEngine-ms-telemetry-v3.5",
+    version: "Gate-ms-telemetry-v3.5",
     userAgent: navigator.userAgent || "",
     game: data.game || "The National Engine",
+    mode: data.mode || gameMode || "standard",
     event: data.event || "",
     user: data.user || username || "anonymous",
 	email: studentEmail || "",  
@@ -5685,6 +6896,7 @@ function sendGameData(data) {
     streak: Number(data.streak ?? 0),
     elapsedTime: Number(data.elapsedTime ?? data.elapsedTimeMs ?? 0),
     adaptiveMode: data.adaptiveMode || adaptiveMode || "",
+	mode: data.mode || gameMode || "standard",
     totalTime: Number(data.totalTime ?? data.totalTimeMs ?? 0),
     accuracy: Number(data.accuracy ?? 0),
     maxStreak: Number(data.maxStreak ?? 0),
@@ -5717,7 +6929,4 @@ function sendGameData(data) {
 </script>
 </body>
 </html>
-
-
-
 
