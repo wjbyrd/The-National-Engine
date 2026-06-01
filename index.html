@@ -2294,20 +2294,6 @@ function updateRealmMaxStat(key, value){
     }
 }
 
-function recordTimedTrialAchievementStats(accuracy, reachedRoom){
-    const safeAccuracy = Number.isFinite(Number(accuracy)) ? Number(accuracy) : 0;
-    const safeRoom = Number.isFinite(Number(reachedRoom)) ? Number(reachedRoom) : 0;
-
-    updateRealmMaxStat("nationalEngineTimedBestRoom", safeRoom);
-    updateRealmMaxStat("nationalEngineTimedBestAccuracy", safeAccuracy);
-    updateRealmMaxStat("macroHub_engine_timedBestRoom", safeRoom);
-    updateRealmMaxStat("macroHub_engine_timedBestAccuracy", safeAccuracy);
-
-    if(safeRoom >= 30 && safeAccuracy >= 80){
-        setRealmFlag("macroHub_engine_trial_by_clock_complete");
-    }
-}
-
 function modeAllowsSave(){
     return gameMode === "standard" || gameMode === "legendary";
 }
@@ -2414,6 +2400,9 @@ function loadSavedGame(){
 
         usedQuestions = saveData.usedQuestions || usedQuestions;
         questionHistory = saveData.questionHistory || questionHistory;
+
+		bossMistakeCountThisRun = Number(saveData.achievementTracking?.bossMistakeCountThisRun || 0);
+		bossesDefeatedThisRun = Number(saveData.achievementTracking?.bossesDefeatedThisRun || 0);
 
         if(saveData.artifacts?.vaultIndex) localStorage.setItem("vaultIndex", "true");
         if(saveData.artifacts?.vaultValve) localStorage.setItem("vaultValve", "true");
