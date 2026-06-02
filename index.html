@@ -3303,6 +3303,86 @@ function getStrongestTag(){
     return strongestTag;
 }
 
+function getBossObjectiveKey(question){
+    if(!question) return null;
+
+    const rawObjective = question.objective || inferObjective(question);
+    if(!rawObjective) return null;
+
+    const match = String(rawObjective).match(/^LO\d+\.\d+/);
+    return match ? match[0] : rawObjective;
+}
+
+function getObjectiveFamilyStats(objectiveKey){
+    let attempts = 0;
+    let correct = 0;
+    let weightedTime = 0;
+
+    Object.keys(masteryState.byObjective || {}).forEach(key => {
+        if(key === objectiveKey || key.startsWith(objectiveKey + "_")){
+            const bucket = masteryState.byObjective[key];
+            if(!bucket) return;
+
+            attempts += bucket.attempts || 0;
+            correct += bucket.correct || 0;
+            weightedTime += (bucket.avgTime || 0) * (bucket.attempts || 0);
+        }
+    });
+
+    return {
+        attempts,
+        correct,
+        accuracy: attempts ? correct / attempts : null,
+        avgTime: attempts ? weightedTime / attempts : 0
+    };
+}
+
+function getWeakestBossObjective(bank){
+    if(!Array.isArray(bank) || bank.length === 0) return null;
+
+    const objectives = [...new Set(
+        bank.map(q => getBossObjectiveKey(q)).filter(Boolean)
+    )];
+
+    const eligibleObjectives = objectives.filter(obj =>
+        bank.filter(q => getBossObjectiveKey(q) === obj).length >= 3
+    );
+
+    if(eligibleObjectives.length === 0) return null;
+
+    let weakestObjective = null;
+    let weakestScore = -Infinity;
+
+    eligibleObjectives.forEach(obj => {
+        const stats = getObjectiveFamilyStats(obj);
+
+        let score = 0.25;
+
+        if(stats.accuracy !== null){
+            score = (1 - stats.accuracy) * 2;
+            score += Math.min(stats.attempts, 5) * 0.08;
+        }
+
+        const recentMisses = (masteryState.recent || []).filter(item => {
+            const itemObjective = item.objective || "";
+            return (itemObjective === obj || itemObjective.startsWith(obj + "_")) && !item.correct;
+        }).length;
+
+        score += recentMisses * 0.25;
+
+        if(stats.avgTime && stats.avgTime > TYPE_TIME_TARGETS.default){
+            score += 0.15;
+        }
+
+        if(score > weakestScore){
+            weakestScore = score;
+            weakestObjective = obj;
+        }
+    });
+
+    return weakestObjective || eligibleObjectives[Math.floor(Math.random() * eligibleObjectives.length)];
+}
+
 function getSelectionProfile(){
     const recent = getRecentPerformance(8);
     const strongestTag = getStrongestTag();
@@ -3531,8 +3611,11 @@ function getRemediationQuestion(state){
         }
 
         const bridgePool = microSkillBridgePools[state.skill] || [];
+        const allBridgePool = Object.values(microSkillBridgePools || {})
+            .reduce((all, pool) => all.concat(pool), []);
+
         const bridgeCandidates = getQuestionsMatchingNeed(
-            bridgePool,
+            allBridgePool,
             state.objective,
             state.tag,
             excludeIds,
@@ -5945,28 +6028,42 @@ function loadQuestion() {
 
     // 3. Select the Question (CHANGE BOSS NAMES AND PNG)
 if (isBoss) {
-    // 1. If it's a new fight, build a three-question boss pool
+    // 1. If it's a new fight, build a three-question boss pool by objective.
+    // Boss pools are scaffolded by LO, not random tag soup.
     if (bossHealth === 3 || !bossPool || bossPool.length === 0) {
-        const bank = [...questionBanks[diff]];
-        let chosenTag = getWeakestTag();
+        const bank = [...(questionBanks[diff] || [])];
+        let chosenObjective = getWeakestBossObjective(bank);
 
-        const bossTags = [...new Set(bank.map(q => q.tag).filter(Boolean))];
-
-        const eligibleTags = bossTags.filter(tag =>
-            bank.filter(q => q.tag === tag).length >= 3
-        );
-
-        let candidatePool = chosenTag
-            ? bank.filter(q => q.tag === chosenTag)
+        let candidatePool = chosenObjective
+            ? bank.filter(q => getBossObjectiveKey(q) === chosenObjective)
             : [];
 
-        // If weakest tag cannot support a full boss set, choose another valid tag.
-        if (candidatePool.length < 3 && eligibleTags.length > 0) {
-            const randomTag = eligibleTags[Math.floor(Math.random() * eligibleTags.length)];
-            candidatePool = bank.filter(q => q.tag === randomTag);
+        // Prefer unused questions inside the chosen objective.
+        let unusedCandidatePool = candidatePool.filter(q => {
+            if(!q) return false;
+            if(usedQuestions[diff] && usedQuestions[diff].includes(q.id)) return false;
+            return true;
+        });
+
+        if(unusedCandidatePool.length >= 3){
+            candidatePool = unusedCandidatePool;
         }
 
-        // Last-resort fallback: use any available questions from this difficulty.
+        // If the weakest objective cannot support a full boss set, use another objective with at least 3 questions.
+        if (candidatePool.length < 3) {
+            const eligibleObjectives = [...new Set(
+                bank.map(q => getBossObjectiveKey(q)).filter(Boolean)
+            )].filter(obj =>
+                bank.filter(q => getBossObjectiveKey(q) === obj).length >= 3
+            );
+
+            if(eligibleObjectives.length > 0){
+                const randomObjective = eligibleObjectives[Math.floor(Math.random() * eligibleObjectives.length)];
+                candidatePool = bank.filter(q => getBossObjectiveKey(q) === randomObjective);
+            }
+        }
+
+        // Last-resort fallback: use any unused questions from this difficulty.
         if (candidatePool.length < 3) {
             candidatePool = bank.filter(q => {
                 if (!q) return false;
@@ -6730,18 +6827,18 @@ function handleStreakVisuals() {
     let streakMsg = "";
     let streakColor = "#f0c86a";
 
-    if (streak === 5) {
-        streakMsg = `<span class="streak"><img src="streaksignal.png" class="streak-icon">DEMAND SIGNAL FOUND</span>`;
-        streakColor = "#f0c86a";
-    }
-    else if (streak === 10) {
-        streakMsg = `<span class="streak"><img src="streakkey.png" class="streak-icon">ENTRY KEY CLAIMED</span>`;
-        streakColor = "#38bdf8";
-    }
-    else if (streak === 20) {
-        streakMsg = `<span class="streak"><img src="streakseal.png" class="streak-icon">EQUILIBRIUM SEALED</span>`;
-        streakColor = "#f5e6b8";
-    }
+if (streak === 5) {
+    streakMsg = `<span class="streak"><img src="streaksignal.png" class="streak-icon">MEASURE SIGNAL FOUND</span>`;
+    streakColor = "#f0c86a";
+}
+else if (streak === 10) {
+    streakMsg = `<span class="streak"><img src="streakkey.png" class="streak-icon">LABOR FLOW KEY CLAIMED</span>`;
+    streakColor = "#38bdf8";
+}
+else if (streak === 20) {
+    streakMsg = `<span class="streak"><img src="streakseal.png" class="streak-icon">EQUILIBRIUM SEALED</span>`;
+    streakColor = "#f5e6b8";
+}
 
     if (streakMsg) {
         sfxMilestone.currentTime = 0;
@@ -6908,17 +7005,19 @@ function showKnowledgeRoom(bossRoom) {
 // - actual boss encounters
 // =============================================    
 if (bossRoom === 10) {
-  title = "THE FRONTIER KEEPER YIELDS";
-  summary = "The Frontier Compass locks into place. Scarcity, tradeoffs, opportunity cost, and the production frontier begin to stabilize. The Gate now recognizes that every choice carries a cost.";
+  title = "THE REGISTRAR YIELDS: THE MEASURES ARE CLEANED";
+  summary = "The false counts are stripped away. GDP, CPI, inflation, real and nominal measures, unemployment, labor-force status, and statistical limits now report cleanly through the Engine.";
 } 
 else if (bossRoom === 20) {
-  title = "THE SIGNAL BROKER FALLS";
-  summary = "The Signal Lens clears. Demand, supply, equilibrium, and market shifts become visible again. Prices can speak, and the Gate can read the movement of buyers and sellers.";
+  title = "THE WARDEN STANDS DOWN: THE LABOR FLOWS ARE STABILIZED";
+  summary = "The idle queue is no longer a mystery. Job separation, job finding, steady-state unemployment, the natural rate, frictional unemployment, and structural unemployment now move through the system with visible logic.";
 } 
 else if (bossRoom === 30) {
-  title = "THE PRICE MAGISTRATE DEFEATED";
-  summary = "The Magistrate's Scales settle. Price ceilings, floors, taxes, shortages, surpluses, and tax burdens have been weighed. The National Engine is restored.";
+  title = "THE COMPTROLLER FALLS: THE NATIONAL ENGINE IS RESTORED";
+  summary = "The accounts close. Output, income, factor payments, consumption, investment, saving, fiscal policy, crowding out, and loanable funds now balance under one final ledger.";
 }
+
+let buttonLabel = bossRoom === 30 ? "RESTORE THE NATIONAL ENGINE →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
 
 // Update the UI
 qContainer.innerHTML = `
@@ -6928,7 +7027,7 @@ qContainer.innerHTML = `
 
 // logic to ensure Room 30 triggers the end game, while 10 and 20 trigger the next level
 let nextAction = bossRoom === 30 ? "handleVictory()" : "room++; loadQuestion();";
-let buttonLabel = bossRoom === 30 ? "RESTORE THE MARKET GATE →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
+let buttonLabel = bossRoom === 30 ? "RESTORE THE NATIONAL ENGINE →" : `CONTINUE TO ROOM ${bossRoom + 1} →`;
 
 aContainer.innerHTML = `
 <button id="continueBtn" class="continue-btn">
