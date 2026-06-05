@@ -2333,7 +2333,12 @@ const REALM_STARTED_KEY = "macroHub_engine_started";
 const REALM_COMPLETE_KEY = "macroHub_engine_complete";
 const REALM_STATUS_KEY = "macroHub_engine_status";
 const REALM_ROOM_KEY = "macroHub_engine_room";
-
+const MACRO_TOTAL_CORRECT_KEY = "macroHub_totalCorrectAnswers";
+const MACRO_BEST_STREAK_KEY = "macroHub_bestStreak";
+const MACRO_EXAM_COMPLETE_KEY = "macroHub_examDrillCompleted";
+const MACRO_TRIAL_BY_CLOCK_KEY = "macroHub_trialByClock_complete";
+const MACRO_PERFECT_CALIBRATION_KEY = "macroHub_perfectCalibration_complete";
+const MACRO_RETURN_AND_REBUILD_KEY = "macroHub_returnAndRebuild_complete";
 
 let gameMode = "standard";
 let timedModeDurationMs = 10 * 60 * 1000;
@@ -2369,6 +2374,86 @@ function updateRealmMaxStat(key, value){
     }
 }
 
+function getMissionAchievementPrefix(){
+    return `macroHub_${REALM_MISSION_KEY}`;
+}
+
+function markMissionLegendaryComplete(){
+    localStorage.setItem(`${getMissionAchievementPrefix()}_legendaryComplete`, "true");
+    localStorage.setItem(`${getMissionAchievementPrefix()}_legendary_complete`, "true");
+}
+
+function setMissionArtifactCount(count){
+    localStorage.setItem(`${getMissionAchievementPrefix()}_artifactsCollected`, String(count));
+}
+
+function updateMissionArtifactCountFromVault(){
+    const artifactCount = ["vaultIndex", "vaultValve", "vaultSeal"]
+        .filter(key => localStorage.getItem(key) === "true").length;
+
+    setMissionArtifactCount(artifactCount);
+}
+
+function recordTimedTrialAchievementStats(accuracy, reachedRoom){
+    const safeAccuracy = Number.isFinite(Number(accuracy)) ? Number(accuracy) : 0;
+    const safeRoom = Number.isFinite(Number(reachedRoom)) ? Number(reachedRoom) : 0;
+
+    updateRealmMaxStat("nationalEngineTimedBestRoom", safeRoom);
+    updateRealmMaxStat("nationalEngineTimedBestAccuracy", safeAccuracy);
+
+    updateRealmMaxStat("macroHub_timedBestRoom", safeRoom);
+    updateRealmMaxStat("macroHub_timedBestAccuracy", safeAccuracy);
+
+    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestRoom`, safeRoom);
+    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestAccuracy`, safeAccuracy);
+
+    if(safeRoom >= 30 && safeAccuracy >= 80){
+        setRealmFlag(MACRO_TRIAL_BY_CLOCK_KEY);
+        setRealmFlag(`${getMissionAchievementPrefix()}_trial_by_clock_complete`);
+    }
+}
+
+function recordMacroCorrectAnswer(){
+    addRealmStat(MACRO_TOTAL_CORRECT_KEY, 1);
+    addRealmStat(`${getMissionAchievementPrefix()}_correctTotal`, 1);
+}
+
+function recordMacroStreak(value){
+    updateRealmMaxStat(MACRO_BEST_STREAK_KEY, value);
+    updateRealmMaxStat(`${getMissionAchievementPrefix()}_bestStreak`, value);
+}
+
+function markExamDrillCompleted(){
+    setRealmFlag(MACRO_EXAM_COMPLETE_KEY);
+    localStorage.setItem(`${getMissionAchievementPrefix()}_examDrillCompleted`, "true");
+}
+
+function recordBossMistakeForAchievements(){
+    if(gameMode === "standard" && isBossRoomForMode(room)){
+        bossMistakeCountThisRun++;
+    }
+}
+
+function recordBossDefeatForAchievements(){
+    if(gameMode === "standard"){
+        bossesDefeatedThisRun++;
+    }
+}
+
+function checkPerfectCalibrationAchievement(){
+    if(gameMode === "standard" && bossesDefeatedThisRun >= 3 && bossMistakeCountThisRun === 0){
+        setRealmFlag(MACRO_PERFECT_CALIBRATION_KEY);
+        setRealmFlag(`${getMissionAchievementPrefix()}_perfect_calibration_complete`);
+    }
+}
+
+function checkReturnAndRebuildAchievement(){
+    if(gameMode === "standard" && resumedSavedRunThisSession){
+        setRealmFlag(MACRO_RETURN_AND_REBUILD_KEY);
+        setRealmFlag(`${getMissionAchievementPrefix()}_resume_finish_complete`);
+    }
+}
+
 function modeAllowsSave(){
     return gameMode === "standard" || gameMode === "legendary";
 }
@@ -2382,10 +2467,8 @@ function getSaveKey(){
 }
 
 function isBossRoomForMode(r){
-    if(gameMode === "exam") return false;
-    if(gameMode === "timed") return false;
+    if(gameMode === "exam" || gameMode === "timed") return false;
     if(gameMode === "bossRush") return true;
-    if(gameMode === "legendary") return r === 10 || r === 20 || r === 30;
     return r === 10 || r === 20 || r === 30;
 }
 
@@ -4146,11 +4229,15 @@ function recordTimedTrialAchievementStats(accuracy, reachedRoom){
     updateRealmMaxStat("nationalEngineTimedBestRoom", safeRoom);
     updateRealmMaxStat("nationalEngineTimedBestAccuracy", safeAccuracy);
 
-    updateRealmMaxStat("macroHub_engine_timedBestRoom", safeRoom);
-    updateRealmMaxStat("macroHub_engine_timedBestAccuracy", safeAccuracy);
+    updateRealmMaxStat("macroHub_timedBestRoom", safeRoom);
+    updateRealmMaxStat("macroHub_timedBestAccuracy", safeAccuracy);
+
+    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestRoom`, safeRoom);
+    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestAccuracy`, safeAccuracy);
 
     if(safeRoom >= 30 && safeAccuracy >= 80){
-        setRealmFlag("macroHub_engine_trial_by_clock_complete");
+        setRealmFlag(MACRO_TRIAL_BY_CLOCK_KEY);
+        setRealmFlag(`${getMissionAchievementPrefix()}_trial_by_clock_complete`);
     }
 }
 
@@ -6573,8 +6660,8 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
         },200);
 
 		correctAnswers++;
-		addRealmStat("macroHub_totalCorrectAnswers", 1);
-		addRealmStat("macroHub_engine_correctTotal", 1);
+		recordMacroCorrectAnswer();
+		recordMacroStreak(streak);
 		handleStreakVisuals();
         
        
@@ -6677,6 +6764,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
            return;
         }
          // Boss defeated
+		 recordBossDefeatForAchievements();
          sendGameData({
             runID: runID,
 			game: "The National Engine",
@@ -6741,14 +6829,12 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
 // ❌ WRONG ANSWER BLOCK — ALL FAILURE LOGIC
 // =============================================
        
-    if (isBossRoom) {
-        sfxWrong.volume = 0.7;
-		if(gameMode === "standard"){
- 		   bossMistakeCountThisRun++;
-		}
-    } else {
-        sfxWrong.volume = 0.5;
-    }
+if (isBossRoom) {
+    sfxWrong.volume = 0.7;
+    recordBossMistakeForAchievements();
+} else {
+    sfxWrong.volume = 0.5;
+}
 
     sfxWrong.currentTime = 0;
     sfxWrong.play().catch(() => {});
@@ -6895,8 +6981,14 @@ showGameModal({
 // Safe to customize artifact visuals/text only
 function unlockArtifact(key) {
     const id = "vault" + key.charAt(0).toUpperCase() + key.slice(1);
-    document.getElementById(id).classList.add("unlocked");
-    localStorage.setItem(id, "true");
+    const slot = document.getElementById(id);
+
+    if(slot){
+        slot.classList.add("unlocked");
+        localStorage.setItem(id, "true");
+        updateMissionArtifactCountFromVault();
+    }
+
     showArtifact(artifacts[key].img, artifacts[key].title, artifacts[key].text);
 }
     
@@ -7154,8 +7246,7 @@ if(bossRoom === 30){
 
 function handleLegendaryVictory(){
     stopTimedModeClock();
-    localStorage.setItem("macroHub_engine_legendary_complete", "true");
-    localStorage.setItem("nationalEngineLegendaryComplete", "true");
+    markMissionLegendaryComplete();
     clearSavedGame();
 
     bgMusic.pause();
@@ -7233,8 +7324,7 @@ function handlePracticeModeComplete(){
         : 0;
 
 if(gameMode === "exam"){
-    setRealmFlag("macroHub_engine_exam_complete");
-    setRealmFlag("nationalEngineExamComplete");
+    markExamDrillCompleted();
 }
 
     sendGameData({
@@ -7372,16 +7462,9 @@ function handleVictory() {
 	localStorage.setItem(REALM_STATUS_KEY, "restored");
 	localStorage.setItem(REALM_ROOM_KEY, "30");
 
-	localStorage.setItem(`macroHub_${REALM_MISSION_KEY}_artifactsCollected`, "3");
-
-	if(resumedSavedRunThisSession){
-    setRealmFlag(`macroHub_${REALM_MISSION_KEY}_resume_finish_complete`);
-    setRealmFlag("macroHub_returnAndRebuild_complete");
-	}
-
-	if(bossesDefeatedThisRun >= 3 && bossMistakeCountThisRun === 0){
-    setRealmFlag(`macroHub_${REALM_MISSION_KEY}_perfect_calibration_complete`);
-	}
+	setMissionArtifactCount(3);
+	checkReturnAndRebuildAchievement();
+	checkPerfectCalibrationAchievement();
 	
 	clearSavedGame();
 	bgMusic.pause();
