@@ -1984,15 +1984,84 @@ button {
     }
 }
 
-/* =========================================
-   MOBILE CLEANUP — SOUND BUTTON OFF SCREEN
+	/* =========================================
+   FIXED GAME CONTROLS — ONLY DURING ACTIVE RUN
 ========================================= */
 
-@media (max-width: 768px), (hover: none) and (pointer: coarse) {
-    #soundToggle,
-    .sound-toggle {
-        display: none !important;
-    }
+body:not(.game-active) #returnMenuBtn,
+body:not(.game-active) #soundToggle {
+    display: none !important;
+}
+
+body.game-active #returnMenuBtn,
+body.game-active #soundToggle {
+    display: block !important;
+}
+
+/* Battle Menu: fixed upper right. Small. Not a parade float. */
+#returnMenuBtn.return-menu-btn {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
+    right: 10px !important;
+    left: auto !important;
+    bottom: auto !important;
+
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+
+    z-index: 3000 !important;
+
+    padding: 7px 11px !important;
+    font-size: 10px !important;
+    letter-spacing: 1px !important;
+    line-height: 1 !important;
+    border-radius: 999px !important;
+
+    background: rgba(0,0,0,0.62) !important;
+    color: rgba(255,255,255,0.88) !important;
+    border: 1px solid rgba(56,189,248,0.48) !important;
+
+    box-shadow:
+        0 0 14px rgba(56,189,248,0.24),
+        0 0 18px rgba(0,0,0,0.55) !important;
+
+    transform: none !important;
+}
+
+/* Sound: fixed upper left so it does not fight the Battle Menu. */
+#soundToggle.sound-toggle {
+    position: fixed !important;
+    top: calc(env(safe-area-inset-top, 0px) + 10px) !important;
+    left: 10px !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+
+    z-index: 3000 !important;
+
+    padding: 7px 10px !important;
+    font-size: 10px !important;
+    letter-spacing: 1px !important;
+    line-height: 1 !important;
+    border-radius: 999px !important;
+
+    background: rgba(0,0,0,0.62) !important;
+    color: rgba(255,255,255,0.78) !important;
+    border: 1px solid rgba(255,255,255,0.22) !important;
+
+    box-shadow:
+        0 0 14px rgba(0,0,0,0.55) !important;
+
+    transform: none !important;
+}
+
+#returnMenuBtn:hover,
+#soundToggle:hover {
+    transform: none !important;
 }
 	
 </style>
@@ -2286,10 +2355,17 @@ function setAllGameAudioMuted(isMuted){
 }
 
 function toggleGameSound(){
-  soundEnabled = !soundEnabled;
-  localStorage.setItem("gauntletSoundEnabled", soundEnabled ? "true" : "false");
-  setAllGameAudioMuted(!soundEnabled);
-  updateSoundToggle();
+    soundEnabled = !soundEnabled;
+
+    localStorage.setItem("gauntletSoundEnabled", soundEnabled ? "true" : "false");
+    setAllGameAudioMuted(!soundEnabled);
+    updateSoundToggle();
+
+    if(soundEnabled){
+        resumeCurrentMusic();
+    } else {
+        pauseAllGameMusic();
+    }
 }
 
 function restoreSoundSetting(){
@@ -2300,6 +2376,38 @@ function restoreSoundSetting(){
 }
 
 restoreSoundSetting();
+
+function setGameControlsVisible(isVisible){
+    document.body.classList.toggle("game-active", !!isVisible);
+}
+
+setGameControlsVisible(false);
+
+function pauseAllGameMusic(){
+    [bgMusic, bossMusic, finalBossMusic].filter(Boolean).forEach(audio => {
+        audio.pause();
+    });
+}
+
+function safePlay(audio){
+    if(!audio || !soundEnabled) return Promise.resolve();
+
+    audio.muted = false;
+
+    return audio.play().catch(error => {
+        console.warn("Audio play blocked:", error);
+    });
+}
+
+function resumeCurrentMusic(){
+    if(typeof currentMusic !== "undefined"){
+        if(currentMusic === "boss") return safePlay(bossMusic);
+        if(currentMusic === "finalBoss") return safePlay(finalBossMusic);
+        if(currentMusic === "exploration") return safePlay(bgMusic);
+    }
+
+    return safePlay(bgMusic);
+}
 	 
 function goFullscreen(){
 let el = document.documentElement;
@@ -4177,14 +4285,20 @@ function validateAndStoreEmailForModeSelect(){
 function showModeSelect(){
     if(!validateAndStoreEmailForModeSelect()) return;
 
+    setGameControlsVisible(false);
+
     document.getElementById("startScreen").style.display = "none";
+
     const modeScreen = document.getElementById("modeSelectScreen");
     if(modeScreen) modeScreen.style.display = "flex";
 }
 
 function returnToTitleScreen(){
+    setGameControlsVisible(false);
+
     const modeScreen = document.getElementById("modeSelectScreen");
     if(modeScreen) modeScreen.style.display = "none";
+
     document.getElementById("startScreen").style.display = "flex";
     showContinueButtonIfSaved();
 }
@@ -4478,6 +4592,7 @@ if(!hasSavedRun){
 // UI INITIALIZATION — SAFE TO CUSTOMIZE
 // =============================================
 // Shows main game elements and restores vault visuals
+	setGameControlsVisible(true);
     document.getElementById("startScreen").style.display = "none";
     const modeScreen = document.getElementById("modeSelectScreen");
     if(modeScreen) modeScreen.style.display = "none";
@@ -4508,7 +4623,7 @@ if(localStorage.getItem("vaultSeal")){
   
 // Start game loop: music + timer + first question
     initializeRunForMode(gameMode);
-    bgMusic.play().catch(e => console.log("Audio started"));
+    safePlay(bgMusic);
     startTime = Date.now(); 
     loadQuestion();
 }
@@ -4703,11 +4818,17 @@ function restartTimedMode(){
 
 function returnToModeSelectFromRun(){
     stopTimedModeClock();
+    stopAllMusic();
+
+    setGameControlsVisible(false);
+
     document.getElementById("gameBox").style.display = "none";
     document.getElementById("artifactVault").style.display = "none";
-    document.getElementById("modeSelectScreen").style.display = "flex";
-	document.querySelector(".top-panel").style.display = "none";
-	document.getElementById("gameShell").style.display = "none";
+    document.querySelector(".top-panel").style.display = "none";
+    document.getElementById("gameShell").style.display = "none";
+
+    const modeScreen = document.getElementById("modeSelectScreen");
+    if(modeScreen) modeScreen.style.display = "flex";
 }
 
 function getDifficultyForMode(){
@@ -6177,36 +6298,28 @@ let currentMusic = null;
 // Stops all music tracks (called before switching states)
 // Do not remove — prevents audio overlap     
 function stopAllMusic(){
-    if(bgMusic) bgMusic.pause();
-    if(bossMusic) bossMusic.pause();
-    if(finalBossMusic) finalBossMusic.pause();
+    pauseAllGameMusic();
 }
 
-// Plays exploration (default) music
-// Skips if already playing to prevent restart spam     
 function playExplorationMusic(){
     if(currentMusic === "exploration") return;
     stopAllMusic();
-    bgMusic.play();
     currentMusic = "exploration";
+    safePlay(bgMusic);
 }
 
-// Plays boss encounter music
-// Automatically stops other tracks first     
 function playBossMusic(){
     if(currentMusic === "boss") return;
     stopAllMusic();
-    bossMusic.play();
     currentMusic = "boss";
+    safePlay(bossMusic);
 }
 
-// Plays final boss music (highest priority state)
-// Overrides all other music     
 function playFinalBossMusic(){
     if(currentMusic === "finalBoss") return;
     stopAllMusic();
-    finalBossMusic.play();
     currentMusic = "finalBoss";
+    safePlay(finalBossMusic);
 }
 
 // =============================================
