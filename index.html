@@ -1836,7 +1836,7 @@ Every pixel matters.
 
 .mode-grid{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0, 1fr));
+  grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
   gap:18px;
 }
 
@@ -3532,9 +3532,9 @@ function saveGameState(){
     };
 
     localStorage.setItem(getSaveKey(), JSON.stringify(saveData));
-    localStorage.setItem("gauntletRoom", String(room));
 
     if(modeAllowsRealmProgress()){
+        localStorage.setItem("gauntletRoom", String(room));
 	    localStorage.setItem(REALM_STARTED_KEY, "true");
 	    localStorage.setItem(REALM_STATUS_KEY, "contested");
 	    localStorage.setItem(REALM_ROOM_KEY, String(room));
@@ -3593,7 +3593,7 @@ function loadSavedGame(){
 function clearSavedGame(){
     localStorage.removeItem(getSaveKey());
 
-    if(modeAllowsSave()){
+    if(modeAllowsRealmProgress()){
         localStorage.removeItem("gauntletRoom");
         localStorage.removeItem("vaultIndex");
         localStorage.removeItem("vaultValve");
@@ -5140,11 +5140,11 @@ function startSelectedMode(mode){
 function confirmReturnToModeMenu(){
     showGameModal({
         title: "Return to Engine Menu?",
-        text: "Standard Campaign progress will be saved. Timed Trial, Exam Drill, and Score Attack attempts will end.",
+        text: "Saved campaigns will be preserved. Timed Trial, Exam Drill, and Score Attack attempts will end.",
         confirmText: "Return",
         cancelText: "Stay",
         onConfirm: function(){
-            if(gameMode === "standard"){
+            if(modeAllowsSave()){
                 saveGameState();
             }
 
@@ -5242,25 +5242,6 @@ function endTimedAttemptEarly(){
     recordTimedTrialAchievementStats(accuracy, reachedRoom);
 
     returnToModeSelectFromRun();
-}
-
-function recordTimedTrialAchievementStats(accuracy, reachedRoom){
-    const safeAccuracy = Number.isFinite(Number(accuracy)) ? Number(accuracy) : 0;
-    const safeRoom = Number.isFinite(Number(reachedRoom)) ? Number(reachedRoom) : 0;
-
-    updateRealmMaxStat("nationalEngineTimedBestRoom", safeRoom);
-    updateRealmMaxStat("nationalEngineTimedBestAccuracy", safeAccuracy);
-
-    updateRealmMaxStat("macroHub_timedBestRoom", safeRoom);
-    updateRealmMaxStat("macroHub_timedBestAccuracy", safeAccuracy);
-
-    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestRoom`, safeRoom);
-    updateRealmMaxStat(`${getMissionAchievementPrefix()}_timedBestAccuracy`, safeAccuracy);
-
-    if(safeRoom >= 30 && safeAccuracy >= 80){
-        setRealmFlag(MACRO_TRIAL_BY_CLOCK_KEY);
-        setRealmFlag(`${getMissionAchievementPrefix()}_trial_by_clock_complete`);
-    }
 }
 
 function showContinueButtonIfSaved(){
@@ -5383,11 +5364,11 @@ if(!hasSavedRun){
 	bossMistakeCountThisRun = 0;
     bossesDefeatedThisRun = 0;
 
-    if(modeAllowsSave()){
+    if(modeAllowsRealmProgress()){
         localStorage.removeItem("gauntletRoom");
-	    localStorage.removeItem("vaultIndex");
-	    localStorage.removeItem("vaultValve");
-	    localStorage.removeItem("vaultSeal");
+        localStorage.removeItem("vaultIndex");
+        localStorage.removeItem("vaultValve");
+        localStorage.removeItem("vaultSeal");
     }
 	if(modeAllowsRealmProgress()){
 	    localStorage.removeItem(REALM_COMPLETE_KEY);
@@ -5417,7 +5398,7 @@ if(!hasSavedRun){
 	document.querySelector(".top-panel").style.display = "flex";
     document.getElementById("gameShell").style.display = "flex";
     document.getElementById("gameBox").style.display = "block";
-    document.getElementById("artifactVault").style.display = "block";
+    document.getElementById("artifactVault").style.display = modeAllowsRealmProgress() ? "block" : "none";
     document.querySelectorAll(".torch").forEach(t => t.style.display = "block");
 
 
@@ -5631,6 +5612,7 @@ function endTimedModeRun(){
     `;
 
     document.getElementById("answers").innerHTML = `
+        <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
         <button class="continue-btn" onclick="restartTimedMode()">Retry Timed Trial</button>
         <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run</button>
     `;
@@ -5854,7 +5836,7 @@ function wizardSpeak(text){
 // Keep that file beside this index.html file in the GitHub Pages root.
 // =============================================
 </script>
-<script src="national_engine_question_bank.js?v=20260702_1"></script>
+<script src="national_engine_question_bank.js?v=20260714_2"></script>
 <script>
 if(!window.questionBanks){
     throw new Error("The National Engine question bank did not load. Check national_engine_question_bank.js.");
@@ -6816,7 +6798,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
         `<span class='fade-out-text'>${getRecoveryLine("complete")}</span>`;
 
     room = returnRoom;
-    localStorage.setItem("gauntletRoom", room);
+    if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
 
     setTimeout(loadQuestion, TIMING.normal);
     return;
@@ -6867,10 +6849,6 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
          });
            
          bossPool = [];
-
-		 if(gameMode === "standard"){
-         bossesDefeatedThisRun++;
-         }
            
        // Boss defeated — National Engine boss artifacts
     if(modeAllowsRealmProgress()){
@@ -6907,7 +6885,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
    room++;
    timedHighestRoom = Math.max(timedHighestRoom, Math.min(room, 30));
    saveGameState();
-   localStorage.setItem("gauntletRoom", room);
+   if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
 
    if(gameMode === "timed" && timedModeEndTime && Date.now() >= timedModeEndTime){
        endTimedModeRun();
@@ -7033,8 +7011,8 @@ room = Math.max(bossCheckpoint, newRoom);
 
 if(gameMode === "timed") timedSetbacks++;
 
-localStorage.setItem("gauntletRoom", room);
-	
+if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
+
 showGameModal({
     title: "Wrong Turn",
     text: `Incorrect! You trip in the darkness and tumble back to Room ${room}.`,
@@ -7409,62 +7387,6 @@ function handleLegendaryVictory(){
     document.getElementById("message").innerText = "Legendary completion saved separately. Standard realm progress was not changed.";
 }
 
-function handlePracticeModeComplete(){
-    stopTimedModeClock();
-
-    const accuracy = totalAttempts > 0
-        ? Math.round((correctAnswers / totalAttempts) * 100)
-        : 0;
-
-if(gameMode === "exam"){
-    markExamDrillCompleted();
-}
-
-    sendGameData({
-        runID: runID,
-        game: "The National Engine",
-        event: `${gameMode}_complete`,
-        user: username,
-        email: studentEmail,
-        room: room,
-        questionId: 0,
-        correct: 1,
-        tag: "",
-        type: "",
-        objective: "",
-        responseTime: 0,
-        attempt: totalAttempts,
-        streak: streak,
-        elapsedTime: startTime ? (Date.now() - startTime) : 0,
-        adaptiveMode: `${gameMode}_complete`,
-        totalTime: startTime ? (Date.now() - startTime) : 0,
-        accuracy: accuracy / 100,
-        maxStreak: maxStreak,
-        totalAttempts: totalAttempts
-    });
-
-    document.getElementById("bossMessage").innerText = "";
-    document.getElementById("formulaHint").innerText = "";
-    document.getElementById("artifactDrop").style.display = "none";
-
-    document.getElementById("question").innerHTML = `
-        <span class="boss-title">${getModeDisplayName().toUpperCase()} COMPLETE</span>
-        <div class="boss-q">
-            You reached the end of this practice path.<br><br>
-            Accuracy: ${accuracy}%<br>
-            Total Attempts: ${totalAttempts}<br>
-            Best Streak: ${maxStreak}
-        </div>
-    `;
-
-    document.getElementById("answers").innerHTML = `
-        <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Choose Another Engine Run</button>
-    `;
-
-    document.getElementById("message").innerText = "Practice complete. The campaign record was not changed.";
-}
-
 // =============================================
 // COMPLETION CODE GENERATOR — DO NOT MODIFY
 // =============================================
@@ -7585,7 +7507,7 @@ function handleScoreAttackVictory(){
     });
 
     let scoreLine = "Respectable. The Engine noticed.";
-    if(scoreAttackScore >= 9250){
+    if(scoreAttackScore >= 11590){
         scoreLine = "Maximum score. Clean run. No wasted motion. The Engine can shut up now.";
     } else if(scoreAttackScore >= 8000){
         scoreLine = "Elite scoring run. Fast, accurate, and mean.";
@@ -7634,7 +7556,30 @@ function handlePracticeModeComplete(){
         : 0;
 
 	if(gameMode === "exam"){
- 	   markExamDrillCompleted();
+
+	    markExamDrillCompleted();
+
+	}
+
+
+	if(gameMode === "timed"){
+
+	    const reachedRoom = Math.max(timedHighestRoom || 1, 30);
+
+	    localStorage.setItem("nationalEngineTimedLastRoom", String(reachedRoom));
+
+	    localStorage.setItem("nationalEngineTimedLastHighestRoom", String(reachedRoom));
+
+	    localStorage.setItem("nationalEngineTimedLastAccuracy", String(accuracy));
+
+	    localStorage.setItem("nationalEngineTimedLastAttempts", String(totalAttempts));
+
+	    localStorage.setItem("nationalEngineTimedLastStreak", String(maxStreak));
+
+	    localStorage.setItem("nationalEngineTimedLastSetbacks", String(timedSetbacks));
+
+	    recordTimedTrialAchievementStats(accuracy, reachedRoom);
+
 	}
 
     sendGameData({
@@ -8548,7 +8493,6 @@ function sendGameData(data) {
     version: "Engine-ms-telemetry-v3.5",
     userAgent: navigator.userAgent || "",
     game: data.game || "The National Engine",
-    mode: data.mode || gameMode || "standard",
     event: data.event || "",
     user: data.user || username || "anonymous",
 	email: studentEmail || "",  
