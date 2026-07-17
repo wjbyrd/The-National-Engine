@@ -1,4 +1,8 @@
-<!-- NATIONAL ENGINE EXTERNAL BANK BUILD 20260702_1 -->
+<!-- NATIONAL ENGINE SHARED-ENGINE REPAIR BUILD 20260717_1 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <!-- =====================================================
 GAUNTLET ENGINE — MASTER TEMPLATE
 
@@ -52,9 +56,6 @@ If you break something:
 
 ===================================================== -->
 
-<!DOCTYPE html>
-<html>
-<head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 <!-- Title can be changed to whatever the game needs -->
@@ -992,7 +993,6 @@ button:active {
 }
 
 
-
 /* Boss 3 -specific glow effects */			
 .comptrollerGlow {
     filter:
@@ -1108,7 +1108,6 @@ button:active {
       0 0 8px rgba(214,177,92,0.26),
       0 2px 6px rgba(0,0,0,0.9);
 }
-
 
 
 .game-modal{
@@ -2423,7 +2422,6 @@ body.game-active #soundToggle {
 		
 
 
-
 /* =========================================
    15. POST-BATTLE MASTERY REPORT
    Student-facing diagnostic after a completed run.
@@ -2680,7 +2678,6 @@ Respect structure strictly.
 </div>
 
 
-
 <div id="modeSelectScreen" class="mode-select-screen" style="display:none;">
   <div class="mode-select-panel">
     <h1 class="mode-title">CHOOSE YOUR ENGINE RUN</h1>
@@ -2688,25 +2685,25 @@ Respect structure strictly.
 
     <div class="mode-grid">
       <button class="mode-card" onclick="startSelectedMode('standard')" aria-label="Standard Campaign. Full 30-room run with bosses, artifacts, setbacks, save and resume status, and realm progress.">
-        <img src="mode_standard.webp" alt="" aria-hidden="true">
+        <img src="../mode_standard.webp" alt="" aria-hidden="true">
         <span class="mode-card-title">Standard Campaign</span>
         <span class="mode-card-text">Full 30-room run with bosses, artifacts, setbacks, and engine progress.</span>
       </button>
 
       <button class="mode-card" onclick="startSelectedMode('timed')" aria-label="Timed Trial. Ten minute run with visible countdown, normal setbacks, rapid guessing penalties, and results saved separately.">
-        <img src="mode_timed.webp" alt="" aria-hidden="true">
+        <img src="../mode_timed.webp" alt="" aria-hidden="true">
         <span class="mode-card-title">Timed Trial</span>
         <span class="mode-card-text">Ten minutes. Correct answers advance. Misses push you back.</span>
       </button>
 
       <button class="mode-card" onclick="startSelectedMode('exam')" aria-label="Exam Drill. No bosses, no artifacts, no realm progress. Just adaptive practice.">
-        <img src="mode_exam.webp" alt="" aria-hidden="true">
+        <img src="../mode_exam.webp" alt="" aria-hidden="true">
         <span class="mode-card-title">Exam Drill</span>
         <span class="mode-card-text">No bosses. No artifacts. No engine progress. Just adaptive practice.</span>
       </button>
 
       <button class="mode-card" onclick="startSelectedMode('legendary')" aria-label="Legendary Mode. Full 30-room campaign using the hardest available National Engine questions.">
-        <img src="mode_legendary.webp" alt="" aria-hidden="true">
+        <img src="../mode_legendary.webp" alt="" aria-hidden="true">
         <span class="mode-card-title">Legendary Mode</span>
         <span class="mode-card-text">Full campaign. Hardest available questions. Bosses still hit. No mercy.</span>
       </button>
@@ -2715,7 +2712,7 @@ Respect structure strictly.
            Arcade-style scoring mode. Uses the normal 30-room path and bosses,
            but does NOT count as Standard Campaign engine progress. -->
       <button class="mode-card" onclick="startSelectedMode('score')" aria-label="Score Attack. Build points through correct answers, streaks, and speed. Misses subtract points and rapid guessing is punished.">
-        <img src="scoreattack.webp" alt="" aria-hidden="true">
+        <img src="../scoreattack.webp" alt="" aria-hidden="true">
         <span class="mode-card-title">Score Attack</span>
         <span class="mode-card-text">Rack up points with correct answers, streaks, and speed. Misses cost you.</span>
       </button>
@@ -2786,7 +2783,7 @@ or simplify this section.
         <div id="gameShell">
             <div id="wizardBox">
                 <div id="wizardName">The Custodian</div>
-                <img src="custodian.webp" id="wizardImage">
+                <img src="../custodian.webp" id="wizardImage">
             </div>
 
             <!-- GAME -->
@@ -2989,6 +2986,44 @@ function setGameControlsVisible(isVisible){
 
 setGameControlsVisible(false);
 
+const initialGameBoxHTML = document.getElementById("gameBox").innerHTML;
+
+function resetGameSurfaceForNewRun(forceRestore = false){
+    closeGameModal();
+    closeGraphLightbox();
+
+    const gameBox = document.getElementById("gameBox");
+    if(!gameBox) return;
+
+    if(forceRestore
+        || gameBox.querySelector("#masteryReportScreen")
+        || !gameBox.querySelector("#question")
+        || !gameBox.querySelector("#answers")){
+        gameBox.innerHTML = initialGameBoxHTML;
+    }
+
+    gameBox.classList.remove("boss-mode", "hit");
+    gameBox.style.removeProperty("--bossColor");
+
+    const shell = document.getElementById("gameShell");
+    if(shell) shell.classList.remove("boss-mode");
+
+    const bossMessage = document.getElementById("bossMessage");
+    if(bossMessage){
+        bossMessage.innerText = "";
+        bossMessage.style.color = "";
+    }
+
+    const artifactDrop = document.getElementById("artifactDrop");
+    if(artifactDrop) artifactDrop.style.display = "none";
+
+    const hallway = document.getElementById("hallwayTransition");
+    if(hallway) hallway.classList.remove("active");
+
+    const hallwayText = document.getElementById("hallwayText");
+    if(hallwayText) hallwayText.innerHTML = "";
+}
+
 function pauseAllGameMusic(){
     [bgMusic, bossMusic, finalBossMusic].filter(Boolean).forEach(audio => {
         audio.pause();
@@ -3070,7 +3105,7 @@ let runID = "";
 let questionStartTime = 0;
 let streak = 0; 
 let startTime; // Will be set in startGame()
-let room = localStorage.getItem("gauntletRoom") ? parseInt(localStorage.getItem("gauntletRoom")) : 1;
+let room = 1;
 let currentQuestion = null;
 let detourActive = false;
 let detourReturnRoom = null;
@@ -3145,6 +3180,7 @@ const MACRO_PERFECT_CALIBRATION_KEY = "macroHub_perfectCalibration_complete";
 const MACRO_RETURN_AND_REBUILD_KEY = "macroHub_returnAndRebuild_complete";
 
 let gameMode = "standard";
+let runSessionId = 0;
 let timedModeDurationMs = 10 * 60 * 1000;
 let timedModeEndTime = null;
 let timedModeTimerInterval = null;
@@ -3325,6 +3361,20 @@ function getModeDisplayName(){
     return "Standard Campaign";
 }
 
+function beginRunSession(){
+    runSessionId += 1;
+    return runSessionId;
+}
+
+function scheduleForCurrentRun(callback, delay){
+    const scheduledSessionId = runSessionId;
+
+    return setTimeout(() => {
+        if(scheduledSessionId !== runSessionId) return;
+        callback();
+    }, delay);
+}
+
 
 // =============================================
 // SCORE ATTACK MODE ADDITION — SCORING HELPERS
@@ -3495,7 +3545,6 @@ function storeScoreAttackFinalStats(accuracy, totalTimeMs){
 }
 
 
-
 function saveGameState(){
     if(!modeAllowsSave()) return;
 
@@ -3534,7 +3583,7 @@ function saveGameState(){
     localStorage.setItem(getSaveKey(), JSON.stringify(saveData));
 
     if(modeAllowsRealmProgress()){
-        localStorage.setItem("gauntletRoom", String(room));
+
 	    localStorage.setItem(REALM_STARTED_KEY, "true");
 	    localStorage.setItem(REALM_STATUS_KEY, "contested");
 	    localStorage.setItem(REALM_ROOM_KEY, String(room));
@@ -3546,12 +3595,20 @@ function saveGameState(){
     }
 }
 
-function loadSavedGame(){
-    const rawSave = localStorage.getItem(getSaveKey());
+function loadSavedGame(expectedMode = gameMode){
+    const normalizedMode = expectedMode || "standard";
+    const saveKey = `${SAVE_KEY}_${normalizedMode}`;
+    const rawSave = localStorage.getItem(saveKey);
     if(!rawSave) return false;
 
     try {
         const saveData = JSON.parse(rawSave);
+        const savedMode = saveData.gameMode || normalizedMode;
+
+        if(savedMode !== normalizedMode){
+            console.warn(`Saved run mode mismatch for ${saveKey}: expected ${normalizedMode}, found ${savedMode}.`);
+            return false;
+        }
 
         room = Number(saveData.room || 1);
         bossHealth = Number(saveData.bossHealth || 3);
@@ -3564,10 +3621,11 @@ function loadSavedGame(){
         username = saveData.username || username || "";
         studentEmail = saveData.studentEmail || studentEmail || "";
         runID = saveData.runID || runID || "";
-        gameMode = saveData.gameMode || gameMode || "standard";
+        gameMode = normalizedMode;
 
         conceptMemory = saveData.conceptMemory || {};
         masteryState = saveData.masteryState || { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
+        if(!masteryState.bySkill) masteryState.bySkill = {};
         adaptiveMode = saveData.adaptiveMode || "support";
         tagHistory = saveData.tagHistory || [];
         lastTypes = saveData.lastTypes || [];
@@ -3575,8 +3633,8 @@ function loadSavedGame(){
         usedQuestions = saveData.usedQuestions || usedQuestions;
         questionHistory = saveData.questionHistory || questionHistory;
 
-		bossMistakeCountThisRun = Number(saveData.achievementTracking?.bossMistakeCountThisRun || 0);
-		bossesDefeatedThisRun = Number(saveData.achievementTracking?.bossesDefeatedThisRun || 0);
+        bossMistakeCountThisRun = Number(saveData.achievementTracking?.bossMistakeCountThisRun || 0);
+        bossesDefeatedThisRun = Number(saveData.achievementTracking?.bossesDefeatedThisRun || 0);
 
         if(saveData.artifacts?.vaultIndex) localStorage.setItem("vaultIndex", "true");
         if(saveData.artifacts?.vaultValve) localStorage.setItem("vaultValve", "true");
@@ -3585,7 +3643,7 @@ function loadSavedGame(){
         return true;
     } catch(error){
         console.warn("Saved game could not be loaded:", error);
-        localStorage.removeItem(getSaveKey());
+        localStorage.removeItem(saveKey);
         return false;
     }
 }
@@ -3594,7 +3652,6 @@ function clearSavedGame(){
     localStorage.removeItem(getSaveKey());
 
     if(modeAllowsRealmProgress()){
-        localStorage.removeItem("gauntletRoom");
         localStorage.removeItem("vaultIndex");
         localStorage.removeItem("vaultValve");
         localStorage.removeItem("vaultSeal");
@@ -4524,12 +4581,8 @@ function getWeakestBossObjective(bank){
 
     if(eligibleObjectives.length === 0) return null;
 
-    let weakestObjective = null;
-    let weakestScore = -Infinity;
-
-    eligibleObjectives.forEach(obj => {
+    const scoredObjectives = eligibleObjectives.map(obj => {
         const stats = getObjectiveFamilyStats(obj);
-
         let score = 0.25;
 
         if(stats.accuracy !== null){
@@ -4548,13 +4601,13 @@ function getWeakestBossObjective(bank){
             score += 0.15;
         }
 
-        if(score > weakestScore){
-            weakestScore = score;
-            weakestObjective = obj;
-        }
+        return { objective: obj, score };
     });
 
-    return weakestObjective || eligibleObjectives[Math.floor(Math.random() * eligibleObjectives.length)];
+    const weakestScore = Math.max(...scoredObjectives.map(item => item.score));
+    const tiedWeakest = scoredObjectives.filter(item => item.score === weakestScore);
+
+    return tiedWeakest[Math.floor(Math.random() * tiedWeakest.length)].objective;
 }
 
 function getScaffoldedBossGroups(bank){
@@ -4585,6 +4638,37 @@ function getScaffoldedBossGroups(bank){
 
     return groups;
 }
+
+function pickBossScaffold(bank, poolName, chosenObjective){
+    const objectivePool = chosenObjective
+        ? bank.filter(question => getBossObjectiveKey(question) === chosenObjective)
+        : [];
+    const preferredGroups = objectivePool.length >= 3
+        ? getScaffoldedBossGroups(objectivePool)
+        : [];
+    const allGroups = getScaffoldedBossGroups(bank);
+    const usedIds = new Set(usedQuestions[poolName] || []);
+    const unusedPreferredGroups = preferredGroups.filter(group =>
+        group.every(question => !usedIds.has(question.id))
+    );
+    const unusedGroups = allGroups.filter(group =>
+        group.every(question => !usedIds.has(question.id))
+    );
+    const availableGroups = unusedPreferredGroups.length
+        ? unusedPreferredGroups
+        : unusedGroups.length
+            ? unusedGroups
+            : preferredGroups.length
+                ? preferredGroups
+                : allGroups;
+
+    if(availableGroups.length){
+        return [...availableGroups[Math.floor(Math.random() * availableGroups.length)]];
+    }
+
+    return [...bank].sort((a, b) => a.id - b.id).slice(0, 3);
+}
+
 
 function getSelectionProfile(){
     const recent = getRecentPerformance(8);
@@ -5151,19 +5235,19 @@ function returnToTitleScreen(){
 }
 
 function startSelectedMode(mode){
-    gameMode = mode || "standard";
-    localStorage.setItem("nationalEngineCurrentMode", gameMode);
+    const selectedMode = mode || "standard";
+
+    beginRunSession();
+    stopTimedModeClock();
+    gameMode = selectedMode;
+    localStorage.setItem("nationalEngineCurrentMode", selectedMode);
 
     const modeScreen = document.getElementById("modeSelectScreen");
     if(modeScreen) modeScreen.style.display = "none";
 
-    if(gameMode === "standard"){
-        startGame(false);
-        return;
-    }
-
+    resetGameSurfaceForNewRun(true);
     resetRunStateForNewMode();
-    startGame(false);
+    startGame(false, selectedMode);
 }
 
 function confirmReturnToModeMenu(){
@@ -5283,13 +5367,17 @@ function showContinueButtonIfSaved(){
 function startNewRun(){
     gameMode = "standard";
     clearSavedGame();
-    startGame(false);
+    beginRunSession();
+    resetGameSurfaceForNewRun(true);
+    resetRunStateForNewMode();
+    startGame(false, "standard");
 }
 
 function continueSavedRun(){
     gameMode = "standard";
     resumedSavedRunThisSession = true;
-    startGame(true);
+    beginRunSession();
+    startGame(true, "standard");
 }
 
 showContinueButtonIfSaved();
@@ -5322,7 +5410,11 @@ showContinueButtonIfSaved();
 // - incorrect scoring
 // - progression bugs
 // =============================================
-function startGame(shouldResume = false) {
+function startGame(shouldResume = false, requestedMode = null) {
+    const launchMode = requestedMode || gameMode || "standard";
+    gameMode = launchMode;
+    resetGameSurfaceForNewRun(!shouldResume);
+
     let inputEmail = document.getElementById("emailInput").value.trim().toLowerCase();
 
     if (!inputEmail) {
@@ -5337,135 +5429,112 @@ function startGame(shouldResume = false) {
         return;
     }
 
-   studentEmail = inputEmail;
-   username = generatePseudonymFromEmail(studentEmail);
+    studentEmail = inputEmail;
+    username = generatePseudonymFromEmail(studentEmail);
 
-    const hasSavedRun = shouldResume ? loadSavedGame() : false;
+    const hasSavedRun = shouldResume ? loadSavedGame(launchMode) : false;
     if(!hasSavedRun){
-    resumedSavedRunThisSession = false;
-   }
+        gameMode = launchMode;
+        resumedSavedRunThisSession = false;
+        bossCheckpoint = 1;
+        runID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    }
 
-if(!hasSavedRun){
-    bossCheckpoint = 1;
-    runID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
-localStorage.setItem("gauntletEmail", studentEmail);
-localStorage.setItem("gauntletUser", username);
-localStorage.setItem("gauntletRunID", runID);
-if(modeAllowsRealmProgress()){
-    localStorage.setItem(REALM_STARTED_KEY, "true");
-    localStorage.setItem(REALM_STATUS_KEY, "contested");
-    localStorage.setItem(REALM_ROOM_KEY, String(room || 1));
-}
-	
-sendGameData({
-    runID: runID,
-    game: "The National Engine",
-    event: hasSavedRun ? "resume" : "start",
-    user: username,
-    email: studentEmail
-});
-
-// =============================================
-// RESET CORE GAME STATE — DO NOT MODIFY STRUCTURE
-// =============================================
-// Resets all progression, scoring, and adaptive tracking
-
-if(!hasSavedRun){
-	room = 1;
-    bossHealth = 3;
-    streak = 0;
-    maxStreak = 0;
-    totalAttempts = 0;
-    correctAnswers = 0;
-    bossPool = [];
-    calcBag = [];
-    conceptMemory = {};
-    masteryState = { byTag: {},  byObjective: {},  bySkill: {}, recent: [] };
-    tagHistory = [];
-    lastTypes = [];
-    adaptiveMode = "support";
-    resetRemediationState();
-	rapidGuessHistory = [];
-	rapidGuessWarnings = 0;
-	rapidGuessLocked = false;
-	bossMistakeCountThisRun = 0;
-    bossesDefeatedThisRun = 0;
+    localStorage.setItem("gauntletEmail", studentEmail);
+    localStorage.setItem("gauntletUser", username);
+    localStorage.setItem("gauntletRunID", runID);
 
     if(modeAllowsRealmProgress()){
-        localStorage.removeItem("gauntletRoom");
-        localStorage.removeItem("vaultIndex");
-        localStorage.removeItem("vaultValve");
-        localStorage.removeItem("vaultSeal");
+        localStorage.setItem(REALM_STARTED_KEY, "true");
+        localStorage.setItem(REALM_STATUS_KEY, "contested");
+        localStorage.setItem(REALM_ROOM_KEY, String(room || 1));
     }
-	if(modeAllowsRealmProgress()){
-	    localStorage.removeItem(REALM_COMPLETE_KEY);
-	    localStorage.setItem(REALM_STATUS_KEY, "contested");
-	    localStorage.setItem(REALM_ROOM_KEY, "1");
-	}
-	
-    questionHistory = {
-        easy: [], medium: [], hard: [], elite: [], legendary: [], calculation: [],
-        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
-    };
 
-    usedQuestions = {
-        easy: [], medium: [], hard: [], elite: [], legendary: [],
-        easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
-    };
-}
-    
-// =============================================
-// UI INITIALIZATION — SAFE TO CUSTOMIZE
-// =============================================
-// Shows main game elements and restores vault visuals
-	setGameControlsVisible(true);
+    sendGameData({
+        runID: runID,
+        game: "The National Engine",
+        event: hasSavedRun ? "resume" : "start",
+        user: username,
+        email: studentEmail
+    });
+
+    if(!hasSavedRun){
+        room = 1;
+        bossHealth = 3;
+        bossCheckpoint = 1;
+        streak = 0;
+        maxStreak = 0;
+        totalAttempts = 0;
+        correctAnswers = 0;
+        bossPool = [];
+        currentQuestion = null;
+        if(typeof calcBag !== "undefined") calcBag = [];
+        conceptMemory = {};
+        masteryState = { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
+        tagHistory = [];
+        lastTypes = [];
+        adaptiveMode = "support";
+        resetRemediationState();
+        rapidGuessHistory = [];
+        rapidGuessWarnings = 0;
+        rapidGuessLocked = false;
+        bossMistakeCountThisRun = 0;
+        bossesDefeatedThisRun = 0;
+
+        if(modeAllowsRealmProgress()){
+            localStorage.removeItem("vaultIndex");
+            localStorage.removeItem("vaultValve");
+            localStorage.removeItem("vaultSeal");
+            localStorage.removeItem(REALM_COMPLETE_KEY);
+            localStorage.setItem(REALM_STATUS_KEY, "contested");
+            localStorage.setItem(REALM_ROOM_KEY, "1");
+        }
+
+        questionHistory = {
+            easy: [], medium: [], hard: [], elite: [], legendary: [], calculation: [],
+            easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+        };
+
+        usedQuestions = {
+            easy: [], medium: [], hard: [], elite: [], legendary: [],
+            easyBoss: [], mediumBoss: [], finalBoss: [], legendaryBoss: []
+        };
+    }
+
+    setGameControlsVisible(true);
     document.getElementById("startScreen").style.display = "none";
     const modeScreen = document.getElementById("modeSelectScreen");
     if(modeScreen) modeScreen.style.display = "none";
-	document.querySelector(".top-panel").style.display = "flex";
+    document.querySelector(".top-panel").style.display = "flex";
     document.getElementById("gameShell").style.display = "flex";
     document.getElementById("gameBox").style.display = "block";
     document.getElementById("artifactVault").style.display = modeAllowsRealmProgress() ? "block" : "none";
     document.querySelectorAll(".torch").forEach(t => t.style.display = "block");
 
+    ["vaultIndex", "vaultValve", "vaultSeal"].forEach(id => {
+        const slot = document.getElementById(id);
+        if(slot) slot.classList.toggle("unlocked", modeAllowsRealmProgress() && localStorage.getItem(id) === "true");
+    });
 
-   // =============================================
-   // VAULT RESTORE SYSTEM — SAFE WITH MATCHING IDS
-   // =============================================
-   // IMPORTANT:
-   // localStorage keys must match the HTML element ids.
-   // =============================================    
-if(localStorage.getItem("vaultIndex")){
-    document.getElementById("vaultIndex").classList.add("unlocked");
-}
-
-if(localStorage.getItem("vaultValve")){
-    document.getElementById("vaultValve").classList.add("unlocked");
-}    
-
-if(localStorage.getItem("vaultSeal")){
-    document.getElementById("vaultSeal").classList.add("unlocked");
-}
-  
-// Start game loop: music + timer + first question
     initializeRunForMode(gameMode);
     safePlay(bgMusic);
-    startTime = Date.now(); 
+    startTime = Date.now();
     loadQuestion();
 }
 	 
 
 function resetRunStateForNewMode(){
+    stopTimedModeClock();
+    timedModeEndTime = null;
     room = 1;
     bossHealth = 3;
     bossCheckpoint = 1;
+    bossPool = [];
+    currentQuestion = null;
     streak = 0;
     maxStreak = 0;
     totalAttempts = 0;
     correctAnswers = 0;
-    bossPool = [];
     if(typeof calcBag !== "undefined") calcBag = [];
     conceptMemory = {};
     masteryState = { byTag: {}, byObjective: {}, bySkill: {}, recent: [] };
@@ -5478,12 +5547,9 @@ function resetRunStateForNewMode(){
     rapidGuessLocked = false;
     timedHighestRoom = 1;
     timedSetbacks = 0;
-	bossMistakeCountThisRun = 0;
+    bossMistakeCountThisRun = 0;
     bossesDefeatedThisRun = 0;
     resumedSavedRunThisSession = false;
-
-    // SCORE ATTACK MODE ADDITION:
-    // Reset score whenever a non-standard mode starts fresh from the mode menu.
     resetScoreAttackState();
 
     questionHistory = {
@@ -5656,8 +5722,14 @@ function restartTimedMode(){
 }
 
 function returnToModeSelectFromRun(){
+    beginRunSession();
     stopTimedModeClock();
     stopAllMusic();
+    closeGameModal();
+    closeGraphLightbox();
+
+    const hallway = document.getElementById("hallwayTransition");
+    if(hallway) hallway.classList.remove("active");
 
     setGameControlsVisible(false);
 
@@ -5865,7 +5937,7 @@ function wizardSpeak(text){
 // Keep that file beside this index.html file in the GitHub Pages root.
 // =============================================
 </script>
-<script src="national_engine_question_bank.js?v=20260714_2"></script>
+<script src="national_engine_question_bank.js?v=20260717_1" charset="UTF-8"></script>
 <script>
 if(!window.questionBanks){
     throw new Error("The National Engine question bank did not load. Check national_engine_question_bank.js.");
@@ -5911,7 +5983,63 @@ console.log("The National Engine question bank loaded", {
 //
 // This function ensures fairness in answer order.
 // =============================================   
+function getDisplayedChoiceKey(option){
+    const displayed = String(option ?? "").trim().replace(/\s+/g, " ");
+    const numericMatch = displayed.match(/^([+-]?)(\$?)(\d[\d,]*(?:\.\d+)?)(%?)$/);
+
+    if(numericMatch){
+        const signPrefix = numericMatch[1] || "";
+        const currency = numericMatch[2] || "";
+        const numericValue = Number(`${signPrefix}${numericMatch[3].replace(/,/g, "")}`);
+        const percent = numericMatch[4] || "";
+
+        if(Number.isFinite(numericValue)){
+            return `numeric:${currency}:${numericValue}:${percent}`;
+        }
+    }
+
+    return `text:${displayed}`;
+}
+
+function normalizeQuestionChoices(question){
+    if(!question || !Array.isArray(question.options)) return question;
+
+    const correct = question.options[question.a];
+    const correctKey = getDisplayedChoiceKey(correct);
+    const seen = new Set([correctKey]);
+    const options = [correct];
+
+    question.options.forEach((option, index) => {
+        if(index === question.a) return;
+
+        const key = getDisplayedChoiceKey(option);
+        if(!seen.has(key)){
+            seen.add(key);
+            options.push(option);
+        }
+    });
+
+    if(options.length !== question.options.length){
+        console.warn(`Duplicate displayed choices removed from question ${question.id ?? "unknown"}.`);
+    }
+
+    return { ...question, options, a: 0 };
+}
+
+function hasUniqueDisplayedChoices(question){
+    if(!question || !Array.isArray(question.options)) return false;
+
+    const correctKey = getDisplayedChoiceKey(question.options[question.a]);
+    const displayedKeys = question.options.map(getDisplayedChoiceKey);
+
+    return displayedKeys.length === 4
+        && new Set(displayedKeys).size === displayedKeys.length
+        && displayedKeys.filter(key => key === correctKey).length === 1;
+}
+
 function shuffleOptions(question){
+    question = normalizeQuestionChoices(question);
+
     let q = {
         id: question.id,
         q: question.q,
@@ -5923,7 +6051,7 @@ function shuffleOptions(question){
         type: question.type,
         objective: question.objective,
         image: question.image,
-		difficulty: question.difficulty,
+        difficulty: question.difficulty,
         conceptCluster: question.conceptCluster,
         primarySkill: question.primarySkill,
         secondarySkills: question.secondarySkills || [],
@@ -5932,13 +6060,14 @@ function shuffleOptions(question){
     };
 
     let correct = q.options[q.a];
+    const correctKey = getDisplayedChoiceKey(correct);
 
     for(let i = q.options.length - 1; i > 0; i--){
         let j = Math.floor(Math.random() * (i + 1));
         [q.options[i], q.options[j]] = [q.options[j], q.options[i]];
     }
 
-    q.a = q.options.indexOf(correct);
+    q.a = q.options.findIndex(option => getDisplayedChoiceKey(option) === correctKey);
 
     return q;
 }
@@ -6272,15 +6401,7 @@ if (isBoss) {
         }
 
         if(diff === "legendaryBoss"){
-            const unusedCandidates = candidatePool.filter(q =>
-                q && !(usedQuestions[diff] || []).includes(q.id)
-            );
-
-            const sourcePool = unusedCandidates.length >= 3
-                ? unusedCandidates
-                : candidatePool;
-
-            bossPool = shuffle([...sourcePool]).slice(0, 3);
+            bossPool = pickBossScaffold(bank, diff, chosenObjective);
         } else {
             let groups = getScaffoldedBossGroups(candidatePool);
 
@@ -6404,7 +6525,7 @@ if (isBoss) {
 
     wizardSpeak(getWizardLine(currentQuestion.type));
 
-    bossMsg.innerText = (room === 9 || room === 19 || room === 29)
+    bossMsg.innerText = isBossRoomForMode(room + 1)
         ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️"
         : "";
     bossMsg.style.color = "#f97316";
@@ -6478,7 +6599,7 @@ if(currentQuestion.image){
     wizardSpeak(wizardText);
 
     // --- UI ---
-    bossMsg.innerText = ((gameMode === "standard" || gameMode === "legendary") && (room === 9 || room === 19 || room === 29))
+    bossMsg.innerText = isBossRoomForMode(room + 1)
         ? (gameMode === "legendary" ? "⚠️ LEGENDARY BOSS DETECTED IN NEXT ROOM ⚠️" : "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️")
         : "";
     bossMsg.style.color = "#ef4444";
@@ -6603,6 +6724,8 @@ function checkRapidGuessing(isCorrect, responseTime){
 // Check for artifact names and CHANGE
      
 async function answer(choice) {
+    const answerSessionId = runSessionId;
+
     // --- GLOBAL MEMORY DECAY ---
     for(let tag in conceptMemory){
     conceptMemory[tag] *= 0.95;
@@ -6662,7 +6785,7 @@ if(rapidGuess.triggered && !rapidGuessLocked){
     // Same question. No movement. No reward.
     rapidGuessHistory = [];
 
-    setTimeout(() => {
+    scheduleForCurrentRun(() => {
         rapidGuessLocked = false;
         questionStartTime = Date.now();
         displayQuestion();
@@ -6726,6 +6849,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
     if(modeUsesScoreAttack()){
         setAnswerButtonsDisabled(true);
         await waitForScoreAttackResolve(isCorrect);
+        if(answerSessionId !== runSessionId) return;
     }
 
     // =============================================
@@ -6819,9 +6943,9 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
         `<span class='fade-out-text'>${getRecoveryLine("complete")}</span>`;
 
     room = returnRoom;
-    if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
+    saveGameState();
 
-    setTimeout(loadQuestion, TIMING.normal);
+    scheduleForCurrentRun(loadQuestion, TIMING.normal);
     return;
 }
 
@@ -6855,7 +6979,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
 		triggerBossShake();
         
         if (bossHealth > 0) {
-           setTimeout(loadQuestion, TIMING.boss);
+           scheduleForCurrentRun(loadQuestion, TIMING.boss);
            return;
         }
          // Boss defeated
@@ -6906,7 +7030,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
    room++;
    timedHighestRoom = Math.max(timedHighestRoom, Math.min(room, 30));
    saveGameState();
-   if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
+   
 
    if(gameMode === "timed" && timedModeEndTime && Date.now() >= timedModeEndTime){
        endTimedModeRun();
@@ -7032,7 +7156,7 @@ room = Math.max(bossCheckpoint, newRoom);
 
 if(gameMode === "timed") timedSetbacks++;
 
-if(modeAllowsRealmProgress()) localStorage.setItem("gauntletRoom", room);
+saveGameState();
 
 showGameModal({
     title: "Wrong Turn",
@@ -7159,10 +7283,10 @@ text.innerHTML = `
 
     document.getElementById("srAnnouncements").innerText =`Correct. ${feedback}`;
     
-    setTimeout(()=>{
-    overlay.classList.remove("active");
-    loadQuestion();
-    },3200);
+    scheduleForCurrentRun(() => {
+        overlay.classList.remove("active");
+        loadQuestion();
+    }, 3200);
 }
 
 // Displays artifact reward popup
@@ -7682,17 +7806,7 @@ function handlePracticeModeComplete(){
 // This is NOT encryption.
 // It is a lightweight integrity check.
 // =============================================
-function generateCode(name, acc, streak, total){
-    let str = `${name}|${acc}|${streak}|${total}|GATE07`;
-    let hash = 0;
 
-    for(let i = 0; i < str.length; i++){
-        hash = (hash << 5) - hash + str.charCodeAt(i);
-        hash |= 0;
-    }
-
-    return "GATE-" + Math.abs(hash).toString(36).toUpperCase();
-} 
 
 // =============================================
 // VICTORY SCREEN — PARTIAL CUSTOMIZATION ZONE
@@ -8380,8 +8494,6 @@ function copyMasteryReport(){
 }
 
 
-
-
 // =============================
 // UTILITIES
 // =============================
@@ -8567,4 +8679,3 @@ function sendGameData(data) {
 </script>
 </body>
 </html>
-
