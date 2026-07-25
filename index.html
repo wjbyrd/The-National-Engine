@@ -1,4 +1,4 @@
-<!-- NATIONAL ENGINE EXTERNAL BANK BUILD 20260702_1 -->
+<!-- NATIONAL ENGINE UI-FLOW REPAIR BUILD 20260725_2 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -3239,6 +3239,7 @@ const MACRO_PERFECT_CALIBRATION_KEY = "macroHub_perfectCalibration_complete";
 const MACRO_RETURN_AND_REBUILD_KEY = "macroHub_returnAndRebuild_complete";
 
 let gameMode = "standard";
+let runSessionId = 0;
 let timedModeDurationMs = 10 * 60 * 1000;
 let timedModeEndTime = null;
 let timedModeTimerInterval = null;
@@ -5207,7 +5208,21 @@ function returnToTitleScreen(){
     showContinueButtonIfSaved();
 }
 
+function beginRunSession(){
+    runSessionId += 1;
+    return runSessionId;
+}
+
+function scheduleForCurrentRun(callback, delay){
+    const scheduledSessionId = runSessionId;
+    return setTimeout(() => {
+        if(scheduledSessionId !== runSessionId) return;
+        callback();
+    }, delay);
+}
+
 function startSelectedMode(mode){
+    beginRunSession();
     gameMode = mode || "standard";
     localStorage.setItem("nationalEngineCurrentMode", gameMode);
 
@@ -5314,8 +5329,6 @@ function endTimedAttemptEarly(){
 
     stopTimedModeClock();
     const actualElapsedTimeMs = freezeCompletionTime();
-    gameMode = "timed-ended-early";
-    answerSubmissionPending = true;
 
     const accuracy = totalAttempts > 0
         ? Math.round((correctAnswers / totalAttempts) * 100)
@@ -5328,6 +5341,8 @@ function endTimedAttemptEarly(){
     localStorage.setItem("nationalEngineTimedLastAttempts", String(totalAttempts));
     localStorage.setItem("nationalEngineTimedLastStreak", String(maxStreak));
     localStorage.setItem("nationalEngineTimedLastSetbacks", String(timedSetbacks));
+
+    recordTimedTrialAchievementStats(accuracy, reachedRoom);
 
     sendGameData({
         runID: runID,
@@ -5351,32 +5366,11 @@ function endTimedAttemptEarly(){
         totalAttempts: totalAttempts
     });
 
-    document.getElementById("bossMessage").innerText = "";
-    document.getElementById("formulaHint").innerText = "";
-    document.getElementById("artifactDrop").style.display = "none";
-    closeGraphLightbox();
-    const imageBox = document.getElementById("questionImageBox");
-    imageBox.innerHTML = "";
-    imageBox.style.display = "none";
-
-    document.getElementById("question").innerHTML = `
-        <span class="boss-title">TIMED TRIAL ENDED EARLY</span>
-        <div class="boss-q">
-            Actual Time: ${formatTime(actualElapsedTimeMs)}<br>
-            Room Reached: ${reachedRoom}<br>
-            Accuracy: ${accuracy}%<br>
-            Total Attempts: ${totalAttempts}<br>
-            Best Streak: ${maxStreak}<br>
-            Setbacks Taken: ${timedSetbacks}
-        </div>
-    `;
-
-    document.getElementById("answers").innerHTML = `
-        <button class="continue-btn" onclick="downloadTelemetryCsv()">Download Game Data</button>
-        <button class="continue-btn" onclick="showMasteryReportScreen()">View Mastery Report</button>
-        <button class="continue-btn" onclick="returnToModeSelectFromRun()">Return to Engine Menu</button>
-    `;
-    document.getElementById("message").innerText = "The trial ends early. The Engine preserves the record.";
+    // Leaving a run is navigation, not completion. Preserve the statistics
+    // but do not expose a completion or mastery report for an abandoned trial.
+    gameMode = "timed-ended-early";
+    answerSubmissionPending = true;
+    returnToModeSelectFromRun();
 }
 
 function showContinueButtonIfSaved(){
@@ -5387,12 +5381,14 @@ function showContinueButtonIfSaved(){
 }
 
 function startNewRun(){
+    beginRunSession();
     gameMode = "standard";
     clearSavedGame();
     startGame(false);
 }
 
 function continueSavedRun(){
+    beginRunSession();
     gameMode = "standard";
     resumedSavedRunThisSession = true;
     startGame(true);
@@ -5742,8 +5738,14 @@ function restartTimedMode(){
 }
 
 function returnToModeSelectFromRun(){
+    beginRunSession();
     stopTimedModeClock();
     stopAllMusic();
+    closeGameModal();
+    closeGraphLightbox();
+
+    const hallway = document.getElementById("hallwayTransition");
+    if(hallway) hallway.classList.remove("active");
 
     setGameControlsVisible(false);
 
@@ -6701,7 +6703,8 @@ function checkRapidGuessing(isCorrect, responseTime){
 // Check for artifact names and CHANGE
      
 async function answer(choice) {
- if(answerSubmissionPending||rapidGuessLocked)return; answerSubmissionPending=true; setAnswerButtonsDisabled(true); const responseTime=Date.now()-questionStartTime; let isCorrect=false; try{isCorrect=await isQuestionAnswerCorrect(currentQuestion,choice);}catch(error){console.error(error);answerSubmissionPending=false;setAnswerButtonsDisabled(false);showGameModal({title:'Answer Check Failed',text:'The National Engine could not verify this answer. Reload the game files and try again.',confirmText:'Continue'});return;} totalAttempts++;
+ const answerSessionId=runSessionId;
+ if(answerSubmissionPending||rapidGuessLocked)return; answerSubmissionPending=true; setAnswerButtonsDisabled(true); const responseTime=Date.now()-questionStartTime; let isCorrect=false; try{isCorrect=await isQuestionAnswerCorrect(currentQuestion,choice);if(answerSessionId!==runSessionId)return;}catch(error){if(answerSessionId!==runSessionId)return;console.error(error);answerSubmissionPending=false;setAnswerButtonsDisabled(false);showGameModal({title:'Answer Check Failed',text:'The National Engine could not verify this answer. Reload the game files and try again.',confirmText:'Continue'});return;} totalAttempts++;
 
     // --- GLOBAL MEMORY DECAY ---
     for(let tag in conceptMemory){
@@ -6757,7 +6760,7 @@ if(rapidGuess.triggered && !rapidGuessLocked){
     // Same question. No movement. No reward.
     rapidGuessHistory = [];
 
-    setTimeout(() => {
+    scheduleForCurrentRun(() => {
         rapidGuessLocked = false;
         questionStartTime = Date.now();
         displayQuestion();
@@ -6821,6 +6824,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
     if(modeUsesScoreAttack()){
         setAnswerButtonsDisabled(true);
         await waitForScoreAttackResolve(isCorrect);
+        if(answerSessionId !== runSessionId) return;
     }
 
     // =============================================
@@ -6916,7 +6920,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
     room = returnRoom;
     if(modeAllowsRealmProgress()) localStorage.setItem("nationalEngineRoom", room);
 
-    setTimeout(loadQuestion, TIMING.normal);
+    scheduleForCurrentRun(loadQuestion, TIMING.normal);
     return;
 }
 
@@ -6950,7 +6954,7 @@ recordAdaptiveAttempt(currentQuestion, isCorrect, responseTime);
 		triggerBossShake();
         
         if (bossHealth > 0) {
-           setTimeout(loadQuestion, TIMING.boss);
+           scheduleForCurrentRun(loadQuestion, TIMING.boss);
            return;
         }
          // Boss defeated
@@ -8718,4 +8722,3 @@ function sendGameData(data = {}){
 </script>
 </body>
 </html>
-
