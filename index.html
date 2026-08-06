@@ -3245,6 +3245,7 @@ let timedModeEndTime = null;
 let timedModeTimerInterval = null;
 let timedHighestRoom = 1;
 let timedSetbacks = 0;
+let timedModeTerminal = false;
 
 // =============================================
 // SCORE ATTACK MODE ADDITION — CONFIG + STATE
@@ -5234,9 +5235,44 @@ function scheduleForCurrentRun(callback, delay){
     const scheduledSessionId = runSessionId;
     return setTimeout(() => {
         if(scheduledSessionId !== runSessionId) return;
+        if(isTimedModeTerminal()) return;
+        if(isTimedModeExpired()){
+            endTimedModeRun();
+            return;
+        }
         callback();
     }, delay);
 }
+
+function isTimedModeExpired(){
+    return gameMode === "timed"
+        && Number.isFinite(timedModeEndTime)
+        && Date.now() >= timedModeEndTime;
+}
+
+function isTimedModeTerminal(){
+    return timedModeTerminal || gameMode === "timed-complete";
+}
+
+function reconcileTimedModeClock(){
+    if(gameMode !== "timed" || isTimedModeTerminal()) return;
+
+    if(isTimedModeExpired()){
+        endTimedModeRun();
+        return;
+    }
+
+    updateTimedModeClock();
+}
+
+document.addEventListener("visibilitychange", function(){
+    if(!document.hidden){
+        reconcileTimedModeClock();
+    }
+});
+
+window.addEventListener("pageshow", reconcileTimedModeClock);
+window.addEventListener("focus", reconcileTimedModeClock);
 
 function startSelectedMode(mode){
     beginRunSession();
@@ -5344,6 +5380,7 @@ function closeGameModal(){
 function endTimedAttemptEarly(){
     if(gameMode !== "timed") return;
 
+    timedModeTerminal = true;
     stopTimedModeClock();
     const actualElapsedTimeMs = freezeCompletionTime();
 
@@ -5548,6 +5585,7 @@ if(localStorage.getItem("vaultSeal")){
 	 
 
 function resetRunStateForNewMode(){
+    timedModeTerminal = false;
     room = 1;
     bossHealth = 3;
     bossCheckpoint = 1;
@@ -5589,6 +5627,7 @@ function resetRunStateForNewMode(){
 
 function initializeRunForMode(mode){
     gameMode = mode || "standard";
+    timedModeTerminal = false;
 
     const autosave = document.getElementById("autosave");
     if(autosave){
@@ -5617,6 +5656,7 @@ function initializeRunForMode(mode){
 }
 
 function startTimedModeClock(){
+    timedModeTerminal = false;
     timedModeEndTime = Date.now() + timedModeDurationMs;
 
     const hud = document.getElementById("timedModeHud");
@@ -5667,11 +5707,15 @@ function updateTimedModeClock(){
 }
 
 function endTimedModeRun(){
-    if(gameMode !== "timed") return;
+    if(gameMode !== "timed" || timedModeTerminal) return;
 
+    timedModeTerminal = true;
     beginRunSession();
+    answerSubmissionPending = true;
+    rapidGuessLocked = true;
+    setAnswerButtonsDisabled(true);
     stopTimedModeClock();
-    freezeCompletionTime(timedModeDurationMs);
+    finalElapsedTimeMs = timedModeDurationMs;
     gameMode = "timed-complete";
 
     const accuracy = totalAttempts > 0
@@ -5750,6 +5794,7 @@ function restartTimedMode(){
 }
 
 function returnToModeSelectFromRun(){
+    timedModeTerminal = true;
     beginRunSession();
     stopTimedModeClock();
     stopAllMusic();
@@ -6037,6 +6082,27 @@ async function isQuestionAnswerCorrect(question, selectedIndex){
     return Number.isInteger(question.a) && selectedIndex === question.a;
 }
 
+async function verifyQuestionAnswerWithTimeout(question, selectedIndex, timeoutMs = 5000){
+    let timeoutId = null;
+
+    const timeoutPromise = new Promise((_, reject) => {
+        timeoutId = setTimeout(() => {
+            reject(new Error("Answer verification timed out."));
+        }, timeoutMs);
+    });
+
+    try {
+        return await Promise.race([
+            isQuestionAnswerCorrect(question, selectedIndex),
+            timeoutPromise
+        ]);
+    } finally {
+        if(timeoutId !== null){
+            clearTimeout(timeoutId);
+        }
+    }
+}
+
 // =============================================
 // DYNAMIC CALCULATION QUESTIONS — SAFE TO EDIT
 // =============================================
@@ -6293,7 +6359,9 @@ function playFinalBossMusic(){
 // Changing logic here will break progression.
      
 function loadQuestion() {
-    if(gameMode === "timed" && timedModeEndTime && Date.now() >= timedModeEndTime){
+    if(isTimedModeTerminal()) return;
+
+    if(isTimedModeExpired()){
         endTimedModeRun();
         return;
     }
@@ -6625,6 +6693,13 @@ function renderCurrentQuestionImage(question = currentQuestion){
 }
 
 function displayQuestion() {
+    if(isTimedModeTerminal()) return;
+
+    if(isTimedModeExpired()){
+        endTimedModeRun();
+        return;
+    }
+
  answerSubmissionPending=false;
     questionStartTime = Date.now();
     renderCurrentQuestionImage(currentQuestion);
@@ -6716,7 +6791,43 @@ function checkRapidGuessing(isCorrect, responseTime){
      
 async function answer(choice) {
  const answerSessionId=runSessionId;
- if(answerSubmissionPending||rapidGuessLocked)return; answerSubmissionPending=true; setAnswerButtonsDisabled(true); const responseTime=Date.now()-questionStartTime; let isCorrect=false; try{isCorrect=await isQuestionAnswerCorrect(currentQuestion,choice);if(answerSessionId!==runSessionId)return;}catch(error){if(answerSessionId!==runSessionId)return;console.error(error);answerSubmissionPending=false;setAnswerButtonsDisabled(false);showGameModal({title:'Answer Check Failed',text:'The National Engine could not verify this answer. Reload the game files and try again.',confirmText:'Continue'});return;} totalAttempts++;
+
+ if(isTimedModeTerminal()) return;
+
+ if(isTimedModeExpired()){
+     endTimedModeRun();
+     return;
+ }
+
+ if(answerSubmissionPending||rapidGuessLocked)return;
+ answerSubmissionPending=true;
+ setAnswerButtonsDisabled(true);
+ const responseTime=Date.now()-questionStartTime;
+ let isCorrect=false;
+
+ try{
+     isCorrect=await verifyQuestionAnswerWithTimeout(currentQuestion,choice);
+
+     if(answerSessionId!==runSessionId||isTimedModeTerminal()) return;
+
+     if(isTimedModeExpired()){
+         endTimedModeRun();
+         return;
+     }
+ }catch(error){
+     if(answerSessionId!==runSessionId||isTimedModeTerminal()) return;
+     console.error(error);
+     answerSubmissionPending=false;
+     setAnswerButtonsDisabled(false);
+     showGameModal({
+         title:'Answer Check Failed',
+         text:'The National Engine could not verify this answer. Reload the game files and try again.',
+         confirmText:'Continue'
+     });
+     return;
+ }
+
+ totalAttempts++;
 
     // --- GLOBAL MEMORY DECAY ---
     for(let tag in conceptMemory){
