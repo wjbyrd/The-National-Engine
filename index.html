@@ -1,4 +1,4 @@
-<!-- NATIONAL ENGINE UI-FLOW REPAIR BUILD 20260725_2 -->
+<!-- NATIONAL ENGINE UI-FLOW REPAIR BUILD 08072026 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6366,9 +6366,13 @@ function loadQuestion() {
         return;
     }
 
-    if((gameMode === "timed" || gameMode === "exam") && room > 30){
+    if(gameMode === "exam" && room > 30){
         handlePracticeModeComplete();
         return;
+    }
+
+    if(gameMode === "timed" && room > 30){
+        room = 30;
     }
 
     questionStartTime = Date.now(); 
